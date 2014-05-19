@@ -150,7 +150,7 @@ public class Main extends Application<Main.JModernConfiguration> {
         }
     }
 
-    @RegisterMapper(SomethingMapper.class)
+    @RegisterMapper(BetaUserMapper.class)
     interface BetaDAO {
         @SqlUpdate("insert into beta_user (name) values (:name)")
         @GetGeneratedKeys
@@ -173,7 +173,7 @@ public class Main extends Application<Main.JModernConfiguration> {
         }
     }
 
-    public static class SomethingMapper implements ResultSetMapper<BetaUser> {
+    public static class BetaUserMapper implements ResultSetMapper<BetaUser> {
         public BetaUser map(int index, ResultSet r, StatementContext ctx) throws SQLException {
             return new BetaUser(r.getInt("id"), r.getString("name"));
         }
