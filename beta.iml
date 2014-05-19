@@ -73,6 +73,14 @@
     <orderEntry type="library" exported="" name="Gradle: jetty-setuid-java-1.0.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: junit-4.11" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: hamcrest-core-1.3" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: dropwizard-db-0.7.0" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: dropwizard-jdbi-0.7.0" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: tomcat-juli-7.0.50" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: tomcat-jdbc-7.0.50" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: annotations-2.0.2" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: jdbi-2.53" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: metrics-jdbi-3.0.1" level="project" />
+    <orderEntry type="library" exported="" scope="RUNTIME" name="Gradle: h2-1.4.178" level="project" />
   </component>
 </module>
 
