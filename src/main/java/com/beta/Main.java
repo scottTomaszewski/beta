@@ -146,7 +146,7 @@ public class Main extends Application<Main.JModernConfiguration> {
         }
     }
 
-    @RegisterMapper(BetaUserMapper.class)
+    @RegisterMapper(BetaUser.Mapper.class)
     interface BetaDAO {
         @SqlUpdate("insert into beta_user (name) values (:name)")
         @GetGeneratedKeys
