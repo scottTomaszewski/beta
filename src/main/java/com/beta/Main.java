@@ -37,7 +37,8 @@ public class Main extends Application<Main.JModernConfiguration> {
 
     @Override
     public void run(JModernConfiguration cfg, Environment env) throws ClassNotFoundException {
-        JmxReporter.forRegistry(env.metrics()).build().start(); // Manually add JMX reporting (Dropwizard regression)
+        // Manually add JMX reporting (Dropwizard regression)
+        JmxReporter.forRegistry(env.metrics()).build().start();
 
         env.jersey().register(new HelloWorldResource(cfg));
 
@@ -182,7 +183,8 @@ public class Main extends Application<Main.JModernConfiguration> {
             this.content = content;
         }
 
-        public Saying() {} // required for deserialization
+        // required for deserialization
+        public Saying() {}
 
         @JsonProperty public long getId() { return id; }
         @JsonProperty public String getContent() { return content; }
