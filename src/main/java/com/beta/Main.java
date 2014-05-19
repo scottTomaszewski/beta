@@ -39,8 +39,7 @@ public class Main extends Application<Main.JModernConfiguration> {
     }
 
     @Override
-    public void initialize(Bootstrap<JModernConfiguration> bootstrap) {
-    }
+    public void initialize(Bootstrap<JModernConfiguration> bootstrap) {}
 
     @Override
     public void run(JModernConfiguration cfg, Environment env) throws ClassNotFoundException {
