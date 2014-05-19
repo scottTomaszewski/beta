@@ -133,19 +133,19 @@ public class Main extends Application<Main.JModernConfiguration> {
 
         @Timed
         @POST @Path("/add")
-        public Something add(String name) {
+        public BetaUser add(String name) {
             return find(dao.insert(name));
         }
 
         @Timed
         @GET @Path("/{id}")
-        public Something find(@PathParam("id") Integer id) {
+        public BetaUser find(@PathParam("id") Integer id) {
             return dao.findById(id);
         }
 
         @Timed
         @GET @Path("/")
-        public List<Something> all(@PathParam("id") Integer id) {
+        public List<BetaUser> all(@PathParam("id") Integer id) {
             return dao.all();
         }
     }
@@ -157,25 +157,25 @@ public class Main extends Application<Main.JModernConfiguration> {
         int insert(@Bind("name") String name);
 
         @SqlQuery("select * from beta_user where id = :id")
-        Something findById(@Bind("id") int id);
+        BetaUser findById(@Bind("id") int id);
 
         @SqlQuery("select * from beta_user")
-        List<Something> all();
+        List<BetaUser> all();
     }
 
-    public static class Something {
+    public static class BetaUser {
         @JsonProperty public final int id;
         @JsonProperty public final String name;
 
-        public Something(int id, String name) {
+        public BetaUser(int id, String name) {
             this.id = id;
             this.name = name;
         }
     }
 
-    public static class SomethingMapper implements ResultSetMapper<Something> {
-        public Something map(int index, ResultSet r, StatementContext ctx) throws SQLException {
-            return new Something(r.getInt("id"), r.getString("name"));
+    public static class SomethingMapper implements ResultSetMapper<BetaUser> {
+        public BetaUser map(int index, ResultSet r, StatementContext ctx) throws SQLException {
+            return new BetaUser(r.getInt("id"), r.getString("name"));
         }
     }
 
