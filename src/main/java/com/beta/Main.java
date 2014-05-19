@@ -88,16 +88,16 @@ public class Main extends Application<Main.JModernConfiguration> {
     @Path("/consumer")
     @Produces(MediaType.TEXT_PLAIN)
     public static class ConsumerResource {
-        private final HelloWorldAPI hellowWorld;
+        private final HelloWorldAPI helloWorld;
 
         public ConsumerResource(Feign.Builder feignBuilder) {
-            this.hellowWorld = feignBuilder.target(HelloWorldAPI.class, "http://localhost:8080");
+            this.helloWorld = feignBuilder.target(HelloWorldAPI.class, "http://localhost:8080");
         }
 
         @Timed
         @GET
         public String consume() {
-            Saying saying = hellowWorld.hi("consumer");
+            Saying saying = helloWorld.hi("consumer");
             return String.format("The service is saying: %s (id: %d)",  saying.getContent(), saying.getId());
         }
     }
