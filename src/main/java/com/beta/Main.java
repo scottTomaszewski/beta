@@ -137,8 +137,6 @@ public class Main extends Application<Main.JModernConfiguration> {
         @Timed
         @POST @Path("/add")
             public BetaUser add(BetaUser.Data newGuy) {
-            System.out.println(newGuy.firstName);
-            System.out.println(newGuy.lastName);
             return find(dao.insert(newGuy.firstName, newGuy.lastName));
         }
 
