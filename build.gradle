@@ -47,7 +47,7 @@ task capsule(type: Jar, dependsOn: classes) {
                 'Application-Version': version,
                 'Min-Java-Version': '1.8.0',
                 'JVM-Args': run.jvmArgs.join(' '),
-                'System-Properties': (run.systemProperties + ["dropwizard.config": '$CAPSULE_DIR/betaa.yml']).collect { k, v -> "$k=$v" }.join(' '),
+                'System-Properties': (run.systemProperties + ["dropwizard.config": '$CAPSULE_DIR/beta.yml']).collect { k, v -> "$k=$v" }.join(' '),
         )
     }
 }
