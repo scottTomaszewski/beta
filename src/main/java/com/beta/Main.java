@@ -102,7 +102,7 @@ public class Main extends Application<Main.JModernConfiguration> {
         }
     }
 
-    @Path("/db")
+    @Path("/profiles")
     @Produces(MediaType.APPLICATION_JSON)
     public static class DBResource {
         private final BetaDAO dao;
@@ -124,13 +124,13 @@ public class Main extends Application<Main.JModernConfiguration> {
         }
 
         @Timed
-        @GET @Path("/item/{id}")
+        @GET @Path("/{id}")
         public Something find(@PathParam("id") Integer id) {
             return dao.findById(id);
         }
 
         @Timed
-        @GET @Path("/all")
+        @GET @Path("/")
         public List<Something> all(@PathParam("id") Integer id) {
             return dao.all();
         }
