@@ -40,9 +40,9 @@ public enum BoulderingGrade {
     V17(17),
     V17_PLUS(17.5);
 
-    private final double rating;
+    private final double rank;
 
-    BoulderingGrade(double rating) {
-        this.rating = rating;
+    BoulderingGrade(double rank) {
+        this.rank = rank;
     }
 }
