@@ -1,8 +1,10 @@
 package com.beta;
 
+import com.google.common.collect.Maps;
 import io.dropwizard.Application;
 import io.dropwizard.*;
 import io.dropwizard.setup.*;
+
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.ws.rs.*;
@@ -20,6 +22,17 @@ public class Main extends Application<Configuration> {
     @Override
     public void run(Configuration configuration, Environment environment) {
         environment.jersey().register(new HelloWorldResource());
+        environment.jersey().register(new IndexResource());
+    }
+
+    @Path("/")
+    @Produces(MediaType.APPLICATION_JSON)
+    public static class IndexResource {
+        @GET
+        public Map<String, Object> index() {
+            HashMap<String, Object> res = Maps.newHashMap();
+            return res;
+        }
     }
 
     @Path("/hello-world")
