@@ -119,17 +119,25 @@ public class Main extends Application<Main.JModernConfiguration> {
             try (Handle h = dbi.open()) {
                 h.execute("create table beta_user (" +
                         "id int primary key auto_increment, " +
-                        "name varchar(100)" +
+                        "firstName varchar(100), " +
+                        "lastName varchar(100)" +
                         ")");
-                String[] names = { "Gigantic", "Bone Machine", "Hey", "Cactus" };
-                Arrays.stream(names).forEach(name -> h.insert("insert into beta_user (name) values (?)", name));
+                BetaUser[] users = {
+                        new BetaUser(-1, "Harris", "Phau"),
+                        new BetaUser(-1, "Scott", "Tomaszewski"),
+                        new BetaUser(-1, "Ryan", "Longchamps"),
+                        new BetaUser(-1, "Bryan", "Absher"),
+                };
+                Arrays.stream(users).forEach(user -> h.insert(
+                        "insert into beta_user (firstName, lastName) values (?, ?)",
+                        user.firstName(), user.lastName()));
             }
         }
 
         @Timed
         @POST @Path("/add")
-        public BetaUser add(String name) {
-            return find(dao.insert(name));
+        public BetaUser add(String firstName, String lastName) {
+            return find(dao.insert(firstName, lastName));
         }
 
         @Timed
@@ -147,9 +155,9 @@ public class Main extends Application<Main.JModernConfiguration> {
 
     @RegisterMapper(BetaUser.Mapper.class)
     interface BetaDAO {
-        @SqlUpdate("insert into beta_user (name) values (:name)")
+        @SqlUpdate("insert into beta_user (firstName, lastName) values (:firstName, :lastName)")
         @GetGeneratedKeys
-        int insert(@Bind("name") String name);
+        int insert(@Bind("firstName") String firstName, @Bind("lastName") String lastName);
 
         @SqlQuery("select * from beta_user where id = :id")
         BetaUser findById(@Bind("id") int id);

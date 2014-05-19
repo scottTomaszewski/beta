@@ -11,16 +11,27 @@ public class BetaUser {
     @JsonProperty
     public final int id;
     @JsonProperty
-    public final String name;
+    public final String firstName;
+    @JsonProperty
+    public final String lastName;
 
-    public BetaUser(int id, String name) {
+    public BetaUser(int id, String firstName, String lastName) {
         this.id = id;
-        this.name = name;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    public String firstName(){
+        return firstName;
+    }
+
+    public String lastName(){
+        return lastName;
     }
 
     public static class Mapper implements ResultSetMapper<BetaUser> {
         public BetaUser map(int index, ResultSet r, StatementContext ctx) throws SQLException {
-            return new BetaUser(r.getInt("id"), r.getString("name"));
+            return new BetaUser(r.getInt("id"), r.getString("firstName"), r.getString("lastName"));
         }
     }
 }
