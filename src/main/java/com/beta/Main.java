@@ -122,9 +122,12 @@ public class Main extends Application<Main.JModernConfiguration> {
             this.dao = dbi.onDemand(BetaDAO.class);
 
             try (Handle h = dbi.open()) {
-                h.execute("create table something (id int primary key auto_increment, name varchar(100))");
+                h.execute("create table beta_user (" +
+                        "id int primary key auto_increment, " +
+                        "name varchar(100)" +
+                        ")");
                 String[] names = { "Gigantic", "Bone Machine", "Hey", "Cactus" };
-                Arrays.stream(names).forEach(name -> h.insert("insert into something (name) values (?)", name));
+                Arrays.stream(names).forEach(name -> h.insert("insert into beta_user (name) values (?)", name));
             }
         }
 
@@ -149,14 +152,14 @@ public class Main extends Application<Main.JModernConfiguration> {
 
     @RegisterMapper(SomethingMapper.class)
     interface BetaDAO {
-        @SqlUpdate("insert into something (name) values (:name)")
+        @SqlUpdate("insert into beta_user (name) values (:name)")
         @GetGeneratedKeys
         int insert(@Bind("name") String name);
 
-        @SqlQuery("select * from something where id = :id")
+        @SqlQuery("select * from beta_user where id = :id")
         Something findById(@Bind("id") int id);
 
-        @SqlQuery("select * from something")
+        @SqlQuery("select * from beta_user")
         List<Something> all();
     }
 
