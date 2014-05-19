@@ -1,6 +1,6 @@
 package com.beta;
 
-public enum BoulderGrade {
+public enum BoulderingGrade {
     VIntro,
     V0,
     V1,
