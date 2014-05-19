@@ -122,11 +122,11 @@ public class Main extends Application<Main.JModernConfiguration> {
                         "firstName varchar(100), " +
                         "lastName varchar(100)" +
                         ")");
-                BetaUser[] users = {
-                        new BetaUser(-1, "Harris", "Phau"),
-                        new BetaUser(-1, "Scott", "Tomaszewski"),
-                        new BetaUser(-1, "Ryan", "Longchamps"),
-                        new BetaUser(-1, "Bryan", "Absher"),
+                BetaUser.Data[] users = {
+                        new BetaUser.Data("Harris", "Phau"),
+                        new BetaUser.Data("Scott", "Tomaszewski"),
+                        new BetaUser.Data ("Ryan", "Longchamps"),
+                        new BetaUser.Data("Bryan", "Absher"),
                 };
                 Arrays.stream(users).forEach(user -> h.insert(
                         "insert into beta_user (firstName, lastName) values (?, ?)",
@@ -136,8 +136,10 @@ public class Main extends Application<Main.JModernConfiguration> {
 
         @Timed
         @POST @Path("/add")
-        public BetaUser add(String firstName, String lastName) {
-            return find(dao.insert(firstName, lastName));
+            public BetaUser add(BetaUser.Data newGuy) {
+            System.out.println(newGuy.firstName);
+            System.out.println(newGuy.lastName);
+            return find(dao.insert(newGuy.firstName, newGuy.lastName));
         }
 
         @Timed
