@@ -159,16 +159,6 @@ public class Main extends Application<Main.JModernConfiguration> {
         List<BetaUser> all();
     }
 
-    public static class BetaUser {
-        @JsonProperty public final int id;
-        @JsonProperty public final String name;
-
-        public BetaUser(int id, String name) {
-            this.id = id;
-            this.name = name;
-        }
-    }
-
     interface HelloWorldAPI {
         @GET @Path("/hello-world")
         Saying hi(@QueryParam("name") String name);
