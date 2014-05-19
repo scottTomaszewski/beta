@@ -95,6 +95,7 @@
     <orderEntry type="library" exported="" name="Gradle: javax.inject-1" level="project" />
     <orderEntry type="library" exported="" name="Gradle: dagger-1.1.0" level="project" />
     <orderEntry type="library" exported="" name="Gradle: jsr311-api-1.1.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: jooq-3.3.2" level="project" />
   </component>
 </module>
 

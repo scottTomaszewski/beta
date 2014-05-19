@@ -22,14 +22,10 @@ import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import org.hibernate.validator.constraints.*;
-import org.jooq.Batch;
 import org.jooq.DSLContext;
-import org.jooq.Query;
 import org.jooq.Record;
 import org.jooq.RecordMapper;
-import org.jooq.RecordType;
 import static org.jooq.impl.DSL.*;
-import org.jooq.impl.DefaultRecordMapper;
 
 
 public class Main extends Application<Main.JModernConfiguration> {
@@ -93,16 +89,16 @@ public class Main extends Application<Main.JModernConfiguration> {
     @Path("/consumer")
     @Produces(MediaType.TEXT_PLAIN)
     public static class ConsumerResource {
-        private final HelloWorldAPI hellowWorld;
+        private final HelloWorldAPI helloWorld;
 
         public ConsumerResource(Feign.Builder feignBuilder) {
-            this.hellowWorld = feignBuilder.target(HelloWorldAPI.class, "http://localhost:8080");
+            this.helloWorld = feignBuilder.target(HelloWorldAPI.class, "http://localhost:8080");
         }
 
         @Timed
         @GET
         public String consume() {
-            Saying saying = hellowWorld.hi("consumer");
+            Saying saying = helloWorld.hi("consumer");
             return String.format("The service is saying: %s (id: %d)",  saying.getContent(), saying.getId());
         }
     }
