@@ -1,6 +1,5 @@
 package com.beta;
 
-
 import com.codahale.metrics.*;
 import com.codahale.metrics.annotation.*;
 import com.fasterxml.jackson.annotation.*;
@@ -11,22 +10,21 @@ import feign.jaxrs.*;
 import io.dropwizard.Application;
 import io.dropwizard.*;
 import io.dropwizard.db.*;
+import io.dropwizard.jdbi.*;
 import io.dropwizard.setup.*;
 import java.sql.*;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicLong;
-import javax.sql.DataSource;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import org.hibernate.validator.constraints.*;
-import org.jooq.DSLContext;
-import org.jooq.Record;
-import org.jooq.RecordMapper;
-import static org.jooq.impl.DSL.*;
-
+import org.skife.jdbi.v2.*;
+import org.skife.jdbi.v2.sqlobject.*;
+import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;
+import org.skife.jdbi.v2.tweak.*;
 
 public class Main extends Application<Main.JModernConfiguration> {
     public static void main(String[] args) throws Exception {
@@ -38,7 +36,7 @@ public class Main extends Application<Main.JModernConfiguration> {
     }
 
     @Override
-    public void run(JModernConfiguration cfg, Environment env) throws Exception {
+    public void run(JModernConfiguration cfg, Environment env) throws ClassNotFoundException {
         JmxReporter.forRegistry(env.metrics()).build().start(); // Manually add JMX reporting (Dropwizard regression)
 
         env.jersey().register(new HelloWorldResource(cfg));
@@ -49,8 +47,8 @@ public class Main extends Application<Main.JModernConfiguration> {
                 .decoder(new JacksonDecoder());
         env.jersey().register(new ConsumerResource(feignBuilder));
 
-        DataSource ds = cfg.getDataSourceFactory().build(env.metrics(), "db"); // Dropwizard will monitor the connection pool
-        env.jersey().register(new DBResource(ds));
+        final DBI dbi = new DBIFactory().build(env, cfg.getDataSourceFactory(), "db");
+        env.jersey().register(new DBResource(dbi));
     }
 
     // YAML Configuration
@@ -89,16 +87,16 @@ public class Main extends Application<Main.JModernConfiguration> {
     @Path("/consumer")
     @Produces(MediaType.TEXT_PLAIN)
     public static class ConsumerResource {
-        private final HelloWorldAPI helloWorld;
+        private final HelloWorldAPI hellowWorld;
 
         public ConsumerResource(Feign.Builder feignBuilder) {
-            this.helloWorld = feignBuilder.target(HelloWorldAPI.class, "http://localhost:8080");
+            this.hellowWorld = feignBuilder.target(HelloWorldAPI.class, "http://localhost:8080");
         }
 
         @Timed
         @GET
         public String consume() {
-            Saying saying = helloWorld.hi("consumer");
+            Saying saying = hellowWorld.hi("consumer");
             return String.format("The service is saying: %s (id: %d)",  saying.getContent(), saying.getId());
         }
     }
@@ -106,48 +104,48 @@ public class Main extends Application<Main.JModernConfiguration> {
     @Path("/db")
     @Produces(MediaType.APPLICATION_JSON)
     public static class DBResource {
-        private final DataSource ds;
-        private static final RecordMapper<Record, Something> toSomething =
-                record -> new Something(record.getValue(field("id", Integer.class)), record.getValue(field("name", String.class)));
+        private final ModernDAO dao;
 
-        public DBResource(DataSource ds) throws SQLException {
-            this.ds = ds;
+        public DBResource(DBI dbi) {
+            this.dao = dbi.onDemand(ModernDAO.class);
 
-            try (Connection conn = ds.getConnection()) {
-                conn.createStatement().execute("create table something (id int primary key auto_increment, name varchar(100))");
-
+            try (Handle h = dbi.open()) {
+                h.execute("create table something (id int primary key auto_increment, name varchar(100))");
                 String[] names = { "Gigantic", "Bone Machine", "Hey", "Cactus" };
-                DSLContext context = using(conn);
-                Arrays.stream(names).forEach(name -> context.insertInto(table("something"), field("name")).values(name).execute());
+                Arrays.stream(names).forEach(name -> h.insert("insert into something (name) values (?)", name));
             }
         }
 
         @Timed
         @POST @Path("/add")
-        public Something add(String name) throws SQLException {
-            try (Connection conn = ds.getConnection()) {
-                // this does not work
-                int id = using(conn).insertInto(table("something"), field("name")).values(name).returning(field("id")).fetchOne().into(Integer.class);
-                return find(id);
-            }
+        public Something add(String name) {
+            return find(dao.insert(name));
         }
 
         @Timed
         @GET @Path("/item/{id}")
-        public Something find(@PathParam("id") Integer id) throws SQLException {
-            try (Connection conn = ds.getConnection()) {
-                return using(conn).select(field("id"), field("name")).from(table("something"))
-                        .where(field("id", Integer.class).equal(id)).fetchOne().map(toSomething);
-            }
+        public Something find(@PathParam("id") Integer id) {
+            return dao.findById(id);
         }
 
         @Timed
         @GET @Path("/all")
-        public List<Something> all(@PathParam("id") Integer id) throws SQLException {
-            try (Connection conn = ds.getConnection()) {
-                return using(conn).select(field("id"), field("name")).from(table("something")).fetch().map(toSomething);
-            }
+        public List<Something> all(@PathParam("id") Integer id) {
+            return dao.all();
         }
+    }
+
+    @RegisterMapper(SomethingMapper.class)
+    interface ModernDAO {
+        @SqlUpdate("insert into something (name) values (:name)")
+        @GetGeneratedKeys
+        int insert(@Bind("name") String name);
+
+        @SqlQuery("select * from something where id = :id")
+        Something findById(@Bind("id") int id);
+
+        @SqlQuery("select * from something")
+        List<Something> all();
     }
 
     public static class Something {
@@ -157,6 +155,12 @@ public class Main extends Application<Main.JModernConfiguration> {
         public Something(int id, String name) {
             this.id = id;
             this.name = name;
+        }
+    }
+
+    public static class SomethingMapper implements ResultSetMapper<Something> {
+        public Something map(int index, ResultSet r, StatementContext ctx) throws SQLException {
+            return new Something(r.getInt("id"), r.getString("name"));
         }
     }
 
