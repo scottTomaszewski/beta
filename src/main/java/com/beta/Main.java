@@ -128,9 +128,7 @@ public class Main extends Application<Main.JModernConfiguration> {
                         new BetaUser.Data ("Ryan", "Longchamps"),
                         new BetaUser.Data("Bryan", "Absher"),
                 };
-                Arrays.stream(users).forEach(user -> h.insert(
-                        "insert into beta_user (firstName, lastName) values (?, ?)",
-                        user.firstName(), user.lastName()));
+                Arrays.stream(users).forEach(user -> this.add(user));
             }
         }
 
