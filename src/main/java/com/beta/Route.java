@@ -6,13 +6,13 @@ import org.joda.time.LocalDate;
 import java.awt.Color;
 
 public class Route {
-    private final QRCode lookup;
+    private final RouteId lookup;
     private final String routeName;
     private final LocalDate createdAt;
     private final RouteSetter creator;
     private final Color tape;
 
-    public Route(QRCode lookup,
+    public Route(RouteId lookup,
                  String routeName,
                  LocalDate createdAt,
                  RouteSetter creator,
@@ -24,7 +24,7 @@ public class Route {
         this.tape = tape;
     }
 
-    @JsonProperty public QRCode getQRCcode() {
+    @JsonProperty public RouteId getId() {
         return lookup;
     }
 
