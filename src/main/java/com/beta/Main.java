@@ -1,4 +1,6 @@
 package com.beta;
+
+
 import com.codahale.metrics.*;
 import com.codahale.metrics.annotation.*;
 import com.fasterxml.jackson.annotation.*;
@@ -9,20 +11,26 @@ import feign.jaxrs.*;
 import io.dropwizard.Application;
 import io.dropwizard.*;
 import io.dropwizard.db.*;
-import io.dropwizard.jdbi.*;
 import io.dropwizard.setup.*;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.sql.*;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicLong;
+import javax.sql.DataSource;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import org.hibernate.validator.constraints.*;
-import org.skife.jdbi.v2.*;
-import org.skife.jdbi.v2.util.*;
+import org.jooq.Batch;
+import org.jooq.DSLContext;
+import org.jooq.Query;
+import org.jooq.Record;
+import org.jooq.RecordMapper;
+import org.jooq.RecordType;
+import static org.jooq.impl.DSL.*;
+import org.jooq.impl.DefaultRecordMapper;
+
 
 public class Main extends Application<Main.JModernConfiguration> {
     public static void main(String[] args) throws Exception {
@@ -34,9 +42,8 @@ public class Main extends Application<Main.JModernConfiguration> {
     }
 
     @Override
-    public void run(JModernConfiguration cfg, Environment env) throws ClassNotFoundException {
-        // Manually add JMX reporting (Dropwizard regression)
-        JmxReporter.forRegistry(env.metrics()).build().start();
+    public void run(JModernConfiguration cfg, Environment env) throws Exception {
+        JmxReporter.forRegistry(env.metrics()).build().start(); // Manually add JMX reporting (Dropwizard regression)
 
         env.jersey().register(new HelloWorldResource(cfg));
 
@@ -46,8 +53,8 @@ public class Main extends Application<Main.JModernConfiguration> {
                 .decoder(new JacksonDecoder());
         env.jersey().register(new ConsumerResource(feignBuilder));
 
-        final DBI dbi = new DBIFactory().build(env, cfg.getDataSourceFactory(), "db");
-        env.jersey().register(new DBResource(dbi));
+        DataSource ds = cfg.getDataSourceFactory().build(env.metrics(), "db"); // Dropwizard will monitor the connection pool
+        env.jersey().register(new DBResource(ds));
     }
 
     // YAML Configuration
@@ -103,42 +110,57 @@ public class Main extends Application<Main.JModernConfiguration> {
     @Path("/db")
     @Produces(MediaType.APPLICATION_JSON)
     public static class DBResource {
-        private final DBI dbi;
+        private final DataSource ds;
+        private static final RecordMapper<Record, Something> toSomething =
+                record -> new Something(record.getValue(field("id", Integer.class)), record.getValue(field("name", String.class)));
 
-        public DBResource(DBI dbi) {
-            this.dbi = dbi;
+        public DBResource(DataSource ds) throws SQLException {
+            this.ds = ds;
 
-            try (Handle h = dbi.open()) {
-                h.execute("create table something (id int primary key auto_increment, name varchar(100))");
+            try (Connection conn = ds.getConnection()) {
+                conn.createStatement().execute("create table something (id int primary key auto_increment, name varchar(100))");
+
                 String[] names = { "Gigantic", "Bone Machine", "Hey", "Cactus" };
-                Arrays.stream(names).forEach(name -> h.insert("insert into something (name) values (?)", name));
+                DSLContext context = using(conn);
+                Arrays.stream(names).forEach(name -> context.insertInto(table("something"), field("name")).values(name).execute());
             }
         }
 
         @Timed
         @POST @Path("/add")
-        public Map<String, Object> add(String name) {
-            try (Handle h = dbi.open()) {
-                int id = h.createStatement("insert into something (name) values (:name)").bind("name", name)
-                        .executeAndReturnGeneratedKeys(IntegerMapper.FIRST).first();
+        public Something add(String name) throws SQLException {
+            try (Connection conn = ds.getConnection()) {
+                // this does not work
+                int id = using(conn).insertInto(table("something"), field("name")).values(name).returning(field("id")).fetchOne().into(Integer.class);
                 return find(id);
             }
         }
 
         @Timed
         @GET @Path("/item/{id}")
-        public Map<String, Object> find(@PathParam("id") Integer id) {
-            try (Handle h = dbi.open()) {
-                return h.createQuery("select id, name from something where id = :id").bind("id", id).first();
+        public Something find(@PathParam("id") Integer id) throws SQLException {
+            try (Connection conn = ds.getConnection()) {
+                return using(conn).select(field("id"), field("name")).from(table("something"))
+                        .where(field("id", Integer.class).equal(id)).fetchOne().map(toSomething);
             }
         }
 
         @Timed
         @GET @Path("/all")
-        public List<Map<String, Object>> all(@PathParam("id") Integer id) {
-            try (Handle h = dbi.open()) {
-                return h.createQuery("select * from something").list();
+        public List<Something> all(@PathParam("id") Integer id) throws SQLException {
+            try (Connection conn = ds.getConnection()) {
+                return using(conn).select(field("id"), field("name")).from(table("something")).fetch().map(toSomething);
             }
+        }
+    }
+
+    public static class Something {
+        @JsonProperty public final int id;
+        @JsonProperty public final String name;
+
+        public Something(int id, String name) {
+            this.id = id;
+            this.name = name;
         }
     }
 

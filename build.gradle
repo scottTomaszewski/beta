@@ -19,9 +19,12 @@ dependencies {
     compile 'io.dropwizard:dropwizard-db:0.7.0'
     compile 'io.dropwizard:dropwizard-jdbi:0.7.0'
     compile 'io.dropwizard:dropwizard-client:0.7.0'
+
     compile 'com.netflix.feign:feign-core:6.1.2'
     compile 'com.netflix.feign:feign-jaxrs:6.1.2'
     compile 'com.netflix.feign:feign-jackson:6.1.2'
+
+    compile 'org.jooq:jooq:3.3.2'
 
     runtime 'com.h2database:h2:1.4.178'
 
