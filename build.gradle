@@ -34,17 +34,23 @@ task capsule(type: Jar, dependsOn: classes) {
 
     from jar // embed our application jar
     from { configurations.runtime } // embed dependencies
+    from { sourceSets.main.resources }
 
-    from(configurations.capsule.collect { zipTree(it) }) { include 'Capsule.class' } // we just need the single Capsule class
+    from(configurations.capsule.collect { zipTree(it) }) { include 'Capsule.class' }
+    // we just need the single Capsule class
 
     manifest {
         attributes(
-                'Main-Class'  :   'Capsule',
-                'Application-Class'   : mainClassName,
-                'Application-Version' : version,
-                'Min-Java-Version' : '1.8.0',
-                'JVM-Args' : run.jvmArgs.join(' '),
-                'System-Properties' : run.systemProperties.collect { k,v -> "$k=$v" }.join(' '),
+                'Main-Class': 'Capsule',
+                'Application-Class': mainClassName,
+                'Application-Version': version,
+                'Min-Java-Version': '1.8.0',
+                'JVM-Args': run.jvmArgs.join(' '),
+                'System-Properties': (run.systemProperties + ["dropwizard.config": '$CAPSULE_DIR/betaa.yml']).collect { k, v -> "$k=$v" }.join(' '),
         )
     }
+}
+
+run {
+    systemProperty "dropwizard.config", "build/resources/main/beta.yml"
 }
