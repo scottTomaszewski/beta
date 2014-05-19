@@ -105,10 +105,10 @@ public class Main extends Application<Main.JModernConfiguration> {
     @Path("/db")
     @Produces(MediaType.APPLICATION_JSON)
     public static class DBResource {
-        private final ModernDAO dao;
+        private final BetaDAO dao;
 
         public DBResource(DBI dbi) {
-            this.dao = dbi.onDemand(ModernDAO.class);
+            this.dao = dbi.onDemand(BetaDAO.class);
 
             try (Handle h = dbi.open()) {
                 h.execute("create table something (id int primary key auto_increment, name varchar(100))");
@@ -137,7 +137,7 @@ public class Main extends Application<Main.JModernConfiguration> {
     }
 
     @RegisterMapper(SomethingMapper.class)
-    interface ModernDAO {
+    interface BetaDAO {
         @SqlUpdate("insert into something (name) values (:name)")
         @GetGeneratedKeys
         int insert(@Bind("name") String name);
