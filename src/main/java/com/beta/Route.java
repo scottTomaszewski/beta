@@ -14,13 +14,11 @@ public class Route {
 
     public Route(QRCode lookup,
                  String routeName,
-                 RouteGrade difficulty,
                  LocalDate createdAt,
                  RouteSetter creator,
                  Color tape) {
         this.lookup = lookup;
         this.routeName = routeName;
-        this.difficulty = difficulty;
         this.createdAt = createdAt;
         this.creator = creator;
         this.tape = tape;
