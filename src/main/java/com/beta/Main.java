@@ -18,20 +18,16 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.Handle;
-import org.skife.jdbi.v2.StatementContext;
 import org.skife.jdbi.v2.sqlobject.Bind;
 import org.skife.jdbi.v2.sqlobject.GetGeneratedKeys;
 import org.skife.jdbi.v2.sqlobject.SqlQuery;
 import org.skife.jdbi.v2.sqlobject.SqlUpdate;
 import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;
-import org.skife.jdbi.v2.tweak.ResultSetMapper;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -170,12 +166,6 @@ public class Main extends Application<Main.JModernConfiguration> {
         public BetaUser(int id, String name) {
             this.id = id;
             this.name = name;
-        }
-    }
-
-    public static class BetaUserMapper implements ResultSetMapper<BetaUser> {
-        public BetaUser map(int index, ResultSet r, StatementContext ctx) throws SQLException {
-            return new BetaUser(r.getInt("id"), r.getString("name"));
         }
     }
 
