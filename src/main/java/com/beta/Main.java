@@ -118,11 +118,11 @@ public class Main extends Application<Main.JModernConfiguration> {
 
             try (Handle h = dbi.open()) {
                 h.execute("create table beta_user (" +
-                        "id int primary key auto_increment, " +
-                        "firstName varchar(100), " +
-                        "lastName varchar(100), " +
-                        "email varchar(100), " +
-                        "passwordHash varchar(100)" +
+                        "id int primary key auto_increment" +
+                        ", firstName varchar(100)" +
+                        ", lastName varchar(100)" +
+                        ", email varchar(100)" +
+                        ", passwordHash varchar(100)" +
                         ")");
                 BetaUser.BaseInfo[] users = {
                         new BetaUser.BaseInfo("Harris", "Phau", "hp@gmail.com", "a"),
