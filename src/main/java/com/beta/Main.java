@@ -9,6 +9,7 @@ import feign.jackson.JacksonDecoder;
 import feign.jackson.JacksonEncoder;
 import feign.jaxrs.JAXRSModule;
 import io.dropwizard.Application;
+import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.Configuration;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.jdbi.DBIFactory;
@@ -39,7 +40,9 @@ public class Main extends Application<Main.JModernConfiguration> {
     }
 
     @Override
-    public void initialize(Bootstrap<JModernConfiguration> bootstrap) {}
+    public void initialize(Bootstrap<JModernConfiguration> bootstrap) {
+        bootstrap.addBundle(new AssetsBundle());
+    }
 
     @Override
     public void run(JModernConfiguration cfg, Environment env) throws ClassNotFoundException {
