@@ -8,8 +8,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class BetaUser {
-    @JsonProperty private final int id;
-    @JsonProperty private final BaseInfo info;
+    @JsonProperty
+    private final int id;
+    @JsonProperty
+    private final BaseInfo info;
 
     public BetaUser(int id, BaseInfo info) {
         this.id = id;
@@ -25,13 +27,18 @@ public class BetaUser {
     }
 
     public static final class BaseInfo {
-        @JsonProperty private String firstName;
-        @JsonProperty private String lastName;
-        @JsonProperty private String email;
-        @JsonProperty private String passwordHash;
+        @JsonProperty
+        private String firstName;
+        @JsonProperty
+        private String lastName;
+        @JsonProperty
+        private String email;
+        @JsonProperty
+        private String passwordHash;
 
         // needed for Jackson
-        public BaseInfo() {}
+        public BaseInfo() {
+        }
 
         public BaseInfo(String firstName, String lastName, String email, String passwordHash) {
             this.firstName = firstName;
@@ -59,15 +66,18 @@ public class BetaUser {
         public boolean validatePassword(String hashed) {
             return hashed.equals(this.passwordHash);
         }
+
+        public static BaseInfo map(int index, ResultSet r, StatementContext ctx) throws SQLException {
+            return new BaseInfo(r.getString("firstName"),
+                    r.getString("lastName"),
+                    r.getString("email"),
+                    r.getString("passwordHash"));
+        }
     }
 
     public static class Mapper implements ResultSetMapper<BetaUser> {
         public BetaUser map(int index, ResultSet r, StatementContext ctx) throws SQLException {
-            return new BetaUser(r.getInt("id"),
-                    new BaseInfo(r.getString("firstName"),
-                            r.getString("lastName"),
-                            r.getString("email"),
-                            r.getString("passwordHash")));
+            return new BetaUser(r.getInt("id"), BaseInfo.map(index, r, ctx));
         }
     }
 }
