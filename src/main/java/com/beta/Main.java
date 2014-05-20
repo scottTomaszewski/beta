@@ -82,7 +82,7 @@ public class Main extends Application<Main.JModernConfiguration> {
             this.defaultName = configuration.getDefaultName();
         }
 
-        @Timed // monitor timing of this service with Metrics
+        @Timed
         @GET
         public Saying sayHello(@QueryParam("name") Optional<String> name) throws InterruptedException {
             final String value = String.format(template, name.or(defaultName));
