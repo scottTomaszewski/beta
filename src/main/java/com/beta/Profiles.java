@@ -12,10 +12,10 @@ import java.util.List;
 @Path("/profiles")
 @Produces(MediaType.APPLICATION_JSON)
 public class Profiles {
-    private final BetaDAO dao;
+    private final ProfilesDAO dao;
 
     public Profiles(DBI dbi) {
-        this.dao = dbi.onDemand(BetaDAO.class);
+        this.dao = dbi.onDemand(ProfilesDAO.class);
 
         try (Handle h = dbi.open()) {
             h.execute("create table beta_user (" +

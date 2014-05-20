@@ -9,7 +9,7 @@ import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;
 import java.util.List;
 
 @RegisterMapper(BetaUser.Mapper.class)
-interface BetaDAO {
+interface ProfilesDAO {
     @SqlUpdate("insert into beta_user " +
             "(firstName, lastName, email, passwordHash) " +
             "values " +
