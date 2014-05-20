@@ -123,6 +123,7 @@ public class Main extends Application<Main.JModernConfiguration> {
                         ", lastName varchar(100)" +
                         ", email varchar(100)" +
                         ", passwordHash varchar(100)" +
+                        ", profilePictureRelativeUrl varchar(100)" +
                         ")");
                 BetaUser.BaseInfo[] users = {
                         new BetaUser.BaseInfo("Harris", "Phau", "hp@gmail.com", "a"),
