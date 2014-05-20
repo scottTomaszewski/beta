@@ -8,23 +8,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class BetaUser {
-    @JsonProperty
-    public final int id;
-
-    @JsonProperty
-    public final BaseInfo info;
+    @JsonProperty private final int id;
+    @JsonProperty private final BaseInfo info;
 
     public BetaUser(int id, BaseInfo info) {
         this.id = id;
         this.info = info;
     }
 
-    public String firstName() {
-        return info.firstName;
+    public int id() {
+        return id;
     }
 
-    public String lastName() {
-        return info.lastName;
+    public BaseInfo info() {
+        return info;
     }
 
     public static final class BaseInfo {
