@@ -41,11 +41,13 @@ public class Main extends Application<Main.JModernConfiguration> {
 
     @Override
     public void initialize(Bootstrap<JModernConfiguration> bootstrap) {
-        bootstrap.addBundle(new AssetsBundle());
+        bootstrap.addBundle(new AssetsBundle("/assets", "/"));
     }
 
     @Override
     public void run(JModernConfiguration cfg, Environment env) throws ClassNotFoundException {
+        env.jersey().setUrlPattern("/api/*");
+
         // Manually add JMX reporting (Dropwizard regression)
         JmxReporter.forRegistry(env.metrics()).build().start();
 
@@ -73,7 +75,7 @@ public class Main extends Application<Main.JModernConfiguration> {
     }
 
     // The actual service
-    @Path("/hello-world")
+    @Path("/api/hello-world")
     @Produces(MediaType.APPLICATION_JSON)
     public static class HelloWorldResource {
         private final AtomicLong counter = new AtomicLong();
@@ -94,7 +96,7 @@ public class Main extends Application<Main.JModernConfiguration> {
         }
     }
 
-    @Path("/consumer")
+    @Path("/api/consumer")
     @Produces(MediaType.TEXT_PLAIN)
     public static class ConsumerResource {
         private final HelloWorldAPI helloWorld;
