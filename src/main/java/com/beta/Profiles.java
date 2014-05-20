@@ -11,10 +11,10 @@ import java.util.List;
 
 @Path("/profiles")
 @Produces(MediaType.APPLICATION_JSON)
-public class DBResource {
+public class Profiles {
     private final BetaDAO dao;
 
-    public DBResource(DBI dbi) {
+    public Profiles(DBI dbi) {
         this.dao = dbi.onDemand(BetaDAO.class);
 
         try (Handle h = dbi.open()) {
