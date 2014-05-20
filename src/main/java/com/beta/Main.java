@@ -75,7 +75,7 @@ public class Main extends Application<Main.JModernConfiguration> {
     }
 
     // The actual service
-    @Path("/api/hello-world")
+    @Path("/hello-world")
     @Produces(MediaType.APPLICATION_JSON)
     public static class HelloWorldResource {
         private final AtomicLong counter = new AtomicLong();
@@ -96,7 +96,7 @@ public class Main extends Application<Main.JModernConfiguration> {
         }
     }
 
-    @Path("/api/consumer")
+    @Path("/consumer")
     @Produces(MediaType.TEXT_PLAIN)
     public static class ConsumerResource {
         private final HelloWorldAPI helloWorld;
