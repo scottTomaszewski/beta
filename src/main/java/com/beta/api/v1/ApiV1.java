@@ -1,5 +1,7 @@
-package com.beta;
+package com.beta.api.v1;
 
+import com.beta.Api;
+import com.beta.Main;
 import io.dropwizard.jdbi.DBIFactory;
 import io.dropwizard.setup.Environment;
 import org.skife.jdbi.v2.DBI;

@@ -1,5 +1,6 @@
-package com.beta;
+package com.beta.api.v1;
 
+import com.beta.BetaUser;
 import org.skife.jdbi.v2.sqlobject.Bind;
 import org.skife.jdbi.v2.sqlobject.GetGeneratedKeys;
 import org.skife.jdbi.v2.sqlobject.SqlQuery;

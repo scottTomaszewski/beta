@@ -1,5 +1,6 @@
-package com.beta;
+package com.beta.api.v1;
 
+import com.beta.BetaUser;
 import com.codahale.metrics.annotation.Timed;
 import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.Handle;
