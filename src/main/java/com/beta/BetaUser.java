@@ -28,12 +28,12 @@ public class BetaUser {
     }
 
     public static class BaseInfo {
-        @JsonProperty public String firstName;
-        @JsonProperty public String lastName;
-        @JsonProperty public String email;
-        @JsonProperty public String passwordHash;
+        @JsonProperty private String firstName;
+        @JsonProperty private String lastName;
+        @JsonProperty private String email;
+        @JsonProperty private String passwordHash;
 
-        // needed for deserialization
+        // needed for Jackson
         public BaseInfo() {}
 
         public BaseInfo(String firstName, String lastName, String email, String passwordHash) {
@@ -53,6 +53,10 @@ public class BetaUser {
 
         public String email() {
             return email;
+        }
+
+        public String passwordHash() {
+            return passwordHash;
         }
 
         public boolean validatePassword(String hashed) {

@@ -137,7 +137,10 @@ public class Main extends Application<Main.JModernConfiguration> {
         @Timed
         @POST @Path("/add")
             public BetaUser add(BetaUser.BaseInfo newGuy) {
-            return find(dao.insert(newGuy.firstName, newGuy.lastName, newGuy.email, newGuy.passwordHash));
+            return find(dao.insert(newGuy.firstName(),
+                    newGuy.lastName(),
+                    newGuy.email(),
+                    newGuy.passwordHash()));
         }
 
         @Timed
