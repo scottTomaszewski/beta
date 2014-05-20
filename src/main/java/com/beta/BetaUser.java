@@ -30,13 +30,17 @@ public class BetaUser {
     public static class BaseInfo {
         @JsonProperty public String firstName;
         @JsonProperty public String lastName;
+        @JsonProperty public String email;
+        @JsonProperty public String passwordHash;
 
         // needed for deserialization
         public BaseInfo() {}
 
-        public BaseInfo(String firstName, String lastName) {
+        public BaseInfo(String firstName, String lastName, String email, String passwordHash) {
             this.firstName = firstName;
             this.lastName = lastName;
+            this.email = email;
+            this.passwordHash = passwordHash;
         }
 
         public String firstName() {
@@ -46,12 +50,23 @@ public class BetaUser {
         public String lastName() {
             return lastName;
         }
+
+        public String email() {
+            return email;
+        }
+
+        public boolean validatePassword(String hashed) {
+            return hashed.equals(this.passwordHash);
+        }
     }
 
     public static class Mapper implements ResultSetMapper<BetaUser> {
         public BetaUser map(int index, ResultSet r, StatementContext ctx) throws SQLException {
             return new BetaUser(r.getInt("id"),
-                    new BaseInfo(r.getString("firstName"), r.getString("lastName")));
+                    new BaseInfo(r.getString("firstName"),
+                            r.getString("lastName"),
+                            r.getString("email"),
+                            r.getString("passwordHash")));
         }
     }
 }

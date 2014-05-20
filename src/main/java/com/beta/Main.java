@@ -120,13 +120,15 @@ public class Main extends Application<Main.JModernConfiguration> {
                 h.execute("create table beta_user (" +
                         "id int primary key auto_increment, " +
                         "firstName varchar(100), " +
-                        "lastName varchar(100)" +
+                        "lastName varchar(100), " +
+                        "email varchar(100), " +
+                        "passwordHash varchar(100)" +
                         ")");
                 BetaUser.BaseInfo[] users = {
-                        new BetaUser.BaseInfo("Harris", "Phau"),
-                        new BetaUser.BaseInfo("Scott", "Tomaszewski"),
-                        new BetaUser.BaseInfo("Ryan", "Longchamps"),
-                        new BetaUser.BaseInfo("Bryan", "Absher"),
+                        new BetaUser.BaseInfo("Harris", "Phau", "hp@gmail.com", "a"),
+                        new BetaUser.BaseInfo("Scott", "Tomaszewski", "st@gmail.com", "b"),
+                        new BetaUser.BaseInfo("Ryan", "Longchamps", "rl@gmail.com", "c"),
+                        new BetaUser.BaseInfo("Bryan", "Absher", "ba@gmail.com", "d"),
                 };
                 Arrays.stream(users).forEach(user -> this.add(user));
             }
@@ -135,7 +137,7 @@ public class Main extends Application<Main.JModernConfiguration> {
         @Timed
         @POST @Path("/add")
             public BetaUser add(BetaUser.BaseInfo newGuy) {
-            return find(dao.insert(newGuy.firstName, newGuy.lastName));
+            return find(dao.insert(newGuy.firstName, newGuy.lastName, newGuy.email, newGuy.passwordHash));
         }
 
         @Timed
@@ -153,9 +155,15 @@ public class Main extends Application<Main.JModernConfiguration> {
 
     @RegisterMapper(BetaUser.Mapper.class)
     interface BetaDAO {
-        @SqlUpdate("insert into beta_user (firstName, lastName) values (:firstName, :lastName)")
+        @SqlUpdate("insert into beta_user " +
+                "(firstName, lastName, email, passwordHash) " +
+                "values " +
+                "(:firstName, :lastName, :email, :passwordHash)")
         @GetGeneratedKeys
-        int insert(@Bind("firstName") String firstName, @Bind("lastName") String lastName);
+        int insert(@Bind("firstName") String firstName,
+                   @Bind("lastName") String lastName,
+                   @Bind("email") String email,
+                   @Bind("passwordHash") String passwordHash);
 
         @SqlQuery("select * from beta_user where id = :id")
         BetaUser findById(@Bind("id") int id);
