@@ -51,8 +51,7 @@ public class Main extends Application<Main.BetaConfig> {
                 .decoder(new JacksonDecoder());
         env.jersey().register(new ConsumerResource(feignBuilder));
 
-        final DBI dbi = new DBIFactory().build(env, cfg.getDataSourceFactory(), "db");
-        env.jersey().register(new Profiles(dbi));
+        new ApiV1().run(cfg, env);
     }
 
     // YAML Configuration

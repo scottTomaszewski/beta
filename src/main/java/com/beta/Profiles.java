@@ -9,7 +9,7 @@ import javax.ws.rs.core.MediaType;
 import java.util.Arrays;
 import java.util.List;
 
-@Path("/profiles")
+@Path("/v1/profiles")
 @Produces(MediaType.APPLICATION_JSON)
 public class Profiles {
     private final ProfilesDAO dao;
