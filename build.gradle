@@ -5,6 +5,7 @@ sourceCompatibility = '1.8'
 
 mainClassName = 'com.beta.Main'
 version = '0.1.0'
+dropWizard = '0.7.0-rc3'
 
 repositories {
     mavenCentral()
@@ -15,10 +16,11 @@ configurations {
 }
 
 dependencies {
-    compile 'io.dropwizard:dropwizard-core:0.7.0'
-    compile 'io.dropwizard:dropwizard-db:0.7.0'
-    compile 'io.dropwizard:dropwizard-jdbi:0.7.0'
-    compile 'io.dropwizard:dropwizard-client:0.7.0'
+    compile 'io.dropwizard:dropwizard-core:' + dropWizard
+    compile 'io.dropwizard:dropwizard-db:'  + dropWizard
+    compile 'io.dropwizard:dropwizard-jdbi:' + dropWizard
+    compile 'io.dropwizard:dropwizard-client:' + dropWizard
+    compile 'io.dropwizard:dropwizard-assets:' + dropWizard
 
     compile 'com.netflix.feign:feign-core:6.1.2'
     compile 'com.netflix.feign:feign-jaxrs:6.1.2'
