@@ -27,7 +27,7 @@ public class BetaUser {
         return info.lastName;
     }
 
-    public static class BaseInfo {
+    public static final class BaseInfo {
         @JsonProperty private String firstName;
         @JsonProperty private String lastName;
         @JsonProperty private String email;
