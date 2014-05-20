@@ -26,18 +26,18 @@ import javax.ws.rs.core.MediaType;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicLong;
 
-public class Main extends Application<Main.JModernConfiguration> {
+public class Main extends Application<Main.BetaConfig> {
     public static void main(String[] args) throws Exception {
         new Main().run(new String[]{"server", System.getProperty("dropwizard.config")});
     }
 
     @Override
-    public void initialize(Bootstrap<JModernConfiguration> bootstrap) {
+    public void initialize(Bootstrap<BetaConfig> bootstrap) {
         bootstrap.addBundle(new AssetsBundle("/assets", "/"));
     }
 
     @Override
-    public void run(JModernConfiguration cfg, Environment env) throws ClassNotFoundException {
+    public void run(BetaConfig cfg, Environment env) throws ClassNotFoundException {
         env.jersey().setUrlPattern("/api/*");
 
         // Manually add JMX reporting (Dropwizard regression)
@@ -56,7 +56,7 @@ public class Main extends Application<Main.JModernConfiguration> {
     }
 
     // YAML Configuration
-    public static class JModernConfiguration extends Configuration {
+    public static class BetaConfig extends Configuration {
         @JsonProperty private @NotEmpty String template;
         @JsonProperty private @NotEmpty String defaultName;
         @Valid @NotNull @JsonProperty private DataSourceFactory database = new DataSourceFactory();
@@ -74,7 +74,7 @@ public class Main extends Application<Main.JModernConfiguration> {
         private final String template;
         private final String defaultName;
 
-        public HelloWorldResource(JModernConfiguration configuration) {
+        public HelloWorldResource(BetaConfig configuration) {
             this.template = configuration.getTemplate();
             this.defaultName = configuration.getDefaultName();
         }
