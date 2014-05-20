@@ -12,10 +12,9 @@ public class BetaUser {
     public final int id;
 
     @JsonProperty
-    public final Data info;
+    public final BaseInfo info;
 
-
-    public BetaUser(int id, Data info) {
+    public BetaUser(int id, BaseInfo info) {
         this.id = id;
         this.info = info;
     }
@@ -28,17 +27,14 @@ public class BetaUser {
         return info.lastName;
     }
 
-    public static class Data {
-        @JsonProperty
-        public String firstName;
-
-        @JsonProperty
-        public String lastName;
+    public static class BaseInfo {
+        @JsonProperty public String firstName;
+        @JsonProperty public String lastName;
 
         // needed for deserialization
-        public Data() {}
+        public BaseInfo() {}
 
-        public Data(String firstName, String lastName) {
+        public BaseInfo(String firstName, String lastName) {
             this.firstName = firstName;
             this.lastName = lastName;
         }
@@ -55,7 +51,7 @@ public class BetaUser {
     public static class Mapper implements ResultSetMapper<BetaUser> {
         public BetaUser map(int index, ResultSet r, StatementContext ctx) throws SQLException {
             return new BetaUser(r.getInt("id"),
-                    new Data(r.getString("firstName"), r.getString("lastName")));
+                    new BaseInfo(r.getString("firstName"), r.getString("lastName")));
         }
     }
 }
