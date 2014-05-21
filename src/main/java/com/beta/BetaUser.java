@@ -79,16 +79,16 @@ public class BetaUser {
         @JsonProperty
         private String lastName;
         @JsonProperty
-        private String profilePictureRelativePath;
+        private String profilePictureAbsolutePath;
 
         public OptionalInfo() {}
 
         public String getProfilePictureAbsolutePath() {
-            return Strings.nullToEmpty(profilePictureRelativePath);
+            return Strings.nullToEmpty(profilePictureAbsolutePath);
         }
 
         public OptionalInfo setProfilePictureAbsolutePath(String path) {
-            this.profilePictureRelativePath = path;
+            this.profilePictureAbsolutePath = path;
             return this;
         }
 
