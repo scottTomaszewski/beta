@@ -24,4 +24,12 @@ interface ProfilesDAO {
 
     @SqlQuery("select * from beta_user")
     List<BetaUser> all();
+
+    @SqlUpdate("update beta_user set firstName = :firstName where id = :id")
+    @GetGeneratedKeys
+    int updateFirstName(@Bind("id") int id, @Bind("firstName") String firstName);
+
+    @SqlUpdate("update beta_user set lastName = :lastName where id = :id")
+    @GetGeneratedKeys
+    int updateLastName(@Bind("id") int id, @Bind("lastName") String lastName);
 }

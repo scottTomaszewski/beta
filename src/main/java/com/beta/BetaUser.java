@@ -1,12 +1,12 @@
 package com.beta;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.Strings;
 import org.skife.jdbi.v2.StatementContext;
 import org.skife.jdbi.v2.tweak.ResultSetMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Optional;
 
 public class BetaUser {
     @JsonProperty
@@ -36,9 +36,7 @@ public class BetaUser {
 
     public static final class BaseInfo {
         public static BaseInfo map(int idx, ResultSet r, StatementContext c) throws SQLException {
-            return new BaseInfo(
-                    r.getString("email"),
-                    r.getString("passwordHash"));
+            return new BaseInfo(r.getString("email"), r.getString("passwordHash"));
         }
 
         @JsonProperty
@@ -66,10 +64,9 @@ public class BetaUser {
         public boolean validatePassword(String hashed) {
             return hashed.equals(this.passwordHash);
         }
-
     }
 
-    private static final class OptionalInfo {
+    public static final class OptionalInfo {
         private static OptionalInfo map(int idx, ResultSet r, StatementContext c) throws SQLException {
             return new OptionalInfo()
                     .setFirstName(r.getString("firstName"))
@@ -87,8 +84,8 @@ public class BetaUser {
         public OptionalInfo() {
         }
 
-        public Optional<String> getProfilePictureRelativePath() {
-            return Optional.ofNullable(profilePictureRelativePath);
+        public String getProfilePictureRelativePath() {
+            return Strings.nullToEmpty(profilePictureRelativePath);
         }
 
         public OptionalInfo setProfilePictureRelativePath(String path) {
@@ -96,8 +93,8 @@ public class BetaUser {
             return this;
         }
 
-        public Optional<String> getFirstName() {
-            return Optional.ofNullable(firstName);
+        public String getFirstName() {
+            return Strings.nullToEmpty(firstName);
         }
 
         public OptionalInfo setFirstName(String firstName) {
@@ -105,8 +102,8 @@ public class BetaUser {
             return this;
         }
 
-        public Optional<String> getLastName() {
-            return Optional.ofNullable(lastName);
+        public String getLastName() {
+            return Strings.nullToEmpty(lastName);
         }
 
         public OptionalInfo setLastName(String lastName) {

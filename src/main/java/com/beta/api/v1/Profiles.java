@@ -40,7 +40,7 @@ public class Profiles {
     @Timed
     @POST
     @Path("/add")
-        public BetaUser add(BetaUser.BaseInfo newGuy) {
+    public BetaUser add(BetaUser.BaseInfo newGuy) {
         return find(dao.insert(newGuy.email(), newGuy.passwordHash()));
     }
 
@@ -52,8 +52,17 @@ public class Profiles {
     }
 
     @Timed
-    @GET @Path("/")
+    @GET
+    @Path("/")
     public List<BetaUser> all(@PathParam("id") Integer id) {
         return dao.all();
+    }
+
+    @Timed
+    @POST
+    @Path("/{id}/update")
+    public void update(@PathParam("id") Integer id, BetaUser.OptionalInfo optionals) {
+        dao.updateFirstName(id, optionals.getFirstName());
+        dao.updateLastName(id, optionals.getLastName());
     }
 }
