@@ -41,7 +41,7 @@ public class Profiles {
                     new BetaUser.BaseInfo("rl@gmail.com", "c"),
                     new BetaUser.BaseInfo("ba@gmail.com", "d"),
             };
-            Arrays.stream(users).forEach(user -> this.add(user));
+            Arrays.stream(users).forEach(this::add);
         }
     }
 
