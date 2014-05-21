@@ -21,17 +21,17 @@ public class Profiles {
         try (Handle h = dbi.open()) {
             h.execute("create table beta_user (" +
                     "id int primary key auto_increment" +
-                    ", firstName varchar(100)" +
-                    ", lastName varchar(100)" +
                     ", email varchar(100)" +
                     ", passwordHash varchar(100)" +
-                    ", profilePictureRelativeUrl varchar(100)" +
+                    ", firstName varchar(100)" +
+                    ", lastName varchar(100)" +
+                    ", profilePictureRelativePath varchar(100)" +
                     ")");
             BetaUser.BaseInfo[] users = {
-                    new BetaUser.BaseInfo("Harris", "Phau", "hp@gmail.com", "a"),
-                    new BetaUser.BaseInfo("Scott", "Tomaszewski", "st@gmail.com", "b"),
-                    new BetaUser.BaseInfo("Ryan", "Longchamps", "rl@gmail.com", "c"),
-                    new BetaUser.BaseInfo("Bryan", "Absher", "ba@gmail.com", "d"),
+                    new BetaUser.BaseInfo("hp@gmail.com", "a"),
+                    new BetaUser.BaseInfo("st@gmail.com", "b"),
+                    new BetaUser.BaseInfo("rl@gmail.com", "c"),
+                    new BetaUser.BaseInfo("ba@gmail.com", "d"),
             };
             Arrays.stream(users).forEach(user -> this.add(user));
         }
@@ -41,10 +41,7 @@ public class Profiles {
     @POST
     @Path("/add")
         public BetaUser add(BetaUser.BaseInfo newGuy) {
-        return find(dao.insert(newGuy.firstName(),
-                newGuy.lastName(),
-                newGuy.email(),
-                newGuy.passwordHash()));
+        return find(dao.insert(newGuy.email(), newGuy.passwordHash()));
     }
 
     @Timed

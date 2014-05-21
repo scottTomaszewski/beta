@@ -12,13 +12,11 @@ import java.util.List;
 @RegisterMapper(BetaUser.Mapper.class)
 interface ProfilesDAO {
     @SqlUpdate("insert into beta_user " +
-            "(firstName, lastName, email, passwordHash) " +
+            "(email, passwordHash) " +
             "values " +
-            "(:firstName, :lastName, :email, :passwordHash)")
+            "(:email, :passwordHash)")
     @GetGeneratedKeys
-    int insert(@Bind("firstName") String firstName,
-               @Bind("lastName") String lastName,
-               @Bind("email") String email,
+    int insert(@Bind("email") String email,
                @Bind("passwordHash") String passwordHash);
 
     @SqlQuery("select * from beta_user where id = :id")

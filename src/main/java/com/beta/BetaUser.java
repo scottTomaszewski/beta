@@ -36,19 +36,13 @@ public class BetaUser {
 
     public static final class BaseInfo {
         public static BaseInfo map(int idx, ResultSet r, StatementContext c) throws SQLException {
-            return new BaseInfo(r.getString("firstName"),
-                    r.getString("lastName"),
+            return new BaseInfo(
                     r.getString("email"),
                     r.getString("passwordHash"));
         }
 
         @JsonProperty
-        private String firstName;
-        @JsonProperty
-        private String lastName;
-        @JsonProperty
         private String email;
-
         @JsonProperty
         private String passwordHash;
 
@@ -56,19 +50,9 @@ public class BetaUser {
         public BaseInfo() {
         }
 
-        public BaseInfo(String firstName, String lastName, String email, String passwordHash) {
-            this.firstName = firstName;
-            this.lastName = lastName;
+        public BaseInfo(String email, String passwordHash) {
             this.email = email;
             this.passwordHash = passwordHash;
-        }
-
-        public String firstName() {
-            return firstName;
-        }
-
-        public String lastName() {
-            return lastName;
         }
 
         public String email() {
@@ -82,24 +66,52 @@ public class BetaUser {
         public boolean validatePassword(String hashed) {
             return hashed.equals(this.passwordHash);
         }
+
     }
 
     private static final class OptionalInfo {
         private static OptionalInfo map(int idx, ResultSet r, StatementContext c) throws SQLException {
-            return new OptionalInfo();
+            return new OptionalInfo()
+                    .setFirstName(r.getString("firstName"))
+                    .setLastName(r.getString("lastName"))
+                    .setProfilePictureRelativePath(r.getString("profilePictureRelativePath"));
         }
 
         @JsonProperty
+        private String firstName;
+        @JsonProperty
+        private String lastName;
+        @JsonProperty
         private String profilePictureRelativePath;
 
-        public OptionalInfo() {}
+        public OptionalInfo() {
+        }
 
         public Optional<String> getProfilePictureRelativePath() {
             return Optional.ofNullable(profilePictureRelativePath);
         }
 
-        public void setProfilePictureRelativePath(String path) {
+        public OptionalInfo setProfilePictureRelativePath(String path) {
             this.profilePictureRelativePath = path;
+            return this;
+        }
+
+        public Optional<String> getFirstName() {
+            return Optional.ofNullable(firstName);
+        }
+
+        public OptionalInfo setFirstName(String firstName) {
+            this.firstName = firstName;
+            return this;
+        }
+
+        public Optional<String> getLastName() {
+            return Optional.ofNullable(lastName);
+        }
+
+        public OptionalInfo setLastName(String lastName) {
+            this.lastName = lastName;
+            return this;
         }
     }
 
