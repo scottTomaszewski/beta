@@ -63,6 +63,6 @@ public class Profiles {
     @Path("/{id}/update")
     public void update(@PathParam("id") Integer id, BetaUser.OptionalInfo optionals) {
         if (!optionals.getFirstName().isEmpty()) dao.updateFirstName(id, optionals.getFirstName());
-        if (!optionals.getFirstName().isEmpty()) dao.updateLastName(id, optionals.getLastName());
+        if (!optionals.getLastName().isEmpty()) dao.updateLastName(id, optionals.getLastName());
     }
 }
