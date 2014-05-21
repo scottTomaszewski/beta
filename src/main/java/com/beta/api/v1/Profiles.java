@@ -82,7 +82,9 @@ public class Profiles {
                              @FormDataParam("file") final InputStream picture) throws IOException {
         File file = new File(profilePicturesAbsolutePath + File.separator
                 + id + File.separator + UUID.randomUUID());
-        new File(file.getParent()).mkdirs();
+        if (!new File(file.getParent()).mkdirs()) {
+            throw new IOException("Can't save picture because root directory can't be created");
+        }
         Files.asByteSink(file).writeFrom(picture);
         dao.updateProfilePictureLocation(id, file.getPath());
         return file.getPath();
