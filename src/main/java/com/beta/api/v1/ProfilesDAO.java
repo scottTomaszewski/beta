@@ -11,13 +11,9 @@ import java.util.List;
 
 @RegisterMapper(BetaUser.Mapper.class)
 interface ProfilesDAO {
-    @SqlUpdate("insert into beta_user " +
-            "(email, passwordHash) " +
-            "values " +
-            "(:email, :passwordHash)")
     @GetGeneratedKeys
-    int insert(@Bind("email") String email,
-               @Bind("passwordHash") String passwordHash);
+    @SqlUpdate("insert into beta_user (email, passwordHash) values (:email, :passwordHash)")
+    int insert(@Bind("email") String email, @Bind("passwordHash") String passwordHash);
 
     @SqlQuery("select * from beta_user where id = :id")
     BetaUser findById(@Bind("id") int id);
@@ -26,14 +22,11 @@ interface ProfilesDAO {
     List<BetaUser> all();
 
     @SqlUpdate("update beta_user set firstName = :firstName where id = :id")
-    @GetGeneratedKeys
     int updateFirstName(@Bind("id") int id, @Bind("firstName") String firstName);
 
     @SqlUpdate("update beta_user set lastName = :lastName where id = :id")
-    @GetGeneratedKeys
     int updateLastName(@Bind("id") int id, @Bind("lastName") String lastName);
 
     @SqlUpdate("update beta_user set profilePictureAbsolutePath = :path where id = :id")
-    @GetGeneratedKeys
     int updateProfilePictureLocation(@Bind("id") int id, @Bind("path") String path);
 }
