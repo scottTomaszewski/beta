@@ -1,7 +1,7 @@
 package com.beta;
 
 public interface Grade {
-    default Grade from(String toParse) {
+    static Grade from(String toParse) {
         if (BoulderingGrade.contains(toParse)) {
             return BoulderingGrade.valueOf(toParse);
         } else if (RopeGrade.contains(toParse)) {
