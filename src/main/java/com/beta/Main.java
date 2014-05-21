@@ -20,7 +20,8 @@ public class Main extends Application<Main.BetaConfig> {
 
     @Override
     public void initialize(Bootstrap<BetaConfig> bootstrap) {
-        bootstrap.addBundle(new AssetsBundle("/assets", "/"));
+        bootstrap.addBundle(new AssetsBundle("/app", "/", "index.html", "app"));
+        bootstrap.addBundle(new AssetsBundle("/bower_components", "/lib", "index.html", "js"));
     }
 
     @Override
