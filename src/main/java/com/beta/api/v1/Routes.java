@@ -33,7 +33,7 @@ public class Routes {
                     new Route.BaseInfo("Fighter", RopeGrade._5_12a),
                     new Route.BaseInfo("Boomerang", BoulderingGrade.V4),
             };
-            Arrays.stream(routes).forEach(route -> this.add(route));
+            Arrays.stream(routes).forEach(this::add);
         }
     }
 
