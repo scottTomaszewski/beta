@@ -16,7 +16,7 @@ public class BetaUser {
     @JsonProperty
     private final OptionalInfo optionals;
 
-    public BetaUser(int id, BaseInfo info, OptionalInfo optionals) {
+    private BetaUser(int id, BaseInfo info, OptionalInfo optionals) {
         this.id = id;
         this.info = info;
         this.optionals = optionals;
