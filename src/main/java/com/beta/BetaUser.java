@@ -7,7 +7,6 @@ import org.skife.jdbi.v2.tweak.ResultSetMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Optional;
 
 public class BetaUser {
     @JsonProperty
@@ -72,7 +71,7 @@ public class BetaUser {
             return new OptionalInfo()
                     .setFirstName(r.getString("firstName"))
                     .setLastName(r.getString("lastName"))
-                    .setProfilePictureRelativePath(r.getString("profilePictureRelativePath"));
+                    .setProfilePictureAbsolutePath(r.getString("profilePictureAbsolutePath"));
         }
 
         @JsonProperty
@@ -84,11 +83,11 @@ public class BetaUser {
 
         public OptionalInfo() {}
 
-        public String getProfilePictureRelativePath() {
+        public String getProfilePictureAbsolutePath() {
             return Strings.nullToEmpty(profilePictureRelativePath);
         }
 
-        public OptionalInfo setProfilePictureRelativePath(String path) {
+        public OptionalInfo setProfilePictureAbsolutePath(String path) {
             this.profilePictureRelativePath = path;
             return this;
         }

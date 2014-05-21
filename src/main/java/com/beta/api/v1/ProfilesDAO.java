@@ -32,4 +32,8 @@ interface ProfilesDAO {
     @SqlUpdate("update beta_user set lastName = :lastName where id = :id")
     @GetGeneratedKeys
     int updateLastName(@Bind("id") int id, @Bind("lastName") String lastName);
+
+    @SqlUpdate("update beta_user set profilePictureAbsolutePath = :path where id = :id")
+    @GetGeneratedKeys
+    int updateProfilePictureLocation(@Bind("id") int id, @Bind("path") String path);
 }

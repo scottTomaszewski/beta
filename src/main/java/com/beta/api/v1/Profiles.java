@@ -34,7 +34,7 @@ public class Profiles {
                     ", passwordHash varchar(100)" +
                     ", firstName varchar(100)" +
                     ", lastName varchar(100)" +
-                    ", profilePictureRelativePath varchar(100)" +
+                    ", profilePictureAbsolutePath varchar(1024)" +
                     ")");
             BetaUser.BaseInfo[] users = {
                     new BetaUser.BaseInfo("hp@gmail.com", "a"),
@@ -84,6 +84,7 @@ public class Profiles {
         File file = new File(UPLOAD_DIR + File.separator + id + File.separator + UUID.randomUUID());
         new File(file.getParent()).mkdirs();
         Files.asByteSink(file).writeFrom(picture);
+        dao.updateProfilePictureLocation(id, file.getPath());
         return file.getPath();
     }
 }
