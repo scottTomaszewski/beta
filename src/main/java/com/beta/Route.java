@@ -1,46 +1,66 @@
 package com.beta;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.joda.time.LocalDate;
+import org.skife.jdbi.v2.StatementContext;
+import org.skife.jdbi.v2.tweak.ResultSetMapper;
 
-import java.awt.Color;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class Route {
-    private final RouteId lookup;
-    private final String routeName;
-    private final LocalDate createdAt;
-    private final RouteSetter creator;
-    private final Color tape;
+    @JsonProperty
+    private final int id;
+    @JsonProperty
+    private final BaseInfo info;
+    @JsonProperty
+    private final OptionalInfo optionals;
 
-    public Route(RouteId lookup,
-                 String routeName,
-                 LocalDate createdAt,
-                 RouteSetter creator,
-                 Color tape) {
-        this.lookup = lookup;
-        this.routeName = routeName;
-        this.createdAt = createdAt;
-        this.creator = creator;
-        this.tape = tape;
+    public Route(int id, BaseInfo info, OptionalInfo optionals) {
+        this.id = id;
+        this.info = info;
+        this.optionals = optionals;
     }
 
-    @JsonProperty public RouteId getId() {
-        return lookup;
+    public static final class BaseInfo {
+        public static BaseInfo map(int idx, ResultSet r, StatementContext c) throws SQLException {
+            return new BaseInfo(r.getString("name"), Grade.from(r.getString("grade")));
+        }
+
+        @JsonProperty
+        private String name;
+        @JsonProperty
+        private Grade grade;
+
+        // needed for Jackson
+        public BaseInfo() {
+        }
+
+        public BaseInfo(String name, Grade grade) {
+            this.name = name;
+            this.grade = grade;
+        }
+
+        public String name() { return name; }
+        public Grade grade() { return grade; }
     }
 
-    @JsonProperty public String getRouteName() {
-        return routeName;
+    public static final class OptionalInfo {
+        public static OptionalInfo map(int idx, ResultSet r, StatementContext c) {
+            return new OptionalInfo();
+        }
+        @JsonProperty
+        private String setter;
     }
 
-    @JsonProperty public LocalDate getCreationDate() {
-        return createdAt;
-    }
+//    private final RouteId lookup;
+//    private final String routeName;
+//    private final LocalDate createdAt;
+//    private final RouteSetter creator;
+//    private final Color tape;
 
-    @JsonProperty public RouteSetter getCreator() {
-        return creator;
-    }
-
-    @JsonProperty public Color getTapeColor() {
-        return tape;
+    public static class Mapper implements ResultSetMapper<Route> {
+        public Route map(int idx, ResultSet r, StatementContext c) throws SQLException {
+            return new Route(r.getInt("id"), BaseInfo.map(idx, r, c), OptionalInfo.map(idx, r, c));
+        }
     }
 }

@@ -1,5 +1,8 @@
 package com.beta;
 
+
+import java.util.Optional;
+
 public enum BoulderingGrade implements Grade {
     VIntro("VIntro", 0),
     VIntro_PLUS("VIntro+", 0.5),
@@ -40,28 +43,28 @@ public enum BoulderingGrade implements Grade {
     V17("V17", 17),
     V17_PLUS("V17+", 17.5);
 
-    private final double rank;
     private final String value;
+    private final double rank;
 
     BoulderingGrade(String value, double rank) {
         this.value = value;
         this.rank = rank;
     }
 
-    public double getRank() {
-        return rank;
-    }
-
     public String getValue() {
         return value;
     }
 
-    public static boolean contains(String toLookup) {
-        for(BoulderingGrade val : values()) {
+    public double getRank() {
+        return rank;
+    }
+
+    public static Optional<BoulderingGrade> fromValue(String toLookup) {
+        for (BoulderingGrade val : values()) {
             if (val.value.equals(toLookup)) {
-                return true;
+                return Optional.of(val);
             }
         }
-        return false;
+        return Optional.empty();
     }
 }

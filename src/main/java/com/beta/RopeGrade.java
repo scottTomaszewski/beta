@@ -1,5 +1,7 @@
 package com.beta;
 
+import java.util.Optional;
+
 public enum RopeGrade implements Grade {
     _5_INTRO("5.Intro", 0),
     _5_INTRO_PLUS("5.Intro+", 0.5),
@@ -87,8 +89,8 @@ public enum RopeGrade implements Grade {
     _5_16d("5.16d", 37),
     _5_16d_PLUS("5.16d+", 37.5);
 
-    private final double rank;
     private final String value;
+    private final double rank;
 
     RopeGrade(String value, double rank) {
         this.value = value;
@@ -103,12 +105,12 @@ public enum RopeGrade implements Grade {
         return rank;
     }
 
-    public static boolean contains(String toLookup) {
-        for(RopeGrade val : values()) {
+    public static Optional<RopeGrade> fromValue(String toLookup) {
+        for (RopeGrade val : values()) {
             if (val.value.equals(toLookup)) {
-                return true;
+                return Optional.of(val);
             }
         }
-        return false;
+        return Optional.empty();
     }
 }
