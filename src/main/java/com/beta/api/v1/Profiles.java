@@ -19,14 +19,13 @@ import java.util.UUID;
 @Path("/v1/profiles")
 @Produces(MediaType.APPLICATION_JSON)
 public class Profiles {
-    //TODO - make configurable
-    private static final String UPLOAD_DIR = Files.createTempDir().getAbsolutePath() + "/profilePictures";
-
     private final ProfilesDAO dao;
+    private final String profilePicturesAbsolutePath;
 
-    public Profiles(DBI dbi) {
+    public Profiles(DBI dbi, String profilePicturesAbsolutePath) {
         this.dao = dbi.onDemand(ProfilesDAO.class);
-
+        this.profilePicturesAbsolutePath = profilePicturesAbsolutePath;
+        
         try (Handle h = dbi.open()) {
             h.execute("create table beta_user (" +
                     "id int primary key auto_increment" +
@@ -81,7 +80,7 @@ public class Profiles {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public String uploadFile(@PathParam("id") Integer id,
                              @FormDataParam("file") final InputStream picture) throws IOException {
-        File file = new File(UPLOAD_DIR + File.separator + id + File.separator + UUID.randomUUID());
+        File file = new File(profilePicturesAbsolutePath + File.separator + id + File.separator + UUID.randomUUID());
         new File(file.getParent()).mkdirs();
         Files.asByteSink(file).writeFrom(picture);
         dao.updateProfilePictureLocation(id, file.getPath());

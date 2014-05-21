@@ -11,6 +11,6 @@ public class ApiV1 implements Api {
     public void run(Main.BetaConfig cfg, Environment env) throws ClassNotFoundException {
         env.jersey().register(com.sun.jersey.multipart.impl.MultiPartReaderServerSide.class);
         final DBI dbi = new DBIFactory().build(env, cfg.getDataSourceFactory(), "db");
-        env.jersey().register(new Profiles(dbi));
+        env.jersey().register(new Profiles(dbi, cfg.getProfilePicturesAbsolutePath()));
     }
 }

@@ -9,6 +9,7 @@ import io.dropwizard.Configuration;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -36,8 +37,11 @@ public class Main extends Application<Main.BetaConfig> {
 
     // YAML Configuration
     public static class BetaConfig extends Configuration {
+        @JsonProperty private @NotEmpty String profilePicturesAbsolutePath;
         @Valid @NotNull @JsonProperty private DataSourceFactory database = new DataSourceFactory();
 
         public DataSourceFactory getDataSourceFactory() { return database; }
+
+        public String getProfilePicturesAbsolutePath() { return profilePicturesAbsolutePath; }
     }
 }
