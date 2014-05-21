@@ -15,7 +15,7 @@ public class Route {
     @JsonProperty
     private final OptionalInfo optionals;
 
-    public Route(int id, BaseInfo info, OptionalInfo optionals) {
+    private Route(int id, BaseInfo info, OptionalInfo optionals) {
         this.id = id;
         this.info = info;
         this.optionals = optionals;
