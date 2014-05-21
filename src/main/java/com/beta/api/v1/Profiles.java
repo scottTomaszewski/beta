@@ -62,7 +62,7 @@ public class Profiles {
     @POST
     @Path("/{id}/update")
     public void update(@PathParam("id") Integer id, BetaUser.OptionalInfo optionals) {
-        dao.updateFirstName(id, optionals.getFirstName());
-        dao.updateLastName(id, optionals.getLastName());
+        if (!optionals.getFirstName().isEmpty()) dao.updateFirstName(id, optionals.getFirstName());
+        if (!optionals.getFirstName().isEmpty()) dao.updateLastName(id, optionals.getLastName());
     }
 }
