@@ -36,7 +36,7 @@ public class Profiles {
                     ", profilePictureAbsolutePath varchar(1024)" +
                     ")");
             BetaUser.BaseInfo[] users = {
-                    new BetaUser.BaseInfo("hp@gmail.com", "a"),
+                    new BetaUser.BaseInfo("cs@gmail.com", "a"),
                     new BetaUser.BaseInfo("st@gmail.com", "b"),
                     new BetaUser.BaseInfo("rl@gmail.com", "c"),
                     new BetaUser.BaseInfo("ba@gmail.com", "d"),
