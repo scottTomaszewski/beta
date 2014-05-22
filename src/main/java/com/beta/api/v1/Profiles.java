@@ -1,6 +1,7 @@
 package com.beta.api.v1;
 
 import com.beta.BetaUser;
+import com.beta.BetaUserCreation;
 import com.codahale.metrics.annotation.Timed;
 import com.google.common.io.Files;
 import com.sun.jersey.multipart.FormDataParam;
@@ -37,11 +38,11 @@ public class Profiles {
                     ", lastName varchar(100)" +
                     ", profilePictureAbsolutePath varchar(1024)" +
                     ")");
-            BetaUser.OnlyForDeserialization[] users = {
-                    new BetaUser.OnlyForDeserialization("cs@gmail.com", "a".toCharArray()),
-                    new BetaUser.OnlyForDeserialization("st@gmail.com", "b".toCharArray()),
-                    new BetaUser.OnlyForDeserialization("rl@gmail.com", "c".toCharArray()),
-                    new BetaUser.OnlyForDeserialization("ba@gmail.com", "d".toCharArray()),
+            BetaUserCreation[] users = {
+                    new BetaUserCreation("cs@gmail.com", "a".toCharArray()),
+                    new BetaUserCreation("st@gmail.com", "b".toCharArray()),
+                    new BetaUserCreation("rl@gmail.com", "c".toCharArray()),
+                    new BetaUserCreation("ba@gmail.com", "d".toCharArray()),
             };
             Arrays.stream(users).forEach(this::add);
         }
@@ -50,7 +51,7 @@ public class Profiles {
     @Timed
     @POST
     @Path("/add")
-    public BetaUser add(BetaUser.OnlyForDeserialization user) {
+    public BetaUser add(BetaUserCreation user) {
         return find(dao.insert(user.email(), user.hashAndSaltPasswordThenClear(), user.salt()));
     }
 
