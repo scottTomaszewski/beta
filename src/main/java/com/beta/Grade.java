@@ -1,8 +1,11 @@
 package com.beta;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import java.util.Optional;
 
 public interface Grade {
+    @JsonCreator
     static Grade from(String toParse) {
         Optional<BoulderingGrade> maybe = BoulderingGrade.fromValue(toParse);
         if (maybe.isPresent()) {
