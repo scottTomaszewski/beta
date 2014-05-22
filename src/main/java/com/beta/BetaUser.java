@@ -35,13 +35,6 @@ public class BetaUser {
         this.optionals = optionals;
     }
 
-    public int id() { return id; }
-    public String email() { return email; }
-    public String hashedPassword() { return hashedPassword; }
-    public OptionalInfo optionals() {
-        return optionals;
-    }
-
     public static final class OptionalInfo {
         private static OptionalInfo map(int idx, ResultSet r, StatementContext c) throws SQLException {
             return new OptionalInfo()
