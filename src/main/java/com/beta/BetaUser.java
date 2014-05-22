@@ -50,7 +50,7 @@ public class BetaUser {
         @JsonProperty
         private String profilePictureAbsolutePath;
 
-        public OptionalInfo() {}
+        private OptionalInfo() {}
 
         public OptionalInfo setProfilePictureAbsolutePath(String path) {
             this.profilePictureAbsolutePath = path;
@@ -83,7 +83,7 @@ public class BetaUser {
         private char[] plainTextPassword;
 
         // needed for Jackson
-        public OnlyForDeserialization() {}
+        private OnlyForDeserialization() {}
 
         @VisibleForTesting
         public OnlyForDeserialization(String email, char[] plainTextPassword) {
