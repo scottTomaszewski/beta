@@ -1,7 +1,5 @@
 package com.beta;
 
-import com.google.common.annotations.VisibleForTesting;
-
 import java.util.Arrays;
 
 public enum BetaUserTable implements BetaTable {
