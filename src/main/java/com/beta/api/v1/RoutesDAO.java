@@ -21,13 +21,4 @@ public interface RoutesDAO {
 
     @SqlQuery("select * from " + RouteTable.TABLE_NAME)
     List<Route> all();
-
-//    @SqlUpdate("update routes set firstName = :firstName where id = :id")
-//    int updateFirstName(@Bind("id") int id, @Bind("firstName") String firstName);
-//
-//    @SqlUpdate("update beta_user set lastName = :lastName where id = :id")
-//    int updateLastName(@Bind("id") int id, @Bind("lastName") String lastName);
-//
-//    @SqlUpdate("update beta_user set profilePictureAbsolutePath = :path where id = :id")
-//    int updateProfilePictureLocation(@Bind("id") int id, @Bind("path") String path);
 }
