@@ -32,8 +32,7 @@ public class Route {
         private Grade grade;
 
         // needed for Jackson
-        public BaseInfo() {
-        }
+        private BaseInfo() {}
 
         public BaseInfo(String name, Grade grade) {
             this.name = name;
@@ -48,8 +47,11 @@ public class Route {
         public static OptionalInfo map() {
             return new OptionalInfo();
         }
+
         @JsonProperty
         private String setter;
+
+        private OptionalInfo() {}
     }
 
 //    private final RouteId lookup;
