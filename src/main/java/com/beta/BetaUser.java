@@ -10,6 +10,7 @@ import com.google.common.primitives.Chars;
 import org.skife.jdbi.v2.StatementContext;
 import org.skife.jdbi.v2.tweak.ResultSetMapper;
 
+import java.nio.CharBuffer;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -56,8 +57,7 @@ public class BetaUser {
         @JsonProperty
         private String profilePictureAbsolutePath;
 
-        public OptionalInfo() {
-        }
+        public OptionalInfo() {}
 
         public String getProfilePictureAbsolutePath() {
             return Strings.nullToEmpty(profilePictureAbsolutePath);
@@ -108,10 +108,9 @@ public class BetaUser {
         public char[] plainTextPassword() { return plainTextPassword; }
 
         public String hashPasswordAndClear() {
+            //TODO salt the hash
             Hasher h = Hashing.sha512().newHasher();
-            for(char c : plainTextPassword) {
-                h.putChar(c);
-            }
+            CharBuffer.wrap(plainTextPassword).chars().forEach(h::putInt);
             String hashed = h.hash().toString();
 
             // erase from memory
