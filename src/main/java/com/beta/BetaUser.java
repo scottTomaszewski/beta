@@ -9,16 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class BetaUser {
-    public static class Mapper implements ResultSetMapper<BetaUser> {
-        public BetaUser map(int idx, ResultSet r, StatementContext c) throws SQLException {
-            return new BetaUser(r.getInt("id"),
-                    r.getString("email"),
-                    r.getString("password"),
-                    r.getString("salt"),
-                    OptionalInfo.map(r));
-        }
-    }
-
     @JsonProperty
     private final int id;
     @JsonProperty
@@ -75,6 +65,16 @@ public class BetaUser {
         public OptionalInfo setLastName(String lastName) {
             this.lastName = lastName;
             return this;
+        }
+    }
+
+    public static class Mapper implements ResultSetMapper<BetaUser> {
+        public BetaUser map(int idx, ResultSet r, StatementContext c) throws SQLException {
+            return new BetaUser(r.getInt("id"),
+                    r.getString("email"),
+                    r.getString("password"),
+                    r.getString("salt"),
+                    OptionalInfo.map(r));
         }
     }
 }
