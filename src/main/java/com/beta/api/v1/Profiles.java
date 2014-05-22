@@ -27,10 +27,12 @@ public class Profiles {
         this.profilePicturesAbsolutePath = profilePicturesAbsolutePath;
 
         try (Handle h = dbi.open()) {
+            // TODO - make this an enum
             h.execute("create table beta_user (" +
                     "id int primary key auto_increment" +
                     ", email varchar(100)" +
-                    ", hashedPassword varchar(128)" +
+                    ", password varchar(128)" +
+                    ", salt varchar(128)" +
                     ", firstName varchar(100)" +
                     ", lastName varchar(100)" +
                     ", profilePictureAbsolutePath varchar(1024)" +
@@ -48,8 +50,8 @@ public class Profiles {
     @Timed
     @POST
     @Path("/add")
-    public BetaUser add(BetaUser.OnlyForDeserialization newGuy) {
-        return find(dao.insert(newGuy.email(), newGuy.hashPasswordAndClear()));
+    public BetaUser add(BetaUser.OnlyForDeserialization user) {
+        return find(dao.insert(user.email(), user.hashAndSaltPasswordThenClear(), user.salt()));
     }
 
     @Timed

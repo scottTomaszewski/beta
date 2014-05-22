@@ -3,20 +3,18 @@ package com.beta;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
-import com.google.common.hash.HashFunction;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
-import com.google.common.primitives.Chars;
 import org.skife.jdbi.v2.StatementContext;
 import org.skife.jdbi.v2.tweak.ResultSetMapper;
 
+import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
-import java.util.List;
-import java.util.stream.IntStream;
-import java.util.stream.StreamSupport;
 
 public class BetaUser {
     @JsonProperty
@@ -24,14 +22,16 @@ public class BetaUser {
     @JsonProperty
     private final String email;
     @JsonProperty
-    private final String hashedPassword;
+    private final String password;
     @JsonProperty
     private final OptionalInfo optionals;
+    private final String salt;
 
-    private BetaUser(int id, String email, String hashedPassword, OptionalInfo optionals) {
+    private BetaUser(int id, String email, String password, String salt, OptionalInfo optionals) {
         this.id = id;
         this.email = email;
-        this.hashedPassword = hashedPassword;
+        this.password = password;
+        this.salt = salt;
         this.optionals = optionals;
     }
 
@@ -81,29 +81,48 @@ public class BetaUser {
         private String email;
         @JsonProperty
         private char[] plainTextPassword;
+        private final CharBuffer salt;
 
         // needed for Jackson
-        private OnlyForDeserialization() {}
+        private OnlyForDeserialization() {
+            this.salt = getSalt();
+        }
 
         @VisibleForTesting
         public OnlyForDeserialization(String email, char[] plainTextPassword) {
             this.email = email;
             this.plainTextPassword = plainTextPassword;
+            this.salt = getSalt();
         }
 
         public String email() {
             return email;
         }
 
-        public String hashPasswordAndClear() {
-            //TODO salt the hash
+        public String salt() {
+            return salt.toString();
+        }
+
+        public String hashAndSaltPasswordThenClear() {
             Hasher h = Hashing.sha512().newHasher();
+            salt.chars().forEach(h::putInt);
             CharBuffer.wrap(plainTextPassword).chars().forEach(h::putInt);
             String hashed = h.hash().toString();
-
-            // erase from memory
             Arrays.fill(plainTextPassword, 'a');
             return hashed;
+        }
+
+        private CharBuffer getSalt() {
+            if (salt == null) {
+                try {
+                    byte[] saltBuff = new byte[128];
+                    SecureRandom.getInstanceStrong().nextBytes(saltBuff);
+                    return ByteBuffer.wrap(saltBuff).asCharBuffer();
+                } catch (NoSuchAlgorithmException e) {
+                    throw new IllegalStateException(e);
+                }
+            }
+            return salt;
         }
     }
 
@@ -111,7 +130,8 @@ public class BetaUser {
         public BetaUser map(int idx, ResultSet r, StatementContext c) throws SQLException {
             return new BetaUser(r.getInt("id"),
                     r.getString("email"),
-                    r.getString("hashedPassword"),
+                    r.getString("password"),
+                    r.getString("salt"),
                     OptionalInfo.map(r));
         }
     }

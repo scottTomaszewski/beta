@@ -12,8 +12,8 @@ import java.util.List;
 @RegisterMapper(BetaUser.Mapper.class)
 interface ProfilesDAO {
     @GetGeneratedKeys
-    @SqlUpdate("insert into beta_user (email, hashedPassword) values (:email, :hashedPassword)")
-    int insert(@Bind("email") String email, @Bind("hashedPassword") String hashedPassword);
+    @SqlUpdate("insert into beta_user (email, password, salt) values (:e, :p, :s)")
+    int insert(@Bind("e") String email, @Bind("p") String password, @Bind("s") String salt);
 
     @SqlQuery("select * from beta_user where id = :id")
     BetaUser findById(@Bind("id") int id);
