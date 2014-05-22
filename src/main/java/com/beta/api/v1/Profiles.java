@@ -30,16 +30,16 @@ public class Profiles {
             h.execute("create table beta_user (" +
                     "id int primary key auto_increment" +
                     ", email varchar(100)" +
-                    ", passwordHash varchar(100)" +
+                    ", hashedPassword varchar(128)" +
                     ", firstName varchar(100)" +
                     ", lastName varchar(100)" +
                     ", profilePictureAbsolutePath varchar(1024)" +
                     ")");
-            BetaUser.BaseInfo[] users = {
-                    new BetaUser.BaseInfo("cs@gmail.com", "a"),
-                    new BetaUser.BaseInfo("st@gmail.com", "b"),
-                    new BetaUser.BaseInfo("rl@gmail.com", "c"),
-                    new BetaUser.BaseInfo("ba@gmail.com", "d"),
+            BetaUser.OnlyForDeserialization[] users = {
+                    new BetaUser.OnlyForDeserialization("cs@gmail.com", "a".toCharArray()),
+                    new BetaUser.OnlyForDeserialization("st@gmail.com", "b".toCharArray()),
+                    new BetaUser.OnlyForDeserialization("rl@gmail.com", "c".toCharArray()),
+                    new BetaUser.OnlyForDeserialization("ba@gmail.com", "d".toCharArray()),
             };
             Arrays.stream(users).forEach(this::add);
         }
@@ -48,8 +48,8 @@ public class Profiles {
     @Timed
     @POST
     @Path("/add")
-    public BetaUser add(BetaUser.BaseInfo newGuy) {
-        return find(dao.insert(newGuy.email(), newGuy.passwordHash()));
+    public BetaUser add(BetaUser.OnlyForDeserialization newGuy) {
+        return find(dao.insert(newGuy.email(), newGuy.hashPasswordAndClear()));
     }
 
     @Timed
