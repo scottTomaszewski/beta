@@ -12,6 +12,6 @@ public class BetaUserTableTest {
     @Test
     public void creationDoesntHaveExtraCommaSeparator() {
         String creation = BetaUserTable.creation();
-        Assert.assertFalse(creation.substring(creation.length()-3).contains(", "));
+        Assert.assertEquals("))", creation.substring(creation.length()-2));
     }
 }

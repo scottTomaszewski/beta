@@ -36,7 +36,7 @@ public enum BetaUserTable {
         sb.append(" (");
         Arrays.stream(BetaUserTable.values()).forEach(column -> sb.append(column.create()));
         // remove last ", "
-        sb.delete(sb.length()-2, sb.length()-1);
+        sb.delete(sb.length()-2, sb.length());
         sb.append(")");
         return sb.toString();
     }
