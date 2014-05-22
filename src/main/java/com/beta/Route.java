@@ -22,7 +22,7 @@ public class Route {
     }
 
     public static final class BaseInfo {
-        public static BaseInfo map(int idx, ResultSet r, StatementContext c) throws SQLException {
+        public static BaseInfo map(ResultSet r) throws SQLException {
             return new BaseInfo(r.getString("name"), Grade.from(r.getString("grade")));
         }
 
@@ -45,7 +45,7 @@ public class Route {
     }
 
     public static final class OptionalInfo {
-        public static OptionalInfo map(int idx, ResultSet r, StatementContext c) {
+        public static OptionalInfo map() {
             return new OptionalInfo();
         }
         @JsonProperty
@@ -60,7 +60,7 @@ public class Route {
 
     public static class Mapper implements ResultSetMapper<Route> {
         public Route map(int idx, ResultSet r, StatementContext c) throws SQLException {
-            return new Route(r.getInt("id"), BaseInfo.map(idx, r, c), OptionalInfo.map(idx, r, c));
+            return new Route(r.getInt("id"), BaseInfo.map(r), OptionalInfo.map());
         }
     }
 }
