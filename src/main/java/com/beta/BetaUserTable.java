@@ -4,7 +4,7 @@ import com.google.common.annotations.VisibleForTesting;
 
 import java.util.Arrays;
 
-public enum BetaUserTable {
+public enum BetaUserTable implements BetaTable {
     ID("id", "int", "primary key auto_increment"),
     EMAIL("email", "varchar(100)"),
     PASSWORD("password", "varchar(128)"),
@@ -14,6 +14,10 @@ public enum BetaUserTable {
     PROFILE_PICTURE_ABSOLUTE_PATH("profilePictureAbsolutePath", "varchar(1024)");
 
     public static final String TABLE_NAME = "beta_user";
+
+    public static String creation() {
+        return BetaTable.creation(TABLE_NAME, Arrays.stream(BetaUserTable.values()));
+    }
 
     public final String columnName;
     private final String type;
@@ -29,20 +33,15 @@ public enum BetaUserTable {
         this.extras = extras;
     }
 
-    public static String creation() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("create table ");
-        sb.append(TABLE_NAME);
-        sb.append(" (");
-        Arrays.stream(BetaUserTable.values()).forEach(column -> sb.append(column.create()));
-        // remove last ", "
-        sb.delete(sb.length()-2, sb.length());
-        sb.append(")");
-        return sb.toString();
+    public String columnName() {
+        return columnName;
     }
 
-    @VisibleForTesting
-    String create() {
-        return String.format("%s %s%s, ", columnName, type, extras.isEmpty() ? "": " " + extras);
+    public String type() {
+        return type;
+    }
+
+    public String extras() {
+        return extras;
     }
 }

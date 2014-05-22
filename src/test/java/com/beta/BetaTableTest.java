@@ -3,7 +3,7 @@ package com.beta;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class BetaUserTableTest {
+public class BetaTableTest {
     @Test
     public void createFormatting() {
         Assert.assertEquals("email varchar(100), ", BetaUserTable.EMAIL.create());
