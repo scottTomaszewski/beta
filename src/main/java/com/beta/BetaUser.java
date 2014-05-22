@@ -15,6 +15,7 @@ public class BetaUser {
     private final String email;
     @JsonProperty
     private final OptionalInfo optionals;
+
     private final String password;
     private final String salt;
 
