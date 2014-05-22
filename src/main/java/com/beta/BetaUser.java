@@ -36,7 +36,7 @@ public class BetaUser {
     }
 
     public static final class OptionalInfo {
-        private static OptionalInfo map(int idx, ResultSet r, StatementContext c) throws SQLException {
+        private static OptionalInfo map(ResultSet r) throws SQLException {
             return new OptionalInfo()
                     .setFirstName(r.getString("firstName"))
                     .setLastName(r.getString("lastName"))
@@ -112,7 +112,7 @@ public class BetaUser {
             return new BetaUser(r.getInt("id"),
                     r.getString("email"),
                     r.getString("hashedPassword"),
-                    OptionalInfo.map(idx, r, c));
+                    OptionalInfo.map(r));
         }
     }
 }
