@@ -32,7 +32,8 @@ public class BetaUser {
             return new OptionalInfo()
                     .setFirstName(r.getString(BetaUserTable.FIRST_NAME.columnName))
                     .setLastName(r.getString(BetaUserTable.LAST_NAME.columnName))
-                    .setProfilePictureAbsolutePath(r.getString(BetaUserTable.PROFILE_PICTURE_ABSOLUTE_PATH.columnName));
+                    .setProfilePictureAbsolutePath(
+                            r.getString(BetaUserTable.PROFILE_PICTURE_ABSOLUTE_PATH.columnName));
         }
 
         @JsonProperty
