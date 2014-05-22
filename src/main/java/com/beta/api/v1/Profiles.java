@@ -2,6 +2,7 @@ package com.beta.api.v1;
 
 import com.beta.BetaUser;
 import com.beta.BetaUserCreation;
+import com.beta.BetaUserTable;
 import com.codahale.metrics.annotation.Timed;
 import com.google.common.io.Files;
 import com.sun.jersey.multipart.FormDataParam;
@@ -28,16 +29,7 @@ public class Profiles {
         this.profilePicturesAbsolutePath = profilePicturesAbsolutePath;
 
         try (Handle h = dbi.open()) {
-            // TODO - make this an enum
-            h.execute("create table beta_user (" +
-                    "id int primary key auto_increment" +
-                    ", email varchar(100)" +
-                    ", password varchar(128)" +
-                    ", salt varchar(128)" +
-                    ", firstName varchar(100)" +
-                    ", lastName varchar(100)" +
-                    ", profilePictureAbsolutePath varchar(1024)" +
-                    ")");
+            h.execute(BetaUserTable.creation());
             BetaUserCreation[] users = {
                     new BetaUserCreation("cs@gmail.com", "a".toCharArray()),
                     new BetaUserCreation("st@gmail.com", "b".toCharArray()),
