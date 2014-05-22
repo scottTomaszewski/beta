@@ -30,9 +30,9 @@ public class BetaUser {
     public static final class OptionalInfo {
         private static OptionalInfo map(ResultSet r) throws SQLException {
             return new OptionalInfo()
-                    .setFirstName(r.getString("firstName"))
-                    .setLastName(r.getString("lastName"))
-                    .setProfilePictureAbsolutePath(r.getString("profilePictureAbsolutePath"));
+                    .setFirstName(r.getString(BetaUserTable.FIRST_NAME.columnName))
+                    .setLastName(r.getString(BetaUserTable.LAST_NAME.columnName))
+                    .setProfilePictureAbsolutePath(r.getString(BetaUserTable.PROFILE_PICTURE_ABSOLUTE_PATH.columnName));
         }
 
         @JsonProperty
@@ -70,10 +70,10 @@ public class BetaUser {
 
     public static class Mapper implements ResultSetMapper<BetaUser> {
         public BetaUser map(int idx, ResultSet r, StatementContext c) throws SQLException {
-            return new BetaUser(r.getInt("id"),
-                    r.getString("email"),
-                    r.getString("password"),
-                    r.getString("salt"),
+            return new BetaUser(r.getInt(BetaUserTable.ID.columnName),
+                    r.getString(BetaUserTable.EMAIL.columnName),
+                    r.getString(BetaUserTable.PASSWORD.columnName),
+                    r.getString(BetaUserTable.SALT.columnName),
                     OptionalInfo.map(r));
         }
     }
