@@ -16,7 +16,7 @@ public enum BetaUserTable {
     public static final String TABLE_NAME = "beta_user";
 
     public final String columnName;
-    public final String type;
+    private final String type;
     private final String extras;
 
     BetaUserTable(String columnName, String type) {
