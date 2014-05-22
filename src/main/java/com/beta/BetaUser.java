@@ -52,10 +52,6 @@ public class BetaUser {
 
         public OptionalInfo() {}
 
-        public String getProfilePictureAbsolutePath() {
-            return Strings.nullToEmpty(profilePictureAbsolutePath);
-        }
-
         public OptionalInfo setProfilePictureAbsolutePath(String path) {
             this.profilePictureAbsolutePath = path;
             return this;
@@ -98,7 +94,6 @@ public class BetaUser {
         public String email() {
             return email;
         }
-        public char[] plainTextPassword() { return plainTextPassword; }
 
         public String hashPasswordAndClear() {
             //TODO salt the hash
