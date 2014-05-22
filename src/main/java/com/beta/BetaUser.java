@@ -14,9 +14,8 @@ public class BetaUser {
     @JsonProperty
     private final String email;
     @JsonProperty
-    private final String password;
-    @JsonProperty
     private final OptionalInfo optionals;
+    private final String password;
     private final String salt;
 
     private BetaUser(int id, String email, String password, String salt, OptionalInfo optionals) {
