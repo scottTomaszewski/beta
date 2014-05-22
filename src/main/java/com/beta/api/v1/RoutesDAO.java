@@ -1,6 +1,7 @@
 package com.beta.api.v1;
 
 import com.beta.Route;
+import com.beta.RouteTable;
 import org.skife.jdbi.v2.sqlobject.Bind;
 import org.skife.jdbi.v2.sqlobject.GetGeneratedKeys;
 import org.skife.jdbi.v2.sqlobject.SqlQuery;
@@ -12,13 +13,13 @@ import java.util.List;
 @RegisterMapper(Route.Mapper.class)
 public interface RoutesDAO {
     @GetGeneratedKeys
-    @SqlUpdate("insert into routes (name, grade) values (:name, :grade)")
+    @SqlUpdate("insert into " + RouteTable.TABLE_NAME + " (name, grade) values (:name, :grade)")
     int insert(@Bind("name") String name, @Bind("grade") String grade);
 
-    @SqlQuery("select * from routes where id = :id")
+    @SqlQuery("select * from " + RouteTable.TABLE_NAME + " where id = :id")
     Route findById(@Bind("id") int id);
 
-    @SqlQuery("select * from routes")
+    @SqlQuery("select * from " + RouteTable.TABLE_NAME)
     List<Route> all();
 
 //    @SqlUpdate("update routes set firstName = :firstName where id = :id")

@@ -3,6 +3,7 @@ package com.beta.api.v1;
 import com.beta.BoulderingGrade;
 import com.beta.RopeGrade;
 import com.beta.Route;
+import com.beta.RouteTable;
 import com.codahale.metrics.annotation.Timed;
 import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.Handle;
@@ -21,13 +22,7 @@ public class Routes {
         this.dao = dbi.onDemand(RoutesDAO.class);
 
         try (Handle h = dbi.open()) {
-            h.execute("create table routes (" +
-                    "id int primary key auto_increment" +
-                    ", name varchar(100)" +
-                    ", grade varchar(100)" +
-                    ", setterId int" +
-                    //", location varchar(100)" +
-                    ")");
+            h.execute(RouteTable.creation());
             Route.BaseInfo[] routes = {
                     new Route.BaseInfo("La Dura Dura", RopeGrade._5_15c),
                     new Route.BaseInfo("Fighter", RopeGrade._5_12a),
