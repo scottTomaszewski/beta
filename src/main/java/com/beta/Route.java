@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.skife.jdbi.v2.StatementContext;
 import org.skife.jdbi.v2.tweak.ResultSetMapper;
 
+import java.awt.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -50,6 +51,9 @@ public class Route {
 
         @JsonProperty
         private int setterId;
+
+        @JsonProperty
+        private Color tapeColor;
 
         private OptionalInfo() {}
     }

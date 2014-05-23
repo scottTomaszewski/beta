@@ -6,7 +6,8 @@ public enum RouteTable implements BetaTable {
     ID("id", "int", "primary key auto_increment"),
     NAME("name", "varchar(100)"),
     GRADE("grade", "varchar(100)"),
-    SETTER_ID("setterId", "int");
+    SETTER_ID("setterId", "int"),
+    TAPE_COLOR("tapeColor", "varchar(100)");
 
     public static final String TABLE_NAME = "route";
 
