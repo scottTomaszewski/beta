@@ -6,6 +6,8 @@ Requirements
 * npm
 * node
 
+To setup
+
     cd src/main/resources/app/
     npm install
 
