@@ -19,6 +19,4 @@ public interface Grade {
     }
 
     String getValue();
-
-    double getRank();
 }
