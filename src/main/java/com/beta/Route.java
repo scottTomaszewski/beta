@@ -49,15 +49,12 @@ public class Route {
         }
 
         @JsonProperty
-        private String setter;
+        private int setterId;
 
         private OptionalInfo() {}
     }
 
-//    private final RouteId lookup;
-//    private final String routeName;
 //    private final LocalDate createdAt;
-//    private final RouteSetter creator;
 //    private final Color tape;
 
     public static class Mapper implements ResultSetMapper<Route> {
