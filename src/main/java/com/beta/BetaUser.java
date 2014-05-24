@@ -1,6 +1,7 @@
 package com.beta;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import org.skife.jdbi.v2.StatementContext;
 import org.skife.jdbi.v2.tweak.ResultSetMapper;
@@ -30,28 +31,28 @@ public class BetaUser {
     public static final class OptionalInfo {
         private static OptionalInfo map(ResultSet r) throws SQLException {
             OptionalInfo data = new OptionalInfo();
-            data.firstName = r.getString(BetaUserTable.FIRST_NAME.columnName);
-            data.lastName = r.getString(BetaUserTable.LAST_NAME.columnName);
-            data.profilePictureAbsolutePath =
-                    r.getString(BetaUserTable.PROFILE_PICTURE_ABSOLUTE_PATH.columnName);
+            data.firstName = Optional.fromNullable(r.getString(BetaUserTable.FIRST_NAME.columnName));
+            data.lastName = Optional.fromNullable(r.getString(BetaUserTable.LAST_NAME.columnName));
+            data.profilePictureAbsolutePath = Optional.fromNullable(
+                    r.getString(BetaUserTable.PROFILE_PICTURE_ABSOLUTE_PATH.columnName));
             return data;
         }
 
         @JsonProperty
-        private String firstName;
+        private Optional<String> firstName = Optional.absent();
         @JsonProperty
-        private String lastName;
+        private Optional<String> lastName = Optional.absent();
         @JsonProperty
-        private String profilePictureAbsolutePath;
+        private Optional<String> profilePictureAbsolutePath = Optional.absent();
 
         private OptionalInfo() {
         }
 
-        public String getFirstName() {
-            return Strings.nullToEmpty(firstName);
+        public Optional<String> getFirstName() {
+            return firstName;
         }
 
-        public String getLastName() { return Strings.nullToEmpty(lastName); }
+        public Optional<String> getLastName() { return lastName; }
     }
 
     public static class Mapper implements ResultSetMapper<BetaUser> {
