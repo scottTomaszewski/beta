@@ -53,6 +53,8 @@ public class BetaUser {
         }
 
         public Optional<String> getLastName() { return lastName; }
+
+        public Optional<String> getProfilePictureAbsolutePath() { return profilePictureAbsolutePath; }
     }
 
     public static class Mapper implements ResultSetMapper<BetaUser> {

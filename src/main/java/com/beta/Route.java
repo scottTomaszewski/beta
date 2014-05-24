@@ -69,7 +69,6 @@ public class Route {
     }
 
 //    private final LocalDate createdAt;
-//    private final Color tape;
 
     public static class Mapper implements ResultSetMapper<Route> {
         public Route map(int idx, ResultSet r, StatementContext c) throws SQLException {
