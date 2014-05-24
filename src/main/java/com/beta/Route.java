@@ -33,18 +33,24 @@ public class Route {
         private Grade grade;
 
         // needed for Jackson
-        private BaseInfo() {}
+        private BaseInfo() {
+        }
 
         public BaseInfo(String name, Grade grade) {
             this.name = name;
             this.grade = grade;
         }
 
-        public String name() { return name; }
-        public Grade grade() { return grade; }
+        public String name() {
+            return name;
+        }
+
+        public Grade grade() {
+            return grade;
+        }
     }
 
-    public static final class OptionalInfo{
+    public static final class OptionalInfo {
         public static OptionalInfo map(ResultSet r) throws SQLException {
             OptionalInfo from = new OptionalInfo();
             from.setterId = Optional.fromNullable(r.getInt(RouteTable.SETTER_ID.columnName));
@@ -57,7 +63,8 @@ public class Route {
         @JsonProperty
         private Optional<Integer> tapeColor = Optional.absent();
 
-        private OptionalInfo() {}
+        private OptionalInfo() {
+        }
 
         public Optional<Integer> getSetterId() {
             return setterId;
