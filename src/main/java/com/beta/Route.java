@@ -47,8 +47,8 @@ public class Route {
     public static final class OptionalInfo{
         public static OptionalInfo map(ResultSet r) throws SQLException {
             OptionalInfo from = new OptionalInfo();
-            from.setterId = Optional.of(r.getInt(RouteTable.SETTER_ID.columnName));
-            from.tapeColor = Optional.of(r.getInt(RouteTable.TAPE_COLOR.columnName));
+            from.setterId = Optional.fromNullable(r.getInt(RouteTable.SETTER_ID.columnName));
+            from.tapeColor = Optional.fromNullable(r.getInt(RouteTable.TAPE_COLOR.columnName));
             return from;
         }
 
