@@ -1,6 +1,17 @@
 beta
 ====
 
+Requirements
+
+* npm
+* node
+
+To setup
+
+    cd src/main/resources/app/
+    npm install
+
+
 To Run:
 
     ./gradlew run
