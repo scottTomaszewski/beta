@@ -16,6 +16,7 @@ public class BetaUser {
     @JsonProperty
     private final OptionalInfo optionals;
 
+    // Not annotated since we dont want to send back to client
     private final String password;
     private final String salt;
 
