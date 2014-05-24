@@ -9,7 +9,7 @@ public enum BetaUserTable implements BetaTable {
     SALT("salt", "varchar(128)"),
     FIRST_NAME("firstName", "varchar(100)"),
     LAST_NAME("lastName", "varchar(100)"),
-    PROFILE_PICTURE_ABSOLUTE_PATH("profilePictureAbsolutePath", "varchar(1024)");
+    PICTURE_ABSOLUTE_PATH("pictureAbsolutePath", "varchar(1024)");
 
     public static final String TABLE_NAME = "beta_user";
 

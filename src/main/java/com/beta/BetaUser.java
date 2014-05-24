@@ -33,7 +33,7 @@ public class BetaUser {
             data.firstName = Optional.fromNullable(r.getString(BetaUserTable.FIRST_NAME.columnName));
             data.lastName = Optional.fromNullable(r.getString(BetaUserTable.LAST_NAME.columnName));
             data.pictureAbsolutePath = Optional.fromNullable(
-                    r.getString(BetaUserTable.PROFILE_PICTURE_ABSOLUTE_PATH.columnName));
+                    r.getString(BetaUserTable.PICTURE_ABSOLUTE_PATH.columnName));
             return data;
         }
 
