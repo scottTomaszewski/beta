@@ -1,6 +1,7 @@
 package com.beta;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Optional;
 import org.skife.jdbi.v2.StatementContext;
 import org.skife.jdbi.v2.tweak.ResultSetMapper;
@@ -20,7 +21,8 @@ public class BetaUser {
     private final String password;
     private final String salt;
 
-    private BetaUser(int id, String email, String password, String salt, OptionalInfo optionals) {
+    @VisibleForTesting
+    BetaUser(int id, String email, String password, String salt, OptionalInfo optionals) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -48,11 +50,22 @@ public class BetaUser {
         private OptionalInfo() {
         }
 
+        @VisibleForTesting
+        OptionalInfo(Optional<String> firstName,
+                            Optional<String> lastName,
+                            Optional<String> pictureAbsolutePath) {
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.pictureAbsolutePath = pictureAbsolutePath;
+        }
+
         public Optional<String> getFirstName() {
             return firstName;
         }
 
-        public Optional<String> getLastName() { return lastName; }
+        public Optional<String> getLastName() {
+            return lastName;
+        }
     }
 
     public static class Mapper implements ResultSetMapper<BetaUser> {

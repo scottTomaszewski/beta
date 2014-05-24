@@ -21,6 +21,7 @@ dependencies {
     compile 'io.dropwizard:dropwizard-jdbi:' + dropWizard
     compile 'io.dropwizard:dropwizard-client:' + dropWizard
     compile 'io.dropwizard:dropwizard-assets:' + dropWizard
+    compile 'io.dropwizard:dropwizard-testing:' + dropWizard
 
     compile 'com.sun.jersey.contribs:jersey-multipart:1.18.1'
 
