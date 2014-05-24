@@ -2,7 +2,6 @@ package com.beta;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Optional;
-import com.google.common.base.Strings;
 import org.skife.jdbi.v2.StatementContext;
 import org.skife.jdbi.v2.tweak.ResultSetMapper;
 
@@ -33,7 +32,7 @@ public class BetaUser {
             OptionalInfo data = new OptionalInfo();
             data.firstName = Optional.fromNullable(r.getString(BetaUserTable.FIRST_NAME.columnName));
             data.lastName = Optional.fromNullable(r.getString(BetaUserTable.LAST_NAME.columnName));
-            data.profilePictureAbsolutePath = Optional.fromNullable(
+            data.pictureAbsolutePath = Optional.fromNullable(
                     r.getString(BetaUserTable.PROFILE_PICTURE_ABSOLUTE_PATH.columnName));
             return data;
         }
@@ -43,7 +42,7 @@ public class BetaUser {
         @JsonProperty
         private Optional<String> lastName = Optional.absent();
         @JsonProperty
-        private Optional<String> profilePictureAbsolutePath = Optional.absent();
+        private Optional<String> pictureAbsolutePath = Optional.absent();
 
         private OptionalInfo() {
         }
@@ -54,7 +53,7 @@ public class BetaUser {
 
         public Optional<String> getLastName() { return lastName; }
 
-        public Optional<String> getProfilePictureAbsolutePath() { return profilePictureAbsolutePath; }
+        public Optional<String> getPictureAbsolutePath() { return pictureAbsolutePath; }
     }
 
     public static class Mapper implements ResultSetMapper<BetaUser> {

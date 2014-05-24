@@ -67,8 +67,8 @@ public class Profiles {
     public BetaUser update(@PathParam("id") Integer id, BetaUser.OptionalInfo data) {
         if (data.getFirstName().isPresent()) dao.updateFirstName(id, data.getFirstName().get());
         if (data.getLastName().isPresent()) dao.updateLastName(id, data.getLastName().get());
-        if (data.getProfilePictureAbsolutePath().isPresent())
-            dao.updateProfilePictureLocation(id, data.getProfilePictureAbsolutePath().get());
+        if (data.getPictureAbsolutePath().isPresent())
+            dao.updateProfilePictureLocation(id, data.getPictureAbsolutePath().get());
         return find(id);
     }
 
