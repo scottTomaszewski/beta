@@ -44,16 +44,19 @@ public class Route {
         public Grade grade() { return grade; }
     }
 
-    public static final class OptionalInfo {
-        public static OptionalInfo map() {
-            return new OptionalInfo();
+    public static final class OptionalInfo{
+        public static OptionalInfo map(ResultSet r) throws SQLException {
+            OptionalInfo from = new OptionalInfo();
+            from.setterId = r.getInt(RouteTable.SETTER_ID.columnName);
+            from.tapeColor = r.getInt(RouteTable.TAPE_COLOR.columnName);
+            return from;
         }
 
         @JsonProperty
         private int setterId;
 
         @JsonProperty
-        private Color tapeColor;
+        private int tapeColor;
 
         private OptionalInfo() {}
     }
@@ -63,7 +66,7 @@ public class Route {
 
     public static class Mapper implements ResultSetMapper<Route> {
         public Route map(int idx, ResultSet r, StatementContext c) throws SQLException {
-            return new Route(r.getInt("id"), BaseInfo.map(r), OptionalInfo.map());
+            return new Route(r.getInt("id"), BaseInfo.map(r), OptionalInfo.map(r));
         }
     }
 }
