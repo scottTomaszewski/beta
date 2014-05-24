@@ -29,11 +29,12 @@ public class BetaUser {
 
     public static final class OptionalInfo {
         private static OptionalInfo map(ResultSet r) throws SQLException {
-            return new OptionalInfo()
-                    .setFirstName(r.getString(BetaUserTable.FIRST_NAME.columnName))
-                    .setLastName(r.getString(BetaUserTable.LAST_NAME.columnName))
-                    .setProfilePictureAbsolutePath(
-                            r.getString(BetaUserTable.PROFILE_PICTURE_ABSOLUTE_PATH.columnName));
+            OptionalInfo data = new OptionalInfo();
+            data.firstName = r.getString(BetaUserTable.FIRST_NAME.columnName);
+            data.lastName = r.getString(BetaUserTable.LAST_NAME.columnName);
+            data.profilePictureAbsolutePath =
+                    r.getString(BetaUserTable.PROFILE_PICTURE_ABSOLUTE_PATH.columnName);
+            return data;
         }
 
         @JsonProperty
@@ -45,27 +46,12 @@ public class BetaUser {
 
         private OptionalInfo() {}
 
-        public OptionalInfo setProfilePictureAbsolutePath(String path) {
-            this.profilePictureAbsolutePath = path;
-            return this;
-        }
-
         public String getFirstName() {
             return Strings.nullToEmpty(firstName);
         }
 
-        public OptionalInfo setFirstName(String firstName) {
-            this.firstName = firstName;
-            return this;
-        }
-
         public String getLastName() {
             return Strings.nullToEmpty(lastName);
-        }
-
-        public OptionalInfo setLastName(String lastName) {
-            this.lastName = lastName;
-            return this;
         }
     }
 
