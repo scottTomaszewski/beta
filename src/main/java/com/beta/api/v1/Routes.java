@@ -1,9 +1,6 @@
 package com.beta.api.v1;
 
-import com.beta.BoulderingGrade;
-import com.beta.RopeGrade;
-import com.beta.Route;
-import com.beta.RouteTable;
+import com.beta.*;
 import com.codahale.metrics.annotation.Timed;
 import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.Handle;
@@ -53,11 +50,12 @@ public class Routes {
         return dao.all();
     }
 
-//    @Timed
-//    @POST
-//    @Path("/{id}/update")
-//    public void update(@PathParam("id") Integer id, Route.OptionalInfo optionals) {
-//        if (!optionals.getFirstName().isEmpty()) dao.updateFirstName(id, optionals.getFirstName());
-//        if (!optionals.getLastName().isEmpty()) dao.updateLastName(id, optionals.getLastName());
-//    }
+    @Timed
+    @POST
+    @Path("/{id}/update")
+    public Route update(@PathParam("id") Integer id, Route.OptionalInfo optionals) {
+        if (optionals.getSetterId().isPresent()) dao.updateSetterId(id, optionals.getSetterId().get());
+        if (optionals.getTapeColor().isPresent()) dao.updateTapeColor(id, optionals.getTapeColor().get());
+        return find(id);
+    }
 }

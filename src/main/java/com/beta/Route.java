@@ -1,10 +1,10 @@
 package com.beta;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.Optional;
 import org.skife.jdbi.v2.StatementContext;
 import org.skife.jdbi.v2.tweak.ResultSetMapper;
 
-import java.awt.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -47,18 +47,25 @@ public class Route {
     public static final class OptionalInfo{
         public static OptionalInfo map(ResultSet r) throws SQLException {
             OptionalInfo from = new OptionalInfo();
-            from.setterId = r.getInt(RouteTable.SETTER_ID.columnName);
-            from.tapeColor = r.getInt(RouteTable.TAPE_COLOR.columnName);
+            from.setterId = Optional.of(r.getInt(RouteTable.SETTER_ID.columnName));
+            from.tapeColor = Optional.of(r.getInt(RouteTable.TAPE_COLOR.columnName));
             return from;
         }
 
         @JsonProperty
-        private int setterId;
-
+        private Optional<Integer> setterId = Optional.absent();
         @JsonProperty
-        private int tapeColor;
+        private Optional<Integer> tapeColor = Optional.absent();
 
         private OptionalInfo() {}
+
+        public Optional<Integer> getSetterId() {
+            return setterId;
+        }
+
+        public Optional<Integer> getTapeColor() {
+            return tapeColor;
+        }
     }
 
 //    private final LocalDate createdAt;

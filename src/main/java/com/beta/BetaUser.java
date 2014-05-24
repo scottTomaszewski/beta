@@ -44,15 +44,14 @@ public class BetaUser {
         @JsonProperty
         private String profilePictureAbsolutePath;
 
-        private OptionalInfo() {}
+        private OptionalInfo() {
+        }
 
         public String getFirstName() {
             return Strings.nullToEmpty(firstName);
         }
 
-        public String getLastName() {
-            return Strings.nullToEmpty(lastName);
-        }
+        public String getLastName() { return Strings.nullToEmpty(lastName); }
     }
 
     public static class Mapper implements ResultSetMapper<BetaUser> {
