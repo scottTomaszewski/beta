@@ -68,7 +68,7 @@ public class Profiles {
         if (data.getFirstName().isPresent()) dao.updateFirstName(id, data.getFirstName().get());
         if (data.getLastName().isPresent()) dao.updateLastName(id, data.getLastName().get());
         if (data.getPictureAbsolutePath().isPresent())
-            dao.updateProfilePictureLocation(id, data.getPictureAbsolutePath().get());
+            dao.updatePictureLocation(id, data.getPictureAbsolutePath().get());
         return find(id);
     }
 
@@ -84,7 +84,7 @@ public class Profiles {
             throw new IOException("Can't save picture because root directory can't be created");
         }
         Files.asByteSink(file).writeFrom(picture);
-        dao.updateProfilePictureLocation(id, file.getPath());
+        dao.updatePictureLocation(id, file.getPath());
         return file.getPath();
     }
 }

@@ -30,6 +30,6 @@ interface ProfilesDAO {
     int updateLastName(@Bind("id") int id, @Bind("lastName") String lastName);
 
     @SqlUpdate("update " + BetaUserTable.TABLE_NAME
-            + " set profilePictureAbsolutePath = :path where id = :id")
-    int updateProfilePictureLocation(@Bind("id") int id, @Bind("path") String path);
+            + " set pictureAbsolutePath = :path where id = :id")
+    int updatePictureLocation(@Bind("id") int id, @Bind("path") String path);
 }
