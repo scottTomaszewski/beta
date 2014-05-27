@@ -1,6 +1,7 @@
 package com.beta;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Optional;
 import org.skife.jdbi.v2.StatementContext;
 import org.skife.jdbi.v2.tweak.ResultSetMapper;
@@ -16,7 +17,8 @@ public class Route {
     @JsonProperty
     private final OptionalInfo optionals;
 
-    private Route(int id, BaseInfo info, OptionalInfo optionals) {
+    @VisibleForTesting
+    Route(int id, BaseInfo info, OptionalInfo optionals) {
         this.id = id;
         this.info = info;
         this.optionals = optionals;
@@ -64,6 +66,12 @@ public class Route {
         private Optional<Integer> tapeColor = Optional.absent();
 
         private OptionalInfo() {
+        }
+
+        @VisibleForTesting
+        OptionalInfo(Optional<Integer> setterId, Optional<Integer> tapeColor) {
+            this.setterId = setterId;
+            this.tapeColor = tapeColor;
         }
 
         public Optional<Integer> getSetterId() {
