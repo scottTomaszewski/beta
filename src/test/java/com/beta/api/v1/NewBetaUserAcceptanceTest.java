@@ -30,7 +30,7 @@ public class NewBetaUserAcceptanceTest {
                 .accept(MediaType.APPLICATION_JSON_TYPE)
                 .type(MediaType.APPLICATION_JSON_TYPE)
                 .get(ClientResponse.class).getEntity(new GenericType<List<BetaUser>>(){}).size();
-        ClientResponse response = client.resource(
+        client.resource(
                 String.format("http://localhost:%d/api/v1/profiles/add", RULE.getLocalPort()))
                 .accept(MediaType.APPLICATION_JSON_TYPE)
                 .type(MediaType.APPLICATION_JSON_TYPE)
