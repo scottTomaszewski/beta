@@ -1,13 +1,10 @@
 package com.beta.api.v1;
 
-import com.beta.*;
+import com.beta.Route;
 import com.codahale.metrics.annotation.Timed;
-import org.skife.jdbi.v2.DBI;
-import org.skife.jdbi.v2.Handle;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.Arrays;
 import java.util.List;
 
 @Path("/v1/routes")
@@ -23,7 +20,7 @@ public class Routes {
     @POST
     @Path("/add")
     public Route add(Route.BaseInfo newRoute) {
-        return find(dao.insert(newRoute.name(), newRoute.grade().getValue()));
+        return find(dao.insert(newRoute.name, newRoute.grade.getValue()));
     }
 
     @Timed

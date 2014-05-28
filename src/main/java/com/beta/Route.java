@@ -1,5 +1,6 @@
 package com.beta;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Optional;
@@ -10,19 +11,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Route {
-    @JsonProperty
-    private int id;
-    @JsonProperty
-    private BaseInfo info;
-    @JsonProperty
-    private OptionalInfo optionals;
-
-    public Route() {
-        //Jackson
-    }
+    public final int id;
+    public final BaseInfo info;
+    public final OptionalInfo optionals;
 
     @VisibleForTesting
-    Route(int id, BaseInfo info, OptionalInfo optionals) {
+    @JsonCreator
+    public Route(@JsonProperty("id") int id, @JsonProperty("info") BaseInfo info, @JsonProperty("optionals") OptionalInfo optionals) {
         this.id = id;
         this.info = info;
         this.optionals = optionals;
@@ -33,26 +28,13 @@ public class Route {
             return new BaseInfo(r.getString("name"), Grade.from(r.getString("grade")));
         }
 
-        @JsonProperty
-        private String name;
-        @JsonProperty
-        private Grade grade;
+        public final String name;
+        public final Grade grade;
 
-        // needed for Jackson
-        private BaseInfo() {
-        }
-
-        public BaseInfo(String name, Grade grade) {
+        @JsonCreator
+        public BaseInfo(@JsonProperty("name") String name, @JsonProperty("grade") Grade grade) {
             this.name = name;
             this.grade = grade;
-        }
-
-        public String name() {
-            return name;
-        }
-
-        public Grade grade() {
-            return grade;
         }
     }
 
