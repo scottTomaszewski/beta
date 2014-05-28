@@ -3,7 +3,6 @@ package com.beta.api.v1;
 import com.beta.Main;
 import com.google.common.io.Resources;
 import io.dropwizard.testing.junit.DropwizardAppRule;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
