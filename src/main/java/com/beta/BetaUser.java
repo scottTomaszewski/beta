@@ -11,15 +11,19 @@ import java.sql.SQLException;
 
 public class BetaUser {
     @JsonProperty
-    private final int id;
+    private int id;
     @JsonProperty
-    private final String email;
+    private String email;
     @JsonProperty
-    private final OptionalInfo optionals;
+    private OptionalInfo optionals;
 
     // Not annotated since we dont want to send back to client
-    private final String password;
-    private final String salt;
+    private String password;
+    private String salt;
+
+    private BetaUser() {
+        // jackson
+    }
 
     @VisibleForTesting
     BetaUser(int id, String email, String password, String salt, OptionalInfo optionals) {
