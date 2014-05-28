@@ -67,4 +67,9 @@ public enum BoulderingGrade implements Grade {
         }
         return Optional.empty();
     }
+
+    @Override
+    public String toString() {
+        return value;
+    }
 }

@@ -11,11 +11,15 @@ import java.sql.SQLException;
 
 public class Route {
     @JsonProperty
-    private final int id;
+    private int id;
     @JsonProperty
-    private final BaseInfo info;
+    private BaseInfo info;
     @JsonProperty
-    private final OptionalInfo optionals;
+    private OptionalInfo optionals;
+
+    public Route() {
+        //Jackson
+    }
 
     @VisibleForTesting
     Route(int id, BaseInfo info, OptionalInfo optionals) {
@@ -80,6 +84,14 @@ public class Route {
 
         public Optional<Integer> getTapeColor() {
             return tapeColor;
+        }
+
+        private void setSetterId(int setterId) {
+            this.setterId = Optional.fromNullable(setterId);
+        }
+
+        private void setTapeColor(int tapeColor) {
+            this.tapeColor = Optional.fromNullable(tapeColor);
         }
     }
 

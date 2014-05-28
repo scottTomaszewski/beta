@@ -1,5 +1,7 @@
 package com.beta;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 import java.util.Optional;
 
 public enum RopeGrade implements Grade {
@@ -97,6 +99,7 @@ public enum RopeGrade implements Grade {
         this.rank = rank;
     }
 
+    @JsonValue
     public String getValue() {
         return value;
     }
@@ -112,5 +115,10 @@ public enum RopeGrade implements Grade {
             }
         }
         return Optional.empty();
+    }
+
+    @Override
+    public String toString() {
+        return value;
     }
 }
