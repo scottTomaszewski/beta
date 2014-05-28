@@ -15,8 +15,8 @@ import java.util.List;
 public class Routes {
     private final RoutesDAO dao;
 
-    public Routes(DBI dbi) {
-        this.dao = dbi.onDemand(RoutesDAO.class);
+    public Routes(RoutesDAO registered) {
+        this.dao = registered;
 
         try (Handle h = dbi.open()) {
             h.execute(RouteTable.creation());
