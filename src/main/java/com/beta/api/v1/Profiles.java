@@ -24,8 +24,8 @@ public class Profiles {
     private final ProfilesDAO dao;
     private final String profilePicturesAbsolutePath;
 
-    public Profiles(DBI dbi, String profilePicturesAbsolutePath) {
-        this.dao = dbi.onDemand(ProfilesDAO.class);
+    public Profiles(ProfilesDAO registered, String profilePicturesAbsolutePath) {
+        this.dao = registered;
         this.profilePicturesAbsolutePath = profilePicturesAbsolutePath;
 
         try (Handle h = dbi.open()) {

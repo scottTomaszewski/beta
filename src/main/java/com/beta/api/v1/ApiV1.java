@@ -12,7 +12,7 @@ public class ApiV1 implements Api {
         env.jersey().register(com.sun.jersey.multipart.impl.MultiPartReaderServerSide.class);
 
         final DBI dbi = new DBIFactory().build(env, cfg.getDataSourceFactory(), "db");
-        env.jersey().register(new Profiles(dbi, cfg.getProfilePicturesAbsolutePath()));
+        env.jersey().register(new Profiles(dbi.onDemand(ProfilesDAO.class), cfg.getProfilePicturesAbsolutePath()));
         env.jersey().register(new Routes(dbi));
     }
 }
