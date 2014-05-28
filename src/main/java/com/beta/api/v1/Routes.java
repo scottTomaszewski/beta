@@ -17,16 +17,6 @@ public class Routes {
 
     public Routes(RoutesDAO registered) {
         this.dao = registered;
-
-        try (Handle h = dbi.open()) {
-            h.execute(RouteTable.creation());
-            Route.BaseInfo[] routes = {
-                    new Route.BaseInfo("La Dura Dura", RopeGrade._5_15c),
-                    new Route.BaseInfo("Fighter", RopeGrade._5_12a),
-                    new Route.BaseInfo("Boomerang", BoulderingGrade.V4),
-            };
-            Arrays.stream(routes).forEach(this::add);
-        }
     }
 
     @Timed

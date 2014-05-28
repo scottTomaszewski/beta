@@ -27,17 +27,6 @@ public class Profiles {
     public Profiles(ProfilesDAO registered, String profilePicturesAbsolutePath) {
         this.dao = registered;
         this.profilePicturesAbsolutePath = profilePicturesAbsolutePath;
-
-        try (Handle h = dbi.open()) {
-            h.execute(BetaUserTable.creation());
-            BetaUserCreation[] users = {
-                    new BetaUserCreation("cs@gmail.com", "a".toCharArray()),
-                    new BetaUserCreation("st@gmail.com", "b".toCharArray()),
-                    new BetaUserCreation("rl@gmail.com", "c".toCharArray()),
-                    new BetaUserCreation("ba@gmail.com", "d".toCharArray()),
-            };
-            Arrays.stream(users).forEach(this::add);
-        }
     }
 
     @Timed
