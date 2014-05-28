@@ -73,7 +73,7 @@ public class Route {
         }
 
         @VisibleForTesting
-        OptionalInfo(Optional<Integer> setterId, Optional<Integer> tapeColor) {
+        public OptionalInfo(Optional<Integer> setterId, Optional<Integer> tapeColor) {
             this.setterId = setterId;
             this.tapeColor = tapeColor;
         }

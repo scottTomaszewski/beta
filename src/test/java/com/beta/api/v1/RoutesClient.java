@@ -33,4 +33,18 @@ class RoutesClient {
                 .type(MediaType.APPLICATION_JSON_TYPE)
                 .get(ClientResponse.class).getEntity(Route.class));
     }
+
+    Route add(Route.BaseInfo newRoute) {
+        return c.resource(url + "/api/v1/routes/add")
+                .accept(MediaType.APPLICATION_JSON_TYPE)
+                .type(MediaType.APPLICATION_JSON_TYPE)
+                .post(ClientResponse.class, newRoute).getEntity(Route.class);
+    }
+
+    Route update(int id, Route.OptionalInfo updates) {
+        return c.resource(url + "/api/v1/routes/" + id + "/update")
+                .accept(MediaType.APPLICATION_JSON_TYPE)
+                .type(MediaType.APPLICATION_JSON_TYPE)
+                .post(ClientResponse.class, updates).getEntity(Route.class);
+    }
 }

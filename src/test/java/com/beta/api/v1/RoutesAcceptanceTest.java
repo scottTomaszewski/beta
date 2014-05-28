@@ -1,6 +1,8 @@
 package com.beta.api.v1;
 
 import com.beta.Main;
+import com.beta.RopeGrade;
+import com.beta.Route;
 import com.google.common.io.Resources;
 import io.dropwizard.testing.junit.DropwizardAppRule;
 import org.junit.BeforeClass;
@@ -21,6 +23,6 @@ public class RoutesAcceptanceTest {
 
     @Test
     public void getAll() {
-        System.out.println(c.getAll());
+        System.out.println(c.add(new Route.BaseInfo("foo", RopeGrade._5_0)));
     }
 }
