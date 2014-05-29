@@ -1,6 +1,7 @@
 package com.beta;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonGetter;
 
 import java.util.Optional;
 

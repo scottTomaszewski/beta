@@ -23,8 +23,8 @@ public interface RoutesDAO {
     List<Route> all();
 
     @SqlUpdate("update " + RouteTable.TABLE_NAME + " set setterId = :setterId where id = :id")
-    int updateSetterId(@Bind("id") int id, @Bind("setterId") Integer setterId);
+    int updateSetterId(@Bind("id") int id, @Bind("setterId") String setterId);
 
     @SqlUpdate("update " + RouteTable.TABLE_NAME + " set tapeColor = :tapeColor where id = :id")
-    int updateTapeColor(@Bind("id") int id, @Bind("tapeColor") Integer tapeColor);
+    int updateTapeColor(@Bind("id") int id, @Bind("tapeColor") String tapeColor);
 }
