@@ -1,35 +1,15 @@
 /* app css stylesheet */
 
-.section{
-  height:100%
-}
-
 body {
-  padding-top: 20px;
-}
-
-ul.specs {
-  clear: both;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-ul.specs > li{
-  display: inline-block;
-  width: 200px;
-  vertical-align: top;
-}
-
-ul.specs > li > span{
-  font-weight: bold;
-  font-size: 1.2em;
-}
-
-ul.specs dt {
-  font-weight: bold;
+    color: white;
 }
 
 h1 {
-  border-bottom: 1px solid gray;
+    font-size: 72pt;
+    font-family: 'Freight Sans Bold', 'lucida grande', tahoma, verdana, arial, sans-serif;
+    text-shadow: 1px 2px #003333;
+}
+
+h2 {
+    text-shadow: 1px 2px #003333;
 }
