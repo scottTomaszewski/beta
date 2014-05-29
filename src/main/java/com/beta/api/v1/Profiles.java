@@ -1,47 +1,50 @@
 package com.beta.api.v1;
 
 import com.beta.BetaUser;
+import com.beta.BetaUserCreation;
+import com.beta.BetaUserTable;
 import com.codahale.metrics.annotation.Timed;
+import com.google.common.io.Files;
+import com.sun.jersey.multipart.FormDataParam;
 import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.Handle;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 @Path("/v1/profiles")
 @Produces(MediaType.APPLICATION_JSON)
 public class Profiles {
     private final ProfilesDAO dao;
+    private final String profilePicturesAbsolutePath;
 
-    public Profiles(DBI dbi) {
+    public Profiles(DBI dbi, String profilePicturesAbsolutePath) {
         this.dao = dbi.onDemand(ProfilesDAO.class);
+        this.profilePicturesAbsolutePath = profilePicturesAbsolutePath;
 
         try (Handle h = dbi.open()) {
-            h.execute("create table beta_user (" +
-                    "id int primary key auto_increment" +
-                    ", email varchar(100)" +
-                    ", passwordHash varchar(100)" +
-                    ", firstName varchar(100)" +
-                    ", lastName varchar(100)" +
-                    ", profilePictureRelativePath varchar(100)" +
-                    ")");
-            BetaUser.BaseInfo[] users = {
-                    new BetaUser.BaseInfo("hp@gmail.com", "a"),
-                    new BetaUser.BaseInfo("st@gmail.com", "b"),
-                    new BetaUser.BaseInfo("rl@gmail.com", "c"),
-                    new BetaUser.BaseInfo("ba@gmail.com", "d"),
+            h.execute(BetaUserTable.creation());
+            BetaUserCreation[] users = {
+                    new BetaUserCreation("cs@gmail.com", "a".toCharArray()),
+                    new BetaUserCreation("st@gmail.com", "b".toCharArray()),
+                    new BetaUserCreation("rl@gmail.com", "c".toCharArray()),
+                    new BetaUserCreation("ba@gmail.com", "d".toCharArray()),
             };
-            Arrays.stream(users).forEach(user -> this.add(user));
+            Arrays.stream(users).forEach(this::add);
         }
     }
 
     @Timed
     @POST
     @Path("/add")
-    public BetaUser add(BetaUser.BaseInfo newGuy) {
-        return find(dao.insert(newGuy.email(), newGuy.passwordHash()));
+    public BetaUser add(BetaUserCreation user) {
+        return find(dao.insert(user.email(), user.hashAndSaltPasswordThenClear(), user.salt()));
     }
 
     @Timed
@@ -61,8 +64,25 @@ public class Profiles {
     @Timed
     @POST
     @Path("/{id}/update")
-    public void update(@PathParam("id") Integer id, BetaUser.OptionalInfo optionals) {
-        if (!optionals.getFirstName().isEmpty()) dao.updateFirstName(id, optionals.getFirstName());
-        if (!optionals.getFirstName().isEmpty()) dao.updateLastName(id, optionals.getLastName());
+    public BetaUser update(@PathParam("id") Integer id, BetaUser.OptionalInfo data) {
+        if (data.getFirstName().isPresent()) dao.updateFirstName(id, data.getFirstName().get());
+        if (data.getLastName().isPresent()) dao.updateLastName(id, data.getLastName().get());
+        return find(id);
+    }
+
+    @POST
+    @Path("/{id}/updateProfilePicture")
+    @Produces(MediaType.TEXT_PLAIN)
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public String uploadFile(@PathParam("id") Integer id,
+                             @FormDataParam("file") final InputStream picture) throws IOException {
+        File file = new File(profilePicturesAbsolutePath + File.separator
+                + id + File.separator + UUID.randomUUID());
+        if (!new File(file.getParent()).mkdirs()) {
+            throw new IOException("Can't save picture because root directory can't be created");
+        }
+        Files.asByteSink(file).writeFrom(picture);
+        dao.updatePictureLocation(id, file.getPath());
+        return file.getPath();
     }
 }

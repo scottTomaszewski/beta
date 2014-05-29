@@ -1,120 +1,67 @@
 package com.beta;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.base.Strings;
+import com.google.common.base.Optional;
 import org.skife.jdbi.v2.StatementContext;
 import org.skife.jdbi.v2.tweak.ResultSetMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Optional;
 
 public class BetaUser {
     @JsonProperty
     private final int id;
     @JsonProperty
-    private final BaseInfo info;
+    private final String email;
     @JsonProperty
     private final OptionalInfo optionals;
 
-    public BetaUser(int id, BaseInfo info, OptionalInfo optionals) {
+    // Not annotated since we dont want to send back to client
+    private final String password;
+    private final String salt;
+
+    private BetaUser(int id, String email, String password, String salt, OptionalInfo optionals) {
         this.id = id;
-        this.info = info;
+        this.email = email;
+        this.password = password;
+        this.salt = salt;
         this.optionals = optionals;
     }
 
-    public int id() {
-        return id;
-    }
-
-    public BaseInfo info() {
-        return info;
-    }
-
-    public OptionalInfo optionals() {
-        return optionals;
-    }
-
-    public static final class BaseInfo {
-        public static BaseInfo map(int idx, ResultSet r, StatementContext c) throws SQLException {
-            return new BaseInfo(r.getString("email"), r.getString("passwordHash"));
-        }
-
-        @JsonProperty
-        private String email;
-        @JsonProperty
-        private String passwordHash;
-
-        // needed for Jackson
-        public BaseInfo() {
-        }
-
-        public BaseInfo(String email, String passwordHash) {
-            this.email = email;
-            this.passwordHash = passwordHash;
-        }
-
-        public String email() {
-            return email;
-        }
-
-        public String passwordHash() {
-            return passwordHash;
-        }
-
-        public boolean validatePassword(String hashed) {
-            return hashed.equals(this.passwordHash);
-        }
-    }
-
     public static final class OptionalInfo {
-        private static OptionalInfo map(int idx, ResultSet r, StatementContext c) throws SQLException {
-            return new OptionalInfo()
-                    .setFirstName(r.getString("firstName"))
-                    .setLastName(r.getString("lastName"))
-                    .setProfilePictureRelativePath(r.getString("profilePictureRelativePath"));
+        private static OptionalInfo map(ResultSet r) throws SQLException {
+            OptionalInfo data = new OptionalInfo();
+            data.firstName = Optional.fromNullable(r.getString(BetaUserTable.FIRST_NAME.columnName));
+            data.lastName = Optional.fromNullable(r.getString(BetaUserTable.LAST_NAME.columnName));
+            data.pictureAbsolutePath = Optional.fromNullable(
+                    r.getString(BetaUserTable.PICTURE_ABSOLUTE_PATH.columnName));
+            return data;
         }
 
         @JsonProperty
-        private String firstName;
+        private Optional<String> firstName = Optional.absent();
         @JsonProperty
-        private String lastName;
+        private Optional<String> lastName = Optional.absent();
         @JsonProperty
-        private String profilePictureRelativePath;
+        private Optional<String> pictureAbsolutePath = Optional.absent();
 
-        public OptionalInfo() {}
-
-        public String getProfilePictureRelativePath() {
-            return Strings.nullToEmpty(profilePictureRelativePath);
+        private OptionalInfo() {
         }
 
-        public OptionalInfo setProfilePictureRelativePath(String path) {
-            this.profilePictureRelativePath = path;
-            return this;
+        public Optional<String> getFirstName() {
+            return firstName;
         }
 
-        public String getFirstName() {
-            return Strings.nullToEmpty(firstName);
-        }
-
-        public OptionalInfo setFirstName(String firstName) {
-            this.firstName = firstName;
-            return this;
-        }
-
-        public String getLastName() {
-            return Strings.nullToEmpty(lastName);
-        }
-
-        public OptionalInfo setLastName(String lastName) {
-            this.lastName = lastName;
-            return this;
-        }
+        public Optional<String> getLastName() { return lastName; }
     }
 
     public static class Mapper implements ResultSetMapper<BetaUser> {
         public BetaUser map(int idx, ResultSet r, StatementContext c) throws SQLException {
-            return new BetaUser(r.getInt("id"), BaseInfo.map(idx, r, c), OptionalInfo.map(idx, r, c));
+            return new BetaUser(r.getInt(BetaUserTable.ID.columnName),
+                    r.getString(BetaUserTable.EMAIL.columnName),
+                    r.getString(BetaUserTable.PASSWORD.columnName),
+                    r.getString(BetaUserTable.SALT.columnName),
+                    OptionalInfo.map(r));
         }
     }
 }

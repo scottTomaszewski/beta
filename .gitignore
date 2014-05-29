@@ -1,5 +1,6 @@
 .gradle
 build/
 .idea/
+beta.iml
 node_modules
 bower_components

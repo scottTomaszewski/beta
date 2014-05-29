@@ -2,12 +2,91 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Google Phone Gallery</title>
+    <title>Beta - Climbing Routes Bolders Rocks</title>
     <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="lib/fullpage.js/jquery.fullPage.css" />
     <link rel="stylesheet" href="css/app.css">
     <link rel="stylesheet" href="css/animations.css">
 
-    <script src="lib/jquery/jquery.js"></script>
+    <style type="text/css">
+
+        .primary-1 { background-color: #999933 }
+        .primary-2 { background-color: #666633 }
+        .primary-3 { background-color: #666633 }
+        .primary-4 { background-color: #999966 }
+        .primary-5 { background-color: #999966 }
+
+        .secondary-a-1 { background-color: #333366 }
+        .secondary-a-2 { background-color: #333366 }
+        .secondary-a-3 { background-color: #333333 }
+        .secondary-a-4 { background-color: #336699 }
+        .secondary-a-5 { background-color: #666699 }
+
+        .secondary-b-1 { background-color: #996633 }
+        .secondary-b-2 { background-color: #666633 }
+        .secondary-b-3 { background-color: #666633 }
+        .secondary-b-4 { background-color: #999966 }
+        .secondary-b-5 { background-color: #999966 }
+
+        body {
+        margin:0; padding: 2em;
+        background:white;
+        color: #666;
+        font: 75%/1.33 Verdana, sans-serif;
+        text-align:left;
+        }
+        h1 {
+        margin: 0.5em 0;
+        font-size: 200%;
+        }
+        p {
+        margin: 0.5em 0;
+        }
+
+        .color-table {
+        margin: 2em 2em 5em;
+        border-collapse:collapse;
+        border:none;
+        border-spacing:0;
+        font-size:100%;
+        }
+        .color-table th {
+        padding: 0 1em 0 0;
+        text-align:right;
+        vertical-align: middle;
+        font-size:110%;
+        border: none;
+        }
+        .color-table td.sample {
+        width:10em; height:8em;
+        padding: 10px;
+        text-align:center;
+        vertical-align:middle;
+        font-size:90%;
+        border: 1px solid white;
+        white-space:nowrap;
+        }
+        .color-table.small td.sample {
+        width:4em; height:4em;
+        padding:0;
+        border:none;
+        }
+        .color-table .white { margin-bottom:0.2em; color:white }
+        .color-table .black { margin-top:0.2em; color:black }
+
+        hr {
+        border:none;
+        border-bottom:1px solid silver;
+        }
+        #footer {
+        padding:1em;
+        text-align:center;
+        font-size:80%;
+        }
+
+    </style>
+
+    <script src="lib/jQuery/dist/jquery.js"></script>
     <script src="lib/angular/angular.js"></script>
     <script src="lib/angular-animate/angular-animate.js"></script>
     <script src="lib/angular-route/angular-route.js"></script>
@@ -16,20 +95,70 @@
     <script src="js/controllers.js"></script>
     <script src="js/filters.js"></script>
     <script src="js/services.js"></script>
+
+    <!-- This following line is needed in case of using the default easing option or when using another
+     one rather than "linear" or "swing". You can also add the full jQuery UI instead of this file if you prefer -->
+    <script src="lib/fullpage.js/vendors/jquery.easings.min.js"></script>
+
+
+    <!-- This following line needed in the case of setting the plugin option `scrollOverflow` to `true` -->
+    <script type="text/javascript" src="lib/fullpage.js/vendors/jquery.slimscroll.min.js"></script>
+
+    <script type="text/javascript" src="lib/fullpage.js/jquery.fullPage.js"></script>
 </head>
 <body>
-<div class="section">
-    <div data-scroll-reveal> Hello world! </div>
-</div>
-<div class="section">
-<div data-scroll-reveal="enter left and move 50px over 1.33s"> Foo </div>
-</div>
-<div data-scroll-reveal="enter from the bottom after 1s"> Bar </div>
-<div class="section">
-<div data-scroll-reveal="wait 2.5s and then ease-in-out 100px"> Baz </div>
+<h1>Beta</h1>
+<div id="full-page">
+    <div class="section primary-1">
+        <div data-scroll-reveal> Hello world! </div>
+    </div>
+    <div class="section primary-2">
+        <div data-scroll-reveal="enter left and move 50px over 1.33s"> Foo </div>
+    </div>
+    <div class="section primary-3">
+        <div data-scroll-reveal="enter from the bottom after 1s"> Bar </div>
+    </div>
+    <div class="section primary-4">
+        <div data-scroll-reveal="wait 2.5s and then ease-in-out 100px"> Baz </div>
+    </div>
 </div>
 <script src="js/app.js"></script>
 <script src='lib/scrollReveal.js/scrollReveal.js'></script>
-<script>window.scrollReveal = new scrollReveal();</script>
+<script>window.scrollReveal = new scrollReveal();
+$(document).ready(function() {
+    $('#fullpage').fullpage({
+        verticalCentered: true,
+        resize : true,
+        anchors:['hello', 'foo', 'bar', 'baz'],
+        scrollingSpeed: 700,
+        easing: 'easeInQuart',
+        menu: false,
+        navigation: false,
+        loopBottom: true,
+        loopTop: false,
+        loopHorizontal: true,
+        autoScrolling: true,
+        scrollOverflow: false,
+        css3: false,
+        paddingTop: '3em',
+        paddingBottom: '10px',
+        fixedElements: '#element1, .element2',
+        normalScrollElements: '#element1, .element2',
+        normalScrollElementTouchThreshold: 5,
+        keyboardScrolling: true,
+        touchSensitivity: 15,
+        continuousVertical: false,
+        animateAnchor: true,
+
+        //events
+        onLeave: function(index, nextIndex, direction){},
+        afterLoad: function(anchorLink, index){},
+        afterRender: function(){},
+        afterResize: function(){},
+        afterSlideLoad: function(anchorLink, index, slideAnchor, slideIndex){},
+        onSlideLeave: function(anchorLink, index, slideIndex, direction){}
+    });
+});
+</script>
 </body>
 </html>

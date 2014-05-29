@@ -9,7 +9,10 @@ import org.skife.jdbi.v2.DBI;
 public class ApiV1 implements Api {
     @Override
     public void run(Main.BetaConfig cfg, Environment env) throws ClassNotFoundException {
+        env.jersey().register(com.sun.jersey.multipart.impl.MultiPartReaderServerSide.class);
+
         final DBI dbi = new DBIFactory().build(env, cfg.getDataSourceFactory(), "db");
-        env.jersey().register(new Profiles(dbi));
+        env.jersey().register(new Profiles(dbi, cfg.getProfilePicturesAbsolutePath()));
+        env.jersey().register(new Routes(dbi));
     }
 }
