@@ -24,14 +24,14 @@ public class RoutesAcceptanceTest {
     }
 
     @Test
-    public void newUserIncrementsUserCount() {
+    public void newRouteIncrementsUserCount() {
         int beforeCount = c.getAll().size();
         c.add(new Route.BaseInfo("Foo Route", RopeGrade._5_10a));
         Assertions.assertThat(beforeCount + 1).isEqualTo(c.getAll().size());
     }
 
     @Test
-    public void newUserInfoMatches() {
+    public void newRouteInfoMatches() {
         String name = "Foo Route";
         Grade grade = RopeGrade._5_10a;
         Route added = c.add(new Route.BaseInfo(name, grade));
