@@ -17,7 +17,9 @@ public class Route {
 
     @VisibleForTesting
     @JsonCreator
-    public Route(@JsonProperty("id") int id, @JsonProperty("info") BaseInfo info, @JsonProperty("optionals") OptionalInfo optionals) {
+    public Route(@JsonProperty("id") int id,
+                 @JsonProperty("info") BaseInfo info,
+                 @JsonProperty("optionals") OptionalInfo optionals) {
         this.id = id;
         this.info = info;
         this.optionals = optionals;
@@ -40,40 +42,20 @@ public class Route {
 
     public static final class OptionalInfo {
         public static OptionalInfo map(ResultSet r) throws SQLException {
-            OptionalInfo from = new OptionalInfo();
-            from.setterId = Optional.fromNullable(r.getInt(RouteTable.SETTER_ID.columnName));
-            from.tapeColor = Optional.fromNullable(r.getInt(RouteTable.TAPE_COLOR.columnName));
-            return from;
+            return new OptionalInfo(
+                    Optional.fromNullable(r.getString(RouteTable.SETTER_ID.columnName)),
+                    Optional.fromNullable(r.getString(RouteTable.TAPE_COLOR.columnName)));
         }
 
-        @JsonProperty
-        private Optional<Integer> setterId = Optional.absent();
-        @JsonProperty
-        private Optional<Integer> tapeColor = Optional.absent();
-
-        private OptionalInfo() {
-        }
+        public final Optional<String> setterId;
+        public final Optional<String> tapeColor;
 
         @VisibleForTesting
-        public OptionalInfo(Optional<Integer> setterId, Optional<Integer> tapeColor) {
+        @JsonCreator
+        public OptionalInfo(@JsonProperty("setterId") Optional<String> setterId,
+                            @JsonProperty("tapeColor") Optional<String> tapeColor) {
             this.setterId = setterId;
             this.tapeColor = tapeColor;
-        }
-
-        public Optional<Integer> getSetterId() {
-            return setterId;
-        }
-
-        public Optional<Integer> getTapeColor() {
-            return tapeColor;
-        }
-
-        private void setSetterId(int setterId) {
-            this.setterId = Optional.fromNullable(setterId);
-        }
-
-        private void setTapeColor(int tapeColor) {
-            this.tapeColor = Optional.fromNullable(tapeColor);
         }
     }
 

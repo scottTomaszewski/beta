@@ -9,6 +9,8 @@ import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
 
+import java.util.List;
+
 public class RoutesAcceptanceTest {
     @ClassRule
     public static final DropwizardAppRule<Main.BetaConfig> RULE =
@@ -23,6 +25,10 @@ public class RoutesAcceptanceTest {
 
     @Test
     public void getAll() {
+        List<Route> all = c.getAll();
+        for(Route r : all) {
+            System.out.println(r);
+        }
         System.out.println(c.add(new Route.BaseInfo("foo", RopeGrade._5_0)));
     }
 }

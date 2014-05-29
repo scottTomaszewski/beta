@@ -41,8 +41,8 @@ public class Routes {
     @POST
     @Path("/{id}/update")
     public Route update(@PathParam("id") Integer id, Route.OptionalInfo optionals) {
-        if (optionals.getSetterId().isPresent()) dao.updateSetterId(id, optionals.getSetterId().get());
-        if (optionals.getTapeColor().isPresent()) dao.updateTapeColor(id, optionals.getTapeColor().get());
+        if (optionals.setterId.isPresent()) dao.updateSetterId(id, optionals.setterId.get());
+        if (optionals.tapeColor.isPresent()) dao.updateTapeColor(id, optionals.tapeColor.get());
         return find(id);
     }
 }
