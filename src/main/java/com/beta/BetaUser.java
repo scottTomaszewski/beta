@@ -1,5 +1,6 @@
 package com.beta;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Optional;
@@ -33,39 +34,24 @@ public class BetaUser {
 
     public static final class OptionalInfo {
         private static OptionalInfo map(ResultSet r) throws SQLException {
-            OptionalInfo data = new OptionalInfo();
-            data.firstName = Optional.fromNullable(r.getString(BetaUserTable.FIRST_NAME.columnName));
-            data.lastName = Optional.fromNullable(r.getString(BetaUserTable.LAST_NAME.columnName));
-            data.pictureAbsolutePath = Optional.fromNullable(
-                    r.getString(BetaUserTable.PICTURE_ABSOLUTE_PATH.columnName));
-            return data;
+            return new OptionalInfo(
+                    Optional.fromNullable(r.getString(BetaUserTable.FIRST_NAME.columnName)),
+                    Optional.fromNullable(r.getString(BetaUserTable.LAST_NAME.columnName)),
+                    Optional.fromNullable(r.getString(BetaUserTable.PICTURE_ABSOLUTE_PATH.columnName)));
         }
 
-        @JsonProperty
-        private Optional<String> firstName = Optional.absent();
-        @JsonProperty
-        private Optional<String> lastName = Optional.absent();
-        @JsonProperty
-        private Optional<String> pictureAbsolutePath = Optional.absent();
-
-        private OptionalInfo() {
-        }
+        public final Optional<String> firstName;
+        public final Optional<String> lastName;
+        public final Optional<String> pictureAbsolutePath;
 
         @VisibleForTesting
-        OptionalInfo(Optional<String> firstName,
-                            Optional<String> lastName,
-                            Optional<String> pictureAbsolutePath) {
+        @JsonCreator
+        OptionalInfo(@JsonProperty("firstName") Optional<String> firstName,
+                     @JsonProperty("lastName") Optional<String> lastName,
+                     @JsonProperty("pictureAbsolutePath") Optional<String> pictureAbsolutePath) {
             this.firstName = firstName;
             this.lastName = lastName;
             this.pictureAbsolutePath = pictureAbsolutePath;
-        }
-
-        public Optional<String> getFirstName() {
-            return firstName;
-        }
-
-        public Optional<String> getLastName() {
-            return lastName;
         }
     }
 

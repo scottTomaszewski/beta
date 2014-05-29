@@ -54,8 +54,8 @@ public class Profiles {
     @POST
     @Path("/{id}/update")
     public BetaUser update(@PathParam("id") Integer id, BetaUser.OptionalInfo data) {
-        if (data.getFirstName().isPresent()) dao.updateFirstName(id, data.getFirstName().get());
-        if (data.getLastName().isPresent()) dao.updateLastName(id, data.getLastName().get());
+        if (data.firstName.isPresent()) dao.updateFirstName(id, data.firstName.get());
+        if (data.lastName.isPresent()) dao.updateLastName(id, data.lastName.get());
         return find(id);
     }
 
