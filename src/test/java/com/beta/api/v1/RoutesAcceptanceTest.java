@@ -1,10 +1,12 @@
 package com.beta.api.v1;
 
+import com.beta.Grade;
 import com.beta.Main;
 import com.beta.RopeGrade;
 import com.beta.Route;
 import com.google.common.io.Resources;
 import io.dropwizard.testing.junit.DropwizardAppRule;
+import org.fest.assertions.api.Assertions;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
@@ -24,11 +26,18 @@ public class RoutesAcceptanceTest {
     }
 
     @Test
-    public void getAll() {
-        List<Route> all = c.getAll();
-        for(Route r : all) {
-            System.out.println(r);
-        }
-        System.out.println(c.add(new Route.BaseInfo("foo", RopeGrade._5_0)));
+    public void newUserIncrementsUserCount() {
+        int beforeCount = c.getAll().size();
+        c.add(new Route.BaseInfo("Foo Route", RopeGrade._5_10a));
+        Assertions.assertThat(beforeCount + 1).isEqualTo(c.getAll().size());
+    }
+
+    @Test
+    public void newUserInfoMatches() {
+        String name = "Foo Route";
+        Grade grade = RopeGrade._5_10a;
+        Route added = c.add(new Route.BaseInfo(name, grade));
+        Assertions.assertThat(name).isEqualTo(added.info.name);
+        Assertions.assertThat(grade).isEqualTo(added.info.grade);
     }
 }
