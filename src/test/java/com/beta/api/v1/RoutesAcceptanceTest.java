@@ -11,8 +11,6 @@ import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
 
-import java.util.List;
-
 public class RoutesAcceptanceTest {
     @ClassRule
     public static final DropwizardAppRule<Main.BetaConfig> RULE =
