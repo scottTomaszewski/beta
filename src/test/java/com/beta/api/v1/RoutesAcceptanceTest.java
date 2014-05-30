@@ -6,6 +6,8 @@ import com.beta.RopeGrade;
 import com.beta.Route;
 import com.google.common.base.Optional;
 import com.google.common.io.Resources;
+import com.sun.jersey.api.client.Client;
+import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.testing.junit.DropwizardAppRule;
 import org.fest.assertions.api.Assertions;
 import org.junit.BeforeClass;
@@ -21,7 +23,8 @@ public class RoutesAcceptanceTest {
 
     @BeforeClass
     public static void setup() {
-        c = new RoutesClient(String.format("http://localhost:%d", RULE.getLocalPort()));
+        Client jc = new JerseyClientBuilder(RULE.getEnvironment()).build("testClient");
+        c = new RoutesClient(String.format("http://localhost:%d", RULE.getLocalPort()), jc);
     }
 
     @Test
@@ -42,15 +45,15 @@ public class RoutesAcceptanceTest {
 
     @Test
     public void updateRouteSetterId() {
-        String setterId = "abc";
-        Route update = c.update(1, new Route.OptionalInfo(Optional.absent(), Optional.of(setterId)));
+        String setterId = "123";
+        Route update = c.update(1, new Route.OptionalInfo(Optional.of(setterId), Optional.absent()));
         Assertions.assertThat(setterId).isEqualTo(update.optionals.setterId.get());
     }
 
     @Test
     public void updateRouteTapeColor() {
-        String color = "ffffff";
-        Route update = c.update(1, new Route.OptionalInfo(Optional.of(color), Optional.absent()));
+        String color = "456";
+        Route update = c.update(1, new Route.OptionalInfo(Optional.absent(), Optional.of(color)));
         Assertions.assertThat(color).isEqualTo(update.optionals.tapeColor.get());
     }
 }
