@@ -56,4 +56,12 @@ public class RoutesAcceptanceTest {
         Route update = c.update(1, new Route.OptionalInfo(Optional.absent(), Optional.of(color)));
         Assertions.assertThat(color).isEqualTo(update.optionals.tapeColor.get());
     }
+
+    @Test
+    public void updateSingleOptionalRouteFieldDoesntWipeOthers() {
+        String setterId = "123";
+        c.update(1, new Route.OptionalInfo(Optional.of(setterId), Optional.absent()));
+        Route update = c.update(1, new Route.OptionalInfo(Optional.absent(), Optional.of("456")));
+        Assertions.assertThat(setterId).isEqualTo(update.optionals.setterId.get());
+    }
 }
