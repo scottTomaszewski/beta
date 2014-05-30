@@ -4,6 +4,7 @@ import com.beta.Grade;
 import com.beta.Main;
 import com.beta.RopeGrade;
 import com.beta.Route;
+import com.google.common.base.Optional;
 import com.google.common.io.Resources;
 import io.dropwizard.testing.junit.DropwizardAppRule;
 import org.fest.assertions.api.Assertions;
@@ -37,5 +38,19 @@ public class RoutesAcceptanceTest {
         Route added = c.add(new Route.BaseInfo(name, grade));
         Assertions.assertThat(name).isEqualTo(added.info.name);
         Assertions.assertThat(grade).isEqualTo(added.info.grade);
+    }
+
+    @Test
+    public void updateRouteSetterId() {
+        String setterId = "abc";
+        Route update = c.update(1, new Route.OptionalInfo(Optional.absent(), Optional.of(setterId)));
+        Assertions.assertThat(setterId).isEqualTo(update.optionals.setterId.get());
+    }
+
+    @Test
+    public void updateRouteTapeColor() {
+        String color = "ffffff";
+        Route update = c.update(1, new Route.OptionalInfo(Optional.of(color), Optional.absent()));
+        Assertions.assertThat(color).isEqualTo(update.optionals.tapeColor.get());
     }
 }
