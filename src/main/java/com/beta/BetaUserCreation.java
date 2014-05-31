@@ -11,6 +11,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Arrays;
 
+// TODO - cleanup
 public final class BetaUserCreation {
     @JsonProperty
     private String email;

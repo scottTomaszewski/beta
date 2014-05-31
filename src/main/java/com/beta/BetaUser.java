@@ -37,6 +37,7 @@ public class BetaUser {
         this.optionals = optionals;
     }
 
+    // TODO remove duplicated code
     public boolean checkPassword(char[] plainTextPassword) {
         Hasher h = Hashing.sha512().newHasher();
         salt.chars().forEach(h::putInt);
