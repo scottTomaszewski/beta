@@ -22,7 +22,8 @@ class RoutesClient {
         return c.resource(url + "/api/v1/routes/")
                 .accept(MediaType.APPLICATION_JSON_TYPE)
                 .type(MediaType.APPLICATION_JSON_TYPE)
-                .get(ClientResponse.class).getEntity(new GenericType<List<Route>>() {
+                .get(ClientResponse.class)
+                .getEntity(new GenericType<List<Route>>() {
                 });
     }
 
@@ -30,14 +31,16 @@ class RoutesClient {
         return Optional.fromNullable(c.resource(url + "/api/v1/routes/" + id)
                 .accept(MediaType.APPLICATION_JSON_TYPE)
                 .type(MediaType.APPLICATION_JSON_TYPE)
-                .get(ClientResponse.class).getEntity(Route.class));
+                .get(ClientResponse.class)
+                .getEntity(Route.class));
     }
 
     Route add(Route.BaseInfo newRoute) {
         return c.resource(url + "/api/v1/routes/add")
                 .accept(MediaType.APPLICATION_JSON_TYPE)
                 .type(MediaType.APPLICATION_JSON_TYPE)
-                .post(ClientResponse.class, newRoute).getEntity(Route.class);
+                .post(ClientResponse.class, newRoute)
+                .getEntity(Route.class);
     }
 
     Route update(int id, Route.OptionalInfo updates) {
