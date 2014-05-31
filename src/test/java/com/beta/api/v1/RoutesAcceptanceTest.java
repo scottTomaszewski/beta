@@ -28,7 +28,7 @@ public class RoutesAcceptanceTest {
     }
 
     @Test
-    public void newRouteIncrementsUserCount() {
+    public void newRouteIncrementsRouteCount() {
         int beforeCount = c.getAll().size();
         c.add(new Route.BaseInfo("Foo Route", RopeGrade._5_10a));
         Assertions.assertThat(beforeCount + 1).isEqualTo(c.getAll().size());
