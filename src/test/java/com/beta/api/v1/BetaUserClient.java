@@ -1,6 +1,7 @@
 package com.beta.api.v1;
 
 import com.beta.BetaUser;
+import com.beta.BetaUserCreation;
 import com.beta.Route;
 import com.google.common.base.Optional;
 import com.sun.jersey.api.client.Client;
@@ -36,15 +37,15 @@ public class BetaUserClient {
                 .getEntity(BetaUser.class));
     }
 
-    BetaUser add(Route.BaseInfo newRoute) {
+    BetaUser add(BetaUserCreation newUser) {
         return c.resource(url + "/api/v1/profiles/add")
                 .accept(MediaType.APPLICATION_JSON_TYPE)
                 .type(MediaType.APPLICATION_JSON_TYPE)
-                .post(ClientResponse.class, newRoute)
+                .post(ClientResponse.class, newUser)
                 .getEntity(BetaUser.class);
     }
 
-    BetaUser update(int id, Route.OptionalInfo updates) {
+    BetaUser update(int id, BetaUser.OptionalInfo updates) {
         return c.resource(url + "/api/v1/profiles/" + id + "/update")
                 .accept(MediaType.APPLICATION_JSON_TYPE)
                 .type(MediaType.APPLICATION_JSON_TYPE)

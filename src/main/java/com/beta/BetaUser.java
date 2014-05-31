@@ -4,20 +4,25 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Optional;
+import com.google.common.hash.Hasher;
+import com.google.common.hash.Hashing;
 import org.skife.jdbi.v2.StatementContext;
 import org.skife.jdbi.v2.tweak.ResultSetMapper;
 
+import java.nio.CharBuffer;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
 
 public class BetaUser {
     public final int id;
     public final String email;
     public final OptionalInfo optionals;
 
-    // Not annotated since we dont want to send back to client
-    private final String password;
-    private final String salt;
+    @VisibleForTesting
+    final String password;
+    @VisibleForTesting
+    public final String salt;
 
     @VisibleForTesting
     BetaUser(@JsonProperty("id") int id,
@@ -30,6 +35,15 @@ public class BetaUser {
         this.password = password;
         this.salt = salt;
         this.optionals = optionals;
+    }
+
+    public boolean checkPassword(char[] plainTextPassword) {
+        Hasher h = Hashing.sha512().newHasher();
+        salt.chars().forEach(h::putInt);
+        CharBuffer.wrap(plainTextPassword).chars().forEach(h::putInt);
+        String hashed = h.hash().toString();
+        Arrays.fill(plainTextPassword, 'a');
+        return password.equals(hashed);
     }
 
     public static final class OptionalInfo {
@@ -46,9 +60,9 @@ public class BetaUser {
 
         @VisibleForTesting
         @JsonCreator
-        OptionalInfo(@JsonProperty("firstName") Optional<String> firstName,
-                     @JsonProperty("lastName") Optional<String> lastName,
-                     @JsonProperty("pictureAbsolutePath") Optional<String> pictureAbsolutePath) {
+        public OptionalInfo(@JsonProperty("firstName") Optional<String> firstName,
+                            @JsonProperty("lastName") Optional<String> lastName,
+                            @JsonProperty("pictureAbsolutePath") Optional<String> pictureAbsolutePath) {
             this.firstName = firstName;
             this.lastName = lastName;
             this.pictureAbsolutePath = pictureAbsolutePath;
