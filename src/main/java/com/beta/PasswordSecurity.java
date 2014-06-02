@@ -16,6 +16,14 @@ public class PasswordSecurity {
     }
 
     public String secure() {
+        return hashAndSalt();
+    }
+
+    public boolean checkAgainst(String expectedHash) {
+        return hashAndSalt().equals(expectedHash);
+    }
+
+    private String hashAndSalt() {
         Hasher h = Hashing.sha512().newHasher();
         salt.chars().forEach(h::putInt);
         CharBuffer.wrap(plaintext).chars().forEach(h::putInt);
