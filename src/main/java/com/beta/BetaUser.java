@@ -37,14 +37,10 @@ public class BetaUser {
         this.optionals = optionals;
     }
 
-    // TODO remove duplicated code
     public boolean checkPassword(char[] plainTextPassword) {
-        Hasher h = Hashing.sha512().newHasher();
-        salt.chars().forEach(h::putInt);
-        CharBuffer.wrap(plainTextPassword).chars().forEach(h::putInt);
-        String hashed = h.hash().toString();
+        boolean valid = new PasswordSecurity(plainTextPassword, CharBuffer.wrap(salt)).checkAgainst(password);
         Arrays.fill(plainTextPassword, 'a');
-        return password.equals(hashed);
+        return valid;
     }
 
     public static final class OptionalInfo {
