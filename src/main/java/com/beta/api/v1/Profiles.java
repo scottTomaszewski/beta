@@ -2,19 +2,15 @@ package com.beta.api.v1;
 
 import com.beta.BetaUser;
 import com.beta.BetaUserCreation;
-import com.beta.BetaUserTable;
 import com.codahale.metrics.annotation.Timed;
 import com.google.common.io.Files;
 import com.sun.jersey.multipart.FormDataParam;
-import org.skife.jdbi.v2.DBI;
-import org.skife.jdbi.v2.Handle;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 

@@ -22,7 +22,7 @@ public class BetaUser {
     @VisibleForTesting
     final String password;
     @VisibleForTesting
-    public final String salt;
+    final String salt;
 
     @VisibleForTesting
     BetaUser(@JsonProperty("id") int id,

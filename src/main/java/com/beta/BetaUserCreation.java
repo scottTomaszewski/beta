@@ -2,6 +2,7 @@ package com.beta;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Optional;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
 
@@ -40,12 +41,9 @@ public final class BetaUserCreation {
     }
 
     public String hashAndSaltPasswordThenClear() {
-        Hasher h = Hashing.sha512().newHasher();
-        salt.chars().forEach(h::putInt);
-        CharBuffer.wrap(plainTextPassword).chars().forEach(h::putInt);
-        String hashed = h.hash().toString();
+        String hash = new PasswordSecurity(plainTextPassword, salt).secure();
         Arrays.fill(plainTextPassword, 'a');
-        return hashed;
+        return hash;
     }
 
     private CharBuffer getSalt() {
