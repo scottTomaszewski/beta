@@ -8,9 +8,9 @@ import java.util.Arrays;
 
 public class PasswordSecurity {
     private final char[] plaintext;
-    private final CharBuffer salt;
+    private final String salt;
 
-    public PasswordSecurity(char[] plaintext, CharBuffer salt) {
+    public PasswordSecurity(char[] plaintext, String salt) {
         this.plaintext = plaintext;
         this.salt = salt;
     }

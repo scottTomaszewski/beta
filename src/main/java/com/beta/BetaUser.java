@@ -38,7 +38,8 @@ public class BetaUser {
     }
 
     public boolean checkPassword(char[] plainTextPassword) {
-        boolean valid = new PasswordSecurity(plainTextPassword, CharBuffer.wrap(salt)).checkAgainst(password);
+        System.out.println("Salt: " + salt);
+        boolean valid = new PasswordSecurity(plainTextPassword, salt).checkAgainst(password);
         Arrays.fill(plainTextPassword, 'a');
         return valid;
     }

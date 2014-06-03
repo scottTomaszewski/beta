@@ -38,8 +38,6 @@ public class NewBetaUserAcceptanceTest {
         String plaintextImmutable = "plain";
         BetaUser added = c.add(new BetaUserCreation(email, plaintextImmutable.toCharArray()));
         Assertions.assertThat(email).isEqualTo(added.email);
-        // TODO
-        //Assertions.assertThat(added.checkPassword(plaintextImmutable.toCharArray())).isTrue();
     }
 
     @Test

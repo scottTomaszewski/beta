@@ -18,40 +18,38 @@ public final class BetaUserCreation {
     private String email;
     @JsonProperty
     private char[] plainTextPassword;
-    private final CharBuffer salt;
+
+    // Lazy
+    private String salt;
 
     // needed for Jackson
-    BetaUserCreation() {
-        this.salt = getSalt();
-    }
+    BetaUserCreation() {}
 
     @VisibleForTesting
     public BetaUserCreation(String email, char[] plainTextPassword) {
         this.email = email;
         this.plainTextPassword = plainTextPassword;
-        this.salt = getSalt();
     }
 
     public String email() {
         return email;
     }
 
-    public String salt() {
-        return salt.toString();
-    }
+    public String salt() { return getSalt(); }
 
     public String hashAndSaltPasswordThenClear() {
-        String hash = new PasswordSecurity(plainTextPassword, salt).secure();
+        System.out.println(getSalt());
+        String hash = new PasswordSecurity(plainTextPassword, getSalt()).secure();
         Arrays.fill(plainTextPassword, 'a');
         return hash;
     }
 
-    private CharBuffer getSalt() {
+    private String getSalt() {
         if (salt == null) {
             try {
                 byte[] saltBuff = new byte[128];
                 SecureRandom.getInstanceStrong().nextBytes(saltBuff);
-                return ByteBuffer.wrap(saltBuff).asCharBuffer();
+                salt = ByteBuffer.wrap(saltBuff).asCharBuffer().toString();
             } catch (NoSuchAlgorithmException e) {
                 throw new IllegalStateException(e);
             }

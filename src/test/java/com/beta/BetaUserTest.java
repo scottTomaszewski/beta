@@ -8,6 +8,8 @@ import io.dropwizard.jackson.Jackson;
 import org.junit.Test;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.nio.CharBuffer;
+
 public class BetaUserTest {
     private static final ObjectMapper MAPPER = Jackson.newObjectMapper();
 
