@@ -36,7 +36,7 @@ public class NewBetaUserAcceptanceTest {
     public void newBetaUserInfoMatches() {
         String email = "foo@bar.com";
         String plaintextImmutable = "plain";
-        BetaUser added = c.add(new BetaUserCreation(email, plaintextImmutable.toCharArray()));
+        BetaUserDTO added = c.add(new BetaUserCreation(email, plaintextImmutable.toCharArray()));
         Assertions.assertThat(email).isEqualTo(added.email);
     }
 
@@ -45,7 +45,7 @@ public class NewBetaUserAcceptanceTest {
     @Test
     public void updateBetaUserFirstName() {
         String first = "Chris";
-        BetaUser update = c.update(1, new BetaUserUpdatesDTO(
+        BetaUserDTO update = c.update(1, new BetaUserUpdatesDTO(
                 Optional.absent(), Optional.of(first), Optional.absent()));
         Assertions.assertThat(first).isEqualTo(update.firstName.get());
     }
@@ -53,7 +53,7 @@ public class NewBetaUserAcceptanceTest {
     @Test
     public void updateBetaUserLastName() {
         String last = "Sharma";
-        BetaUser update = c.update(1, new BetaUserUpdatesDTO(
+        BetaUserDTO update = c.update(1, new BetaUserUpdatesDTO(
                 Optional.absent(), Optional.absent(), Optional.of(last)));
         Assertions.assertThat(last).isEqualTo(update.lastName.get());
     }
@@ -63,7 +63,7 @@ public class NewBetaUserAcceptanceTest {
         String first = "Chris";
         c.update(1, new BetaUserUpdatesDTO(
                 Optional.absent(), Optional.of(first), Optional.absent()));
-        BetaUser update = c.update(1, new BetaUserUpdatesDTO(
+        BetaUserDTO update = c.update(1, new BetaUserUpdatesDTO(
                 Optional.absent(), Optional.absent(), Optional.of("Sharma")));
         Assertions.assertThat(first).isEqualTo(update.firstName.get());
     }
