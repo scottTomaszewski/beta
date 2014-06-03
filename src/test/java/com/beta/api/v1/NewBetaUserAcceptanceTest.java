@@ -43,8 +43,8 @@ public class NewBetaUserAcceptanceTest {
     @Test
     public void updateBetaUserFirstName() {
         String first = "Chris";
-        BetaUser update = c.update(1, new BetaUser.OptionalInfo(
-                Optional.of(first), Optional.absent(), Optional.absent()));
+        BetaUser update = c.update(1, new BetaUserUpdatesDTO(
+                Optional.absent(), Optional.of(first), Optional.absent()));
         Assertions.assertThat(first).isEqualTo(update.optionals.firstName.get());
     }
 
