@@ -9,8 +9,8 @@ public class BetaUserUpdatesDTO {
     public final Optional<String> lastName;
 
     public BetaUserUpdatesDTO(@JsonProperty("email") Optional<String> email,
-                       @JsonProperty("firstName") Optional<String> firstName,
-                       @JsonProperty("lastName") Optional<String> lastName) {
+                              @JsonProperty("firstName") Optional<String> firstName,
+                              @JsonProperty("lastName") Optional<String> lastName) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
