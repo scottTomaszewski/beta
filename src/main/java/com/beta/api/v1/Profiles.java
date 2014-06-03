@@ -2,6 +2,7 @@ package com.beta.api.v1;
 
 import com.beta.BetaUser;
 import com.beta.BetaUserCreation;
+import com.beta.BetaUserUpdatesDTO;
 import com.codahale.metrics.annotation.Timed;
 import com.google.common.io.Files;
 import com.sun.jersey.multipart.FormDataParam;
@@ -49,7 +50,8 @@ public class Profiles {
     @Timed
     @POST
     @Path("/{id}/update")
-    public BetaUser update(@PathParam("id") Integer id, BetaUser.OptionalInfo data) {
+    public BetaUser update(@PathParam("id") Integer id, BetaUserUpdatesDTO data) {
+        // TODO - support email updates
         if (data.firstName.isPresent()) dao.updateFirstName(id, data.firstName.get());
         if (data.lastName.isPresent()) dao.updateLastName(id, data.lastName.get());
         return find(id);
