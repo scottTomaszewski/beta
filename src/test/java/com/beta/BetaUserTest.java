@@ -3,6 +3,7 @@ package com.beta;
 import static io.dropwizard.testing.FixtureHelpers.*;
 import static org.fest.assertions.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Optional;
 import io.dropwizard.jackson.Jackson;
 import org.junit.Test;
@@ -15,9 +16,8 @@ public class BetaUserTest {
 
     @Test
     public void serializesToJSON() throws Exception {
-        BetaUser.OptionalInfo i = new BetaUser
-                .OptionalInfo(Optional.absent(), Optional.absent(), Optional.absent());
-        BetaUser u = new BetaUser(1, "cs@gmail.com", "unused", "unused", i);
+        BetaUser u = new BetaUser(1, "cs@gmail.com", Optional.absent(), Optional.absent(),
+                Optional.absent(), "unused", "unused");
         assertThat(MAPPER.writeValueAsString(u)).isEqualTo(fixture("fixtures/NewBetaUser.json"));
     }
 }

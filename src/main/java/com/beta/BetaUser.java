@@ -1,6 +1,5 @@
 package com.beta;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Optional;
 import org.skife.jdbi.v2.StatementContext;
@@ -17,13 +16,13 @@ public class BetaUser extends BetaUserDTO {
     final String salt;
 
     @VisibleForTesting
-    BetaUser(@JsonProperty("id") int id,
-             @JsonProperty("email") String email,
-             @JsonProperty("firstName") Optional<String> firstName,
-             @JsonProperty("lastName") Optional<String> lastName,
-             @JsonProperty("pictureAbsolutePath") Optional<String> pictureAbsolutePath,
-             @JsonProperty("password") String password,
-             @JsonProperty("salt") String salt) {
+    BetaUser(int id,
+             String email,
+             Optional<String> firstName,
+             Optional<String> lastName,
+             Optional<String> pictureAbsolutePath,
+             String password,
+             String salt) {
         super(id, email, firstName, lastName, pictureAbsolutePath);
         this.password = password;
         this.salt = salt;
