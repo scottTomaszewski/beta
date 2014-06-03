@@ -40,6 +40,8 @@ public class NewBetaUserAcceptanceTest {
         Assertions.assertThat(email).isEqualTo(added.email);
     }
 
+    // TODO - test for email updates
+
     @Test
     public void updateBetaUserFirstName() {
         String first = "Chris";
@@ -51,18 +53,18 @@ public class NewBetaUserAcceptanceTest {
     @Test
     public void updateBetaUserLastName() {
         String last = "Sharma";
-        BetaUser update = c.update(1, new BetaUser.OptionalInfo(
-                Optional.absent(), Optional.of(last), Optional.absent()));
-        Assertions.assertThat(last).isEqualTo(update.optionals.lastName.get());
+        BetaUser update = c.update(1, new BetaUserUpdatesDTO(
+                Optional.absent(), Optional.absent(), Optional.of(last)));
+        Assertions.assertThat(last).isEqualTo(update.lastName.get());
     }
 
     @Test
     public void updateSingleOptionalBetaUserFieldDoesntWipeOthers() {
         String first = "Chris";
-        c.update(1, new BetaUser.OptionalInfo(
-                Optional.of(first), Optional.absent(), Optional.absent()));
-        BetaUser update = c.update(1, new BetaUser.OptionalInfo(
-                Optional.absent(), Optional.of("Sharma"), Optional.absent()));
-        Assertions.assertThat(first).isEqualTo(update.optionals.firstName.get());
+        c.update(1, new BetaUserUpdatesDTO(
+                Optional.absent(), Optional.of(first), Optional.absent()));
+        BetaUser update = c.update(1, new BetaUserUpdatesDTO(
+                Optional.absent(), Optional.absent(), Optional.of("Sharma")));
+        Assertions.assertThat(first).isEqualTo(update.firstName.get());
     }
 }
