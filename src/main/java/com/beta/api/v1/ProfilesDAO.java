@@ -29,7 +29,11 @@ interface ProfilesDAO {
     @SqlUpdate("update " + BetaUserTable.TABLE_NAME + " set lastName = :lastName where id = :id")
     int updateLastName(@Bind("id") int id, @Bind("lastName") String lastName);
 
+    @SqlUpdate("update " + BetaUserTable.TABLE_NAME + " set email = :email where id = :id")
+    void updateEmail(@Bind("id") int id, @Bind("email") String s);
+
     @SqlUpdate("update " + BetaUserTable.TABLE_NAME
             + " set pictureAbsolutePath = :path where id = :id")
     int updatePictureLocation(@Bind("id") int id, @Bind("path") String path);
+
 }

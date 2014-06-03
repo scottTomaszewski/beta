@@ -40,7 +40,13 @@ public class NewBetaUserAcceptanceTest {
         Assertions.assertThat(email).isEqualTo(added.email);
     }
 
-    // TODO - test for email updates
+    @Test
+    public void updateBetaUserEmail() {
+        String email = "foo@bar.com";
+        BetaUserDTO update = c.update(1, new BetaUserUpdatesDTO(
+                Optional.of(email), Optional.absent(), Optional.absent()));
+        Assertions.assertThat(email).isEqualTo(update.email);
+    }
 
     @Test
     public void updateBetaUserFirstName() {

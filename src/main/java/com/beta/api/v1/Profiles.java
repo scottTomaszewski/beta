@@ -54,7 +54,7 @@ public class Profiles {
     @POST
     @Path("/{id}/update")
     public BetaUserDTO update(@PathParam("id") Integer id, BetaUserUpdatesDTO data) {
-        // TODO - support email updates
+        if (data.email.isPresent()) dao.updateEmail(id, data.email.get());
         if (data.firstName.isPresent()) dao.updateFirstName(id, data.firstName.get());
         if (data.lastName.isPresent()) dao.updateLastName(id, data.lastName.get());
         return find(id);
