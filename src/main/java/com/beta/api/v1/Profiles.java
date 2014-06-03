@@ -1,7 +1,7 @@
 package com.beta.api.v1;
 
-import com.beta.BetaUser;
 import com.beta.BetaUserCreation;
+import com.beta.BetaUserDTO;
 import com.beta.BetaUserUpdatesDTO;
 import com.codahale.metrics.annotation.Timed;
 import com.google.common.io.Files;
@@ -12,6 +12,7 @@ import javax.ws.rs.core.MediaType;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,28 +30,30 @@ public class Profiles {
     @Timed
     @POST
     @Path("/add")
-    public BetaUser add(BetaUserCreation user) {
+    public BetaUserDTO add(BetaUserCreation user) {
         return find(dao.insert(user.email(), user.hashAndSaltPasswordThenClear(), user.salt()));
     }
 
     @Timed
     @GET
     @Path("/{id}")
-    public BetaUser find(@PathParam("id") Integer id) {
+    public BetaUserDTO find(@PathParam("id") Integer id) {
         return dao.findById(id);
     }
 
     @Timed
     @GET
     @Path("/")
-    public List<BetaUser> all(@PathParam("id") Integer id) {
-        return dao.all();
+    public List<BetaUserDTO> all(@PathParam("id") Integer id) {
+        List<BetaUserDTO> all = new ArrayList<>();
+        dao.all().stream().forEach(user -> all.add(user.asDTO()));
+        return all;
     }
 
     @Timed
     @POST
     @Path("/{id}/update")
-    public BetaUser update(@PathParam("id") Integer id, BetaUserUpdatesDTO data) {
+    public BetaUserDTO update(@PathParam("id") Integer id, BetaUserUpdatesDTO data) {
         // TODO - support email updates
         if (data.firstName.isPresent()) dao.updateFirstName(id, data.firstName.get());
         if (data.lastName.isPresent()) dao.updateLastName(id, data.lastName.get());

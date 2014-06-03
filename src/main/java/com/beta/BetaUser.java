@@ -34,6 +34,10 @@ public class BetaUser extends BetaUserDTO {
         return valid;
     }
 
+    public BetaUserDTO asDTO() {
+        return this;
+    }
+
     public static class Mapper implements ResultSetMapper<BetaUser> {
         public BetaUser map(int idx, ResultSet r, StatementContext c) throws SQLException {
             return new BetaUser(r.getInt(BetaUserTable.ID.columnName),
