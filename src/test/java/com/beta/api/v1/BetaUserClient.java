@@ -1,9 +1,6 @@
 package com.beta.api.v1;
 
-import com.beta.BetaUser;
-import com.beta.BetaUserCreation;
-import com.beta.BetaUserUpdatesDTO;
-import com.beta.Route;
+import com.beta.*;
 import com.google.common.base.Optional;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
@@ -21,36 +18,36 @@ public class BetaUserClient {
         this.c = c;
     }
 
-    List<BetaUser> getAll() {
+    List<BetaUserDTO> getAll() {
         return c.resource(url + "/api/v1/profiles/")
                 .accept(MediaType.APPLICATION_JSON_TYPE)
                 .type(MediaType.APPLICATION_JSON_TYPE)
                 .get(ClientResponse.class)
-                .getEntity(new GenericType<List<BetaUser>>() {
+                .getEntity(new GenericType<List<BetaUserDTO>>() {
                 });
     }
 
-    Optional<BetaUser> findById(int id) {
+    Optional<BetaUserDTO> findById(int id) {
         return Optional.fromNullable(c.resource(url + "/api/v1/profiles/" + id)
                 .accept(MediaType.APPLICATION_JSON_TYPE)
                 .type(MediaType.APPLICATION_JSON_TYPE)
                 .get(ClientResponse.class)
-                .getEntity(BetaUser.class));
+                .getEntity(BetaUserDTO.class));
     }
 
-    BetaUser add(BetaUserCreation newUser) {
+    BetaUserDTO add(BetaUserCreation newUser) {
         return c.resource(url + "/api/v1/profiles/add")
                 .accept(MediaType.APPLICATION_JSON_TYPE)
                 .type(MediaType.APPLICATION_JSON_TYPE)
                 .post(ClientResponse.class, newUser)
-                .getEntity(BetaUser.class);
+                .getEntity(BetaUserDTO.class);
     }
 
-    BetaUser update(int id, BetaUserUpdatesDTO updates) {
+    BetaUserDTO update(int id, BetaUserUpdatesDTO updates) {
         return c.resource(url + "/api/v1/profiles/" + id + "/update")
                 .accept(MediaType.APPLICATION_JSON_TYPE)
                 .type(MediaType.APPLICATION_JSON_TYPE)
                 .post(ClientResponse.class, updates)
-                .getEntity(BetaUser.class);
+                .getEntity(BetaUserDTO.class);
     }
 }
