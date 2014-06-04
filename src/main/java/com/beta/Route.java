@@ -13,6 +13,10 @@ public class Route extends RouteDTO {
         super(id, name, grade, setterId, tapeColor);
     }
 
+    public RouteDTO asDTO() {
+        return this;
+    }
+
     public static class Mapper implements ResultSetMapper<RouteDTO> {
         public Route map(int idx, ResultSet r, StatementContext c) throws SQLException {
             return new Route(r.getInt("id"),

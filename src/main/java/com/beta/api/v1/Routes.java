@@ -1,10 +1,13 @@
 package com.beta.api.v1;
 
 import com.beta.Route;
+import com.beta.RouteCreationDTO;
+import com.beta.RouteDTO;
 import com.codahale.metrics.annotation.Timed;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.ArrayList;
 import java.util.List;
 
 @Path("/v1/routes")
@@ -19,22 +22,24 @@ public class Routes {
     @Timed
     @POST
     @Path("/add")
-    public Route add(Route.BaseInfo newRoute) {
+    public RouteDTO add(RouteCreationDTO newRoute) {
         return find(dao.insert(newRoute.name, newRoute.grade.getValue()));
     }
 
     @Timed
     @GET
     @Path("/{id}")
-    public Route find(@PathParam("id") Integer id) {
+    public RouteDTO find(@PathParam("id") Integer id) {
         return dao.findById(id);
     }
 
     @Timed
     @GET
     @Path("/")
-    public List<Route> all(@PathParam("id") Integer id) {
-        return dao.all();
+    public List<RouteDTO> all(@PathParam("id") Integer id) {
+        List<RouteDTO> all = new ArrayList<>();
+        dao.all().stream().forEach(route -> all.add(route.asDTO()));
+        return all;
     }
 
     @Timed
