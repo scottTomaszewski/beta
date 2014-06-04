@@ -1,6 +1,8 @@
 package com.beta.api.v1;
 
-import com.beta.Route;
+import com.beta.RouteCreationDTO;
+import com.beta.RouteDTO;
+import com.beta.RouteUpdatesDTO;
 import com.google.common.base.Optional;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
@@ -18,36 +20,36 @@ class RoutesClient {
         this.c = c;
     }
 
-    List<Route> getAll() {
+    List<RouteDTO> getAll() {
         return c.resource(url + "/api/v1/routes/")
                 .accept(MediaType.APPLICATION_JSON_TYPE)
                 .type(MediaType.APPLICATION_JSON_TYPE)
                 .get(ClientResponse.class)
-                .getEntity(new GenericType<List<Route>>() {
+                .getEntity(new GenericType<List<RouteDTO>>() {
                 });
     }
 
-    Optional<Route> findById(int id) {
+    Optional<RouteDTO> findById(int id) {
         return Optional.fromNullable(c.resource(url + "/api/v1/routes/" + id)
                 .accept(MediaType.APPLICATION_JSON_TYPE)
                 .type(MediaType.APPLICATION_JSON_TYPE)
                 .get(ClientResponse.class)
-                .getEntity(Route.class));
+                .getEntity(RouteDTO.class));
     }
 
-    Route add(Route.BaseInfo newRoute) {
+    RouteDTO add(RouteCreationDTO newRoute) {
         return c.resource(url + "/api/v1/routes/add")
                 .accept(MediaType.APPLICATION_JSON_TYPE)
                 .type(MediaType.APPLICATION_JSON_TYPE)
                 .post(ClientResponse.class, newRoute)
-                .getEntity(Route.class);
+                .getEntity(RouteDTO.class);
     }
 
-    Route update(int id, Route.OptionalInfo updates) {
+    RouteDTO update(int id, RouteUpdatesDTO updates) {
         return c.resource(url + "/api/v1/routes/" + id + "/update")
                 .accept(MediaType.APPLICATION_JSON_TYPE)
                 .type(MediaType.APPLICATION_JSON_TYPE)
                 .post(ClientResponse.class, updates)
-                .getEntity(Route.class);
+                .getEntity(RouteDTO.class);
     }
 }
