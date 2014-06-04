@@ -1,9 +1,6 @@
 package com.beta.api.v1;
 
-import com.beta.Grade;
-import com.beta.Main;
-import com.beta.RopeGrade;
-import com.beta.Route;
+import com.beta.*;
 import com.google.common.base.Optional;
 import com.google.common.io.Resources;
 import com.sun.jersey.api.client.Client;
@@ -30,7 +27,7 @@ public class RoutesAcceptanceTest {
     @Test
     public void newRouteIncrementsRouteCount() {
         int beforeCount = c.getAll().size();
-        c.add(new Route.BaseInfo("Foo Route", RopeGrade._5_10a));
+        c.add(new RouteCreationDTO("Foo Route", RopeGrade._5_10a));
         Assertions.assertThat(beforeCount + 1).isEqualTo(c.getAll().size());
     }
 
@@ -38,30 +35,34 @@ public class RoutesAcceptanceTest {
     public void newRouteInfoMatches() {
         String name = "Foo Route";
         Grade grade = RopeGrade._5_10a;
-        Route added = c.add(new Route.BaseInfo(name, grade));
-        Assertions.assertThat(name).isEqualTo(added.info.name);
-        Assertions.assertThat(grade).isEqualTo(added.info.grade);
+        RouteDTO added = c.add(new RouteCreationDTO(name, grade));
+        Assertions.assertThat(name).isEqualTo(added.name);
+        Assertions.assertThat(grade).isEqualTo(added.grade);
     }
 
     @Test
     public void updateRouteSetterId() {
         String setterId = "123";
-        Route update = c.update(1, new Route.OptionalInfo(Optional.of(setterId), Optional.absent()));
-        Assertions.assertThat(setterId).isEqualTo(update.optionals.setterId.get());
+        RouteDTO update = c.update(1, new RouteUpdatesDTO(
+                Optional.absent(), Optional.absent(), Optional.of(setterId), Optional.absent()));
+        Assertions.assertThat(setterId).isEqualTo(update.setterId.get());
     }
 
     @Test
     public void updateRouteTapeColor() {
         String color = "456";
-        Route update = c.update(1, new Route.OptionalInfo(Optional.absent(), Optional.of(color)));
-        Assertions.assertThat(color).isEqualTo(update.optionals.tapeColor.get());
+        RouteDTO update = c.update(1, new RouteUpdatesDTO(
+                Optional.absent(), Optional.absent(), Optional.absent(), Optional.of(color)));
+        Assertions.assertThat(color).isEqualTo(update.tapeColor.get());
     }
 
     @Test
     public void updateSingleOptionalRouteFieldDoesntWipeOthers() {
         String setterId = "123";
-        c.update(1, new Route.OptionalInfo(Optional.of(setterId), Optional.absent()));
-        Route update = c.update(1, new Route.OptionalInfo(Optional.absent(), Optional.of("456")));
-        Assertions.assertThat(setterId).isEqualTo(update.optionals.setterId.get());
+        c.update(1, new RouteUpdatesDTO(
+                Optional.absent(), Optional.absent(), Optional.of(setterId), Optional.absent()));
+        RouteDTO update = c.update(1, new RouteUpdatesDTO(
+                Optional.absent(), Optional.absent(), Optional.absent(), Optional.of("456")));
+        Assertions.assertThat(setterId).isEqualTo(update.setterId.get());
     }
 }
