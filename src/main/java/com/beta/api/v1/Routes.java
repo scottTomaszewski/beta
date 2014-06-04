@@ -1,8 +1,8 @@
 package com.beta.api.v1;
 
-import com.beta.Route;
 import com.beta.RouteCreationDTO;
 import com.beta.RouteDTO;
+import com.beta.RouteUpdatesDTO;
 import com.codahale.metrics.annotation.Timed;
 
 import javax.ws.rs.*;
@@ -45,7 +45,7 @@ public class Routes {
     @Timed
     @POST
     @Path("/{id}/update")
-    public Route update(@PathParam("id") Integer id, Route.OptionalInfo optionals) {
+    public RouteDTO update(@PathParam("id") Integer id, RouteUpdatesDTO optionals) {
         if (optionals.setterId.isPresent()) dao.updateSetterId(id, optionals.setterId.get());
         if (optionals.tapeColor.isPresent()) dao.updateTapeColor(id, optionals.tapeColor.get());
         return find(id);
