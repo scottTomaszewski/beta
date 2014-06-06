@@ -32,10 +32,10 @@ public class ApiV1 implements Api {
 
             // setup routes
             h.execute(RouteTable.creation());
-            Route.BaseInfo[] routes = {
-                    new Route.BaseInfo("La Dura Dura", RopeGrade._5_15c),
-                    new Route.BaseInfo("Fighter", RopeGrade._5_12a),
-                    new Route.BaseInfo("Boomerang", BoulderingGrade.V4),
+            RouteCreationDTO[] routes = {
+                    new RouteCreationDTO("La Dura Dura", RopeGrade._5_15c),
+                    new RouteCreationDTO("Fighter", RopeGrade._5_12a),
+                    new RouteCreationDTO("Boomerang", BoulderingGrade.V4),
             };
             Arrays.stream(routes).forEach(routeRes::add);
         }
