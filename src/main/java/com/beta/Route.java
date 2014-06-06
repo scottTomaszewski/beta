@@ -17,7 +17,7 @@ public class Route extends RouteDTO {
         return this;
     }
 
-    public static class Mapper implements ResultSetMapper<RouteDTO> {
+    public static class Mapper implements ResultSetMapper<Route> {
         public Route map(int idx, ResultSet r, StatementContext c) throws SQLException {
             return new Route(r.getInt("id"),
                     r.getString("name"),
