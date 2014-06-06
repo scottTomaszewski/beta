@@ -13,10 +13,7 @@ public class RouteTest {
 
     @Test
     public void serializesToJSON() throws Exception {
-        Route.BaseInfo b = new Route.BaseInfo("route", RopeGrade._5_1);
-        Route.OptionalInfo o = new Route.OptionalInfo(Optional.absent(), Optional.absent());
-        final Route Route = new Route(1, b, o);
-        assertThat(MAPPER.writeValueAsString(Route))
-                .isEqualTo(fixture("fixtures/Route.json"));
+        final RouteDTO r = new RouteDTO(1, "route", RopeGrade._5_1, Optional.absent(), Optional.absent());
+        assertThat(MAPPER.writeValueAsString(r)).isEqualTo(fixture("fixtures/Route.json"));
     }
 }
