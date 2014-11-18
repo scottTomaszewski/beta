@@ -5,7 +5,6 @@ sourceCompatibility = '1.8'
 
 mainClassName = 'com.beta.Main'
 version = '0.1.0'
-dropWizard = '0.7.0'
 
 repositories {
     mavenCentral()
@@ -16,12 +15,12 @@ configurations {
 }
 
 dependencies {
-    compile 'io.dropwizard:dropwizard-core:' + dropWizard
-    compile 'io.dropwizard:dropwizard-db:'  + dropWizard
-    compile 'io.dropwizard:dropwizard-jdbi:' + dropWizard
-    compile 'io.dropwizard:dropwizard-client:' + dropWizard
-    compile 'io.dropwizard:dropwizard-assets:' + dropWizard
-    compile 'io.dropwizard:dropwizard-testing:' + dropWizard
+    compile 'io.dropwizard:dropwizard-core:0.7.0'
+    compile 'io.dropwizard:dropwizard-db:0.7.0'
+    compile 'io.dropwizard:dropwizard-jdbi:0.7.0'
+    compile 'io.dropwizard:dropwizard-client:0.7.0'
+    compile 'io.dropwizard:dropwizard-assets:0.7.0'
+    compile 'io.dropwizard:dropwizard-testing:0.7.0'
 
     compile 'com.sun.jersey.contribs:jersey-multipart:1.18.1'
 
