@@ -28,7 +28,7 @@ public class ApiV1 implements Api {
                     new BetaUserCreation("rl@gmail.com", "c".toCharArray()),
                     new BetaUserCreation("ba@gmail.com", "d".toCharArray()),
             };
-            Arrays.stream(users).forEach(proRes::add);
+//            Arrays.stream(users).forEach(proRes::add);
 
             // setup routes
             h.execute(RouteTable.creation());
@@ -37,7 +37,7 @@ public class ApiV1 implements Api {
                     new RouteCreationDTO("Fighter", RopeGrade._5_12a),
                     new RouteCreationDTO("Boomerang", BoulderingGrade.V4),
             };
-            Arrays.stream(routes).forEach(routeRes::add);
+//            Arrays.stream(routes).forEach(routeRes::add);
         }
     }
 }

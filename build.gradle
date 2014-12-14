@@ -15,12 +15,12 @@ configurations {
 }
 
 dependencies {
-    compile 'io.dropwizard:dropwizard-core:0.7.0'
-    compile 'io.dropwizard:dropwizard-db:0.7.0'
-    compile 'io.dropwizard:dropwizard-jdbi:0.7.0'
-    compile 'io.dropwizard:dropwizard-client:0.7.0'
-    compile 'io.dropwizard:dropwizard-assets:0.7.0'
-    compile 'io.dropwizard:dropwizard-testing:0.7.0'
+    compile 'io.dropwizard:dropwizard-core:0.7.1'
+    compile 'io.dropwizard:dropwizard-db:0.7.1'
+    compile 'io.dropwizard:dropwizard-jdbi:0.7.1'
+    compile 'io.dropwizard:dropwizard-client:0.7.1'
+    compile 'io.dropwizard:dropwizard-assets:0.7.1'
+    compile 'io.dropwizard:dropwizard-testing:0.7.1'
 
     compile 'com.sun.jersey.contribs:jersey-multipart:1.18.1'
 
@@ -56,6 +56,8 @@ task capsule(type: Jar, dependsOn: classes) {
     }
 }
 
-run {
+task stage(dependsOn: ['clean'])
+
+                       run {
     systemProperty "dropwizard.config", "build/resources/main/beta.yml"
 }
