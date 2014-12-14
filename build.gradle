@@ -58,6 +58,11 @@ task capsule(type: Jar, dependsOn: classes) {
 
 task stage(dependsOn: ['clean'])
 
-                       run {
+run {
+    systemProperty "dropwizard.config", "build/resources/main/beta.yml"
+}
+
+task run_prod {
+    systemProperty "dw.http.port", "$System.env.PORT"
     systemProperty "dropwizard.config", "build/resources/main/beta.yml"
 }
