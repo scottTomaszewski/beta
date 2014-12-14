@@ -3,4 +3,4 @@ echo
 cd ./src/main/resources
 npm install
 cd ../../../
-./gradlew run_prod $PORT
+./gradlew run_prod -PprodPort=$PORT
