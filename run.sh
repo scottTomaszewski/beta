@@ -3,4 +3,4 @@ echo
 cd ./src/main/resources
 npm install
 cd ../../../
-./gradlew run_prod -PprodPort=$PORT
+java -jar ./build/libs/beta-web.jar -Ddw.server.applicationConnectors[0].port=$PORT

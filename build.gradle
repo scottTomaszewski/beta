@@ -60,14 +60,14 @@ task capsule(type: Jar, dependsOn: classes) {
     }
 }
 
-task stage(dependsOn :['clean'])
+task stage(dependsOn :['clean', 'capsule'])
 
 run {
     systemProperty "dropwizard.config", "build/resources/main/beta.yml"
 }
 
 task run_prod(type:JavaExec) {
-    main = "com.beta.Main"
+    main = mainClassName
     classpath = sourceSets.main.runtimeClasspath
 
     systemProperty "dw.server.applicationConnectors[0].port", prodPort
