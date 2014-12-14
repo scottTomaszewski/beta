@@ -6,6 +6,10 @@ sourceCompatibility = '1.8'
 mainClassName = 'com.beta.Main'
 version = '0.1.0'
 
+if (!project.hasProperty("prodPort")) {
+    ext.prodPort = 8080
+}
+
 repositories {
     mavenCentral()
 }
@@ -56,13 +60,16 @@ task capsule(type: Jar, dependsOn: classes) {
     }
 }
 
-task stage(dependsOn: ['clean'])
+task stage(dependsOn :['clean'])
 
 run {
     systemProperty "dropwizard.config", "build/resources/main/beta.yml"
 }
 
-task run_prod {
-    systemProperty "dw.http.port", prodPort
+task run_prod(type:JavaExec) {
+    main = "com.beta.Main"
+    classpath = sourceSets.main.runtimeClasspath
+
+    systemProperty "dw.server.applicationConnectors[0].port", prodPort
     systemProperty "dropwizard.config", "build/resources/main/beta.yml"
 }
