@@ -1,1 +1,1 @@
-web: java -jar -Ddw.server.applicationConnectors[0].port=$PORT,capsule.log=verbose ./build/libs/beta-web.jar
+web: ./build/install/app/bin/beta
