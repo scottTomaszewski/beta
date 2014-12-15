@@ -43,7 +43,7 @@ task npm_install(type:Exec) {
     commandLine 'npm', 'install'
 }
 
-task capsule(type: Jar, dependsOn: [npm_install, classes]) {
+task capsule(type: Jar, dependsOn: [classes]) {
     archiveName = "beta-web.jar"
 
     from jar // embed our application jar
