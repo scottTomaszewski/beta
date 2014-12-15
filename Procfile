@@ -1,1 +1,1 @@
-web: ./run.sh
+web: java -jar ./build/libs/beta-web.jar -Ddw.server.applicationConnectors[0].port=$PORT
