@@ -1,1 +1,1 @@
-web: ls; ls ./build; java -jar -Ddw.server.applicationConnectors[0].port=$PORT ./build/libs/beta-web.jar 
+web: java -jar -Ddw.server.applicationConnectors[0].port=$PORT,capsule.log=verbose ./build/libs/beta-web.jar
