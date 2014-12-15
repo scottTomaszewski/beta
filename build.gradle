@@ -65,7 +65,7 @@ task capsule(type: Jar, dependsOn: [npm_install, classes]) {
     }
 }
 
-task stage(dependsOn :['npm_install', 'capsule'])
+task stage(dependsOn :['capsule'])
 
 run {
     systemProperty "dropwizard.config", "build/resources/main/beta.yml"
