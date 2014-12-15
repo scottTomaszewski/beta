@@ -38,7 +38,12 @@ dependencies {
     testCompile 'junit:junit:4.11'
 }
 
-task capsule(type: Jar, dependsOn: classes) {
+task npm_install(type:Exec) {
+    workingDir './src/main/resources'
+    commandLine 'npm', 'install'
+}
+
+task capsule(type: Jar, dependsOn: [npm_install, classes]) {
     archiveName = "beta-web.jar"
 
     from jar // embed our application jar
@@ -60,7 +65,7 @@ task capsule(type: Jar, dependsOn: classes) {
     }
 }
 
-task stage(dependsOn :['clean', 'capsule'])
+task stage(dependsOn :['npm_install', 'capsule'])
 
 run {
     systemProperty "dropwizard.config", "build/resources/main/beta.yml"
