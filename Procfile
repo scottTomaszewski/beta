@@ -1,1 +1,1 @@
-web: ./build/install/app/bin/beta
+web: ./build/install/beta/bin/beta
