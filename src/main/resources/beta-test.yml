@@ -10,6 +10,6 @@ profilePicturesAbsolutePath: /tmp/beta/pics
 
 database:
   driverClass: org.h2.Driver
-  url: jdbc:hsqldb:file:filepath:./db
+  url: jdbc:h2:mem:test
   user: u
   password: p
