@@ -70,11 +70,3 @@ task stage(dependsOn: ['clean', 'installApp'])
 run {
     systemProperty "dropwizard.config", "build/resources/main/beta.yml"
 }
-
-task run_prod(type:JavaExec) {
-    main = mainClassName
-    classpath = sourceSets.main.runtimeClasspath
-
-    systemProperty "dw.server.applicationConnectors[0].port", prodPort
-    systemProperty "dropwizard.config", "build/resources/main/beta.yml"
-}

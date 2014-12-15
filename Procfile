@@ -1,1 +1,1 @@
-web: ./build/install/beta/bin/beta
+web: BETA_OPTS="-Ddw.http.port=$PORT -Ddw.http.adminPort=$PORT -Ddropwizard.config=./src/main/resources/beta.yml" ./build/install/beta/bin/beta
