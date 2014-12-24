@@ -3,3 +3,5 @@ build/
 .idea/
 beta.iml
 node_modules
+.DS_Store
+gradle
