@@ -11,9 +11,9 @@ public class BetaPreviewEmailDTO {
 
     BetaPreviewEmailDTO(@JsonProperty("id") int id,
                 @JsonProperty("email") String email,
-                @JsonProperty("date") LocalDate date) {
+                @JsonProperty("date") String date) {
         this.id = id;
         this.email = email;
-        this.date = date;
+        this.date = LocalDate.parse(date);
     }
 }

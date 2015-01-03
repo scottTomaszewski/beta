@@ -16,8 +16,10 @@ public class ApiV1 implements Api {
         final DBI dbi = new DBIFactory().build(env, cfg.getDataSourceFactory(), "db");
         Profiles proRes = new Profiles(dbi.onDemand(ProfilesDAO.class), cfg.getProfilePicturesAbsolutePath());
         Routes routeRes = new Routes(dbi.onDemand(RoutesDAO.class));
+        Emails emailRes = new Emails(dbi.onDemand(EmailDAO.class));
         env.jersey().register(proRes);
         env.jersey().register(routeRes);
+        env.jersey().register(emailRes);
 
         try (Handle h = dbi.open()) {
             // setup profiles
@@ -38,6 +40,8 @@ public class ApiV1 implements Api {
                     new RouteCreationDTO("Boomerang", BoulderingGrade.V4),
             };
 //            Arrays.stream(routes).forEach(routeRes::add);
+            System.out.println("***** " + BetaPreviewEmailTable.creation());
+            h.execute(BetaPreviewEmailTable.creation());
         }
     }
 }

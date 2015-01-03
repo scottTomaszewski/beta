@@ -10,7 +10,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.time.LocalDate;
 
-@Path("/v1/profiles")
+@Path("/v1/emails")
 @Produces(MediaType.APPLICATION_JSON)
 public class Emails {
     private final EmailDAO dao;
@@ -23,7 +23,7 @@ public class Emails {
     @POST
     @Path("/add")
     public BetaPreviewEmailDTO add(UserPreviewEmail email) {
-        return find(dao.insert(email.getEmail(), LocalDate.now()));
+        return find(dao.insert(email.getEmail(), LocalDate.now().toString()));
     }
 
     @Timed

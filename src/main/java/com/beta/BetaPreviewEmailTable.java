@@ -4,13 +4,13 @@ import java.util.Arrays;
 
 public enum BetaPreviewEmailTable implements BetaTable {
     ID("id", "int", "primary key auto_increment"),
-    EMAIL("email", "varchar(100)"),
-    DATE("date", "varchar(100)");
+    EMAIL("email", "varchar(200)"),
+    DATE("date", "varchar(200)");
 
-    public static final String TABLE_NAME = "beta_user";
+    public static final String TABLE_NAME = "preview_email";
 
     public static String creation() {
-        return BetaTable.creation(TABLE_NAME, Arrays.stream(BetaUserTable.values()));
+        return BetaTable.creation(TABLE_NAME, Arrays.stream(values()));
     }
 
     public final String columnName;

@@ -14,14 +14,14 @@ public class BetaPreviewEmail extends BetaPreviewEmailDTO {
     BetaPreviewEmail(@JsonProperty("id") int id,
                      @JsonProperty("email") String email,
                      @JsonProperty("date") LocalDate date) {
-        super(id, email, date);
+        super(id, email, date.toString());
     }
 
     public static class Mapper implements ResultSetMapper<BetaPreviewEmail> {
         public BetaPreviewEmail map(int idx, ResultSet r, StatementContext c) throws SQLException {
             return new BetaPreviewEmail(r.getInt(BetaPreviewEmailTable.ID.columnName),
                     r.getString(BetaPreviewEmailTable.EMAIL.columnName),
-                    r.getDate(BetaPreviewEmailTable.DATE.columnName).toLocalDate());
+                    LocalDate.parse(r.getString(BetaPreviewEmailTable.DATE.columnName)));
         }
     }
 }

@@ -7,16 +7,18 @@ import org.skife.jdbi.v2.sqlobject.Bind;
 import org.skife.jdbi.v2.sqlobject.GetGeneratedKeys;
 import org.skife.jdbi.v2.sqlobject.SqlQuery;
 import org.skife.jdbi.v2.sqlobject.SqlUpdate;
+import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;
 
 import java.time.LocalDate;
 
+@RegisterMapper(BetaPreviewEmail.Mapper.class)
 interface EmailDAO {
 
     @GetGeneratedKeys
     @SqlUpdate("insert into " + BetaPreviewEmailTable.TABLE_NAME
             + " (email, date) values (:e, :d)")
-    int insert(@Bind("e") String email, @Bind("d") LocalDate password);
+    int insert(@Bind("e") String email, @Bind("d") String date);
 
     @SqlQuery("select * from " + BetaPreviewEmailTable.TABLE_NAME + " where id = :id")
-    BetaPreviewEmailDTO findById(@Bind("id") Integer id);
+    BetaPreviewEmail findById(@Bind("id") Integer id);
 }
