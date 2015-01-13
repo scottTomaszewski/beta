@@ -7,9 +7,9 @@ body {
 h1 {
     font-size: 72pt;
     font-family: 'Freight Sans Bold', 'lucida grande', tahoma, verdana, arial, sans-serif;
-    text-shadow: 1px 1px #004444;
+    text-shadow: 1px 1px #005555;
 }
 
-h2 {
-    text-shadow: 1px 2px #003333;
+p {
+    font-size: 14pt;
 }
