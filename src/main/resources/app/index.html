@@ -7,29 +7,6 @@
     <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="lib/fullpage.js/jquery.fullPage.css" />
     <link rel="stylesheet" href="css/app.css">
-    <link rel="stylesheet" href="css/animations.css">
-
-    <style type="text/css">
-
-        .primary-1 { background-color: #999933 }
-        .primary-2 { background-color: #666633 }
-        .primary-3 { background-color: #666633 }
-        .primary-4 { background-color: #999966 }
-        .primary-5 { background-color: #999966 }
-
-        .secondary-a-1 { background-color: #333366 }
-        .secondary-a-2 { background-color: #333366 }
-        .secondary-a-3 { background-color: #333333 }
-        .secondary-a-4 { background-color: #336699 }
-        .secondary-a-5 { background-color: #666699 }
-
-        .secondary-b-1 { background-color: #996633 }
-        .secondary-b-2 { background-color: #666633 }
-        .secondary-b-3 { background-color: #666633 }
-        .secondary-b-4 { background-color: #999966 }
-        .secondary-b-5 { background-color: #999966 }
-
-    </style>
 
     <script src="lib/jQuery/dist/jquery.js"></script>
     <script src="lib/angular/angular.js"></script>
@@ -53,18 +30,12 @@
 </head>
 <body>
 <div id="full-page">
-    <div class="section" style="background-image:url('img/2.jpg')">
-        <h1>Beta</h1>
-        <div data-scroll-reveal="enter left and move 50px over 1.33s and reset over .66s">The site for when you are not climbing.</div>
+    <div class="section" style="background-image:url('img/climb.jpg'); background-position: center;">
+        <div style="padding-left: 1em;"><h1><img src="img/logo.png" alt="Grok Climbing" width="50%" height="50%"></h1>
+        <h2>For climbers that grok climbing.</h2></div>
     </div>
-    <div class="section" style="background-image:url('img/1.jpg')">
-        <div data-scroll-reveal="enter left and move 50px over 1.33s and reset over .66s"><h2>Social Climbing</h2></div>
-    </div>
-    <div class="section" style="background-image:url('img/3.jpg'); ">
-        <div data-scroll-reveal="enter top and move 300px over 1.33s reset and reset over .66s"><h2>Bouldering and Rope Routes</h2></div>
-    </div>
-    <div class="section">
-        <div data-scroll-reveal="wait .1s and then ease-in-out 100px and reset over .66s"><h2>Climbing tips and Bitcoin tips</h2></div>
+    <div class="section" style="background-color:url('img/climb.jpg'); background-position: center bottom;">
+        <div><h2 style="text-align: center; padding-bottom: 3em;">Climbing for that you can grok.</h2><h4 style=" text-align: center;">Comming soon.</h4></div>
     </div>
 </div>
 <script src="js/app.js"></script>
@@ -81,8 +52,8 @@ $(document).ready(function() {
     $('#fullpage').fullpage({
         verticalCentered: true,
         resize : false,
-        slidesColor: ['#999933',  '#666633', '#999966', '#999999' ],
-        anchors:['hello', 'foo', 'bar', 'baz'],
+        slidesColor: ['#999933',  '#006AB8', '#999966', '#999999' ],
+        anchors:['hello', 'email'],
         verticalCentered: true,
         css3: true,
         easing: 'easeInQuart',
